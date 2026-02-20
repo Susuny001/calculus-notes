@@ -1,0 +1,637 @@
+\chapter{分段估值}
+
+\section{了解分段估值：完全没学过的选看}
+前言中我们提到了一个\href{https://www.bilibili.com/video/BV1Xm4y1q7kV/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{蓝兔兔分段估值的视频}，适合完全没学过的去听一下。下面我还有一个例子，来引入分段估值和Laplace方法。这将会非常详细！
+
+我们接下来看一个常见的例子
+
+\vspace{1mm}
+\begin{example}\label{积分正弦n次}
+计算$ \displaystyle \lim_{n \to \infty} \int_{0}^{\frac{\pi}{2}} \sin^{n}x \,dx$
+\end{example}
+
+\begin{remark}
+本题有多种方法，法一是常见方法，法二是分段估值方法，然后我们再引入Laplace方法
+\end{remark}
+
+\begin{proof}
+\textcolor{red}{法一:}当$ n=2k,k \in \mathbb{N} $时
+\begin{align*}
+\text{原极限}&\xlongequal{Wallis\text{公式}}
+  \lim_{k \to \infty} \frac{\z( 2k-1 \y)!!}{\z(2k\y)!!} 
+ =\lim_{k \to \infty} \frac{2k-1}{2k}\cdot
+  \frac{ 2k-3 }{2k-2} \cdot \frac{ 2k-5 }{2k-4}\cdots
+  \frac{3}{4} \cdot \frac{1}{2} \cdot \frac{\pi}{2}\\
+&=\lim_{k \to \infty} \frac{\sqrt{2k-1}\sqrt{2k-1}}{2k}\cdot
+  \frac{\sqrt{2k-3}\sqrt{2k-3}}{2k-2} \cdot 
+  \frac{\sqrt{2k-5}\sqrt{2k-5}}{2k-4}\cdots
+  \frac{\sqrt{3}\sqrt{3}}{4} \cdot \frac{\sqrt{1}}{2} \cdot
+  \frac{\pi}{2}\\
+&=\lim_{k \to \infty} \frac{\sqrt{2k-1}}{2k}\cdot
+  \frac{\sqrt{2k-1}\sqrt{2k-3}}{2k-2} \cdot 
+  \frac{\sqrt{2k-3}\sqrt{2k-5}}{2k-4}\cdots
+  \frac{\sqrt{5}\sqrt{3}}{4} \cdot \frac{\sqrt{3}\sqrt{1}}{2} \cdot
+  \frac{\pi}{2}\\
+&\leqslant \lim_{k \to \infty} \frac{\sqrt{2k-1}}{2k}\cdot 
+  1 \cdot 1\cdots  1\cdot 1 \cdot \frac{\pi}{2}\\
+&=0
+\end{align*}
+
+$ \text{另一方面，原极限} \geqslant 0 $
+
+由夹逼准则可得，原极限$=0$
+
+\textcolor{red}{法二(分段估值):}
+
+$ \displaystyle
+\text{原极限}=\lim_{n \to \infty}\int_{0}^{\frac{\pi}{2}}\cos^nx\,dx
+ = \lim_{n \to \infty}\int_{0}^{\frac{1}{\sqrt[3]{n}}}\cos^nx\,dx
+   + \int_{\frac{1}{\sqrt[3]{n}}}^{\frac{\pi}{2}}\cos^nx\,dx
+ =\lim_{n \to \infty} \z(I_1 + I_2\y) $
+
+\begin{align*}
+&\text{一方面}
+0 \leqslant \lim_{n \to \infty} I_1 \leqslant \frac{1}{\sqrt[3]{n}} = 0,
+\text{由夹逼准则可得} \lim_{n \to \infty}I_1 = 0\\
+&\text{另一方面}0\leqslant 
+\lim_{n \to \infty} I_2 \leqslant
+ \lim_{n \to \infty} \frac{\pi}{2}\cos^n\z(\frac{1}{\sqrt[3]{n}}\y)
+ =\lim_{n \to \infty}\frac{\pi}{2}\z[1-\frac{1}{n^\frac{2}{3}}+o\z(\frac{1}{n}\y)\y]^n
+ =\lim_{n \to \infty}\frac{\pi}{2}
+  e^{n\ln\z[1-\frac{1}{n^\frac{2}{3}}+o\z(\frac{1}{n}\y)\y]}\\
+&\quad \quad \quad \quad \quad \quad \quad \quad  
+= \lim_{n \to \infty}\frac{\pi}{2} 
+  e^{n\z[ -\frac{1}{n^\frac{2}{3}}+o\z(\frac{1}{n}\y)\y]}
+ =\lim_{n \to \infty}\frac{\pi}{2} 
+  e^{-n^{\frac{1}{3}}+o\z(1\y)}
+ =0\\
+&\text{由夹逼准则知}\lim_{n \to \infty}I_2 = 0
+\end{align*}
+
+$ \displaystyle \text{故原极限} = \lim_{n \to \infty} I_1+I_2=0 $
+\end{proof}
+
+\begin{remark}
+在法二中，我们将积分极限从$\frac{1}{\sqrt[3]{n}}$处拆开，然后用放缩解决这个积分极限，这就是分段估值的思想。
+
+根据这一题的结论，我们知道$\displaystyle \lim_{n \to \infty} \int_{0}^{\frac{\pi}{2}} \sin^{n}x \,dx = o\z(1\y) $，实际上这样的精度远远不够，我们还要对这样的积分进行估计阶数，也就是我们想知道它到底有多小！是和$ \frac{1}{n}$同阶？还是和$\frac{1}{n^2} $同阶？等等。
+
+如果我们继续对其进行估阶，法一那种放缩有的题可能就不能用了，因为这不是通法，分段估值更通用一些
+\end{remark}
+
+
+\section{更高阶的分段估值}
+
+\vspace{1mm}
+\begin{example}\label{积分正弦n次高阶}
+对例\ref{积分正弦n次}进行更高阶估计，尝试将积分从$\displaystyle \frac{1}{\sqrt[3]{n}}$拆开，计算$ \displaystyle 
+\lim_{n \to \infty} \sqrt{n} \int_{0}^{\frac{\pi}{2}} \sin^{n}x \,dx$
+\end{example}
+
+\begin{proof}
+原极限$\displaystyle
+ = \lim_{n \to \infty}\sqrt{n}\int_{0}^{\frac{\pi}{2}}\cos^nx \,dx
+ = \lim_{n \to \infty}\sqrt{n}\int_{0}^{\frac{1}{\sqrt[3]{n}}}\cos^nx \,dx
+  +\sqrt{n}\int_{\frac{1}{\sqrt[3]{n}}}^{\frac{\pi}{2}}\cos^nx \,dx
+ = \lim_{n \to \infty}\z( I_1+I_2  \y)
+ $
+\begin{align*}
+\lim_{n \to \infty} I_1 &= \lim_{n \to \infty}
+  \sqrt{n}\int_{0}^{\frac{1}{\sqrt[3]{n}}}e^{n\ln\cos x}\,dx
+ =\lim_{n \to \infty} \sqrt{n}
+  \int_{0}^{\frac{1}{\sqrt[3]{n}}}e^{n\ln\z(1-\frac{x^2}{2}+o\z(x^3\y)\y)}\,dx
+  \quad \textcolor{red}{\z(\text{将}\cos x \text{泰勒展开}\y)}
+  \textcolor{red}{\z(*1\y)}\\
+&=\lim_{n \to \infty} \sqrt{n}
+  \int_{0}^{\frac{1}{\sqrt[3]{n}}}e^{n\z(-\frac{x^2}{2}+o\z(x^3\y)\y)}\,dx
+ =\lim_{n \to \infty} \sqrt{n}
+  \int_{0}^{\frac{1}{\sqrt[3]{n}}}e^{-\frac{nx^2}{2}+o\z(nx^3\y)}\,dx\\
+&\xlongequal[\text{将$e^{o\z(nx^3\y)}$提出去}]{\text{第一积分中值定理}}
+ \lim_{n \to \infty} \sqrt{n}e^{o\z(n\xi^3\y)}
+  \int_{0}^{\frac{1}{\sqrt[3]{n}}}e^{-\frac{nx^3}{2}}\,dx,
+  \text{其中}\xi\in\z( 0,\frac{1}{\sqrt[3]{n}} \y)\\
+&=\lim_{n \to \infty}e^{o\z(n\xi^2\y)} \cdot \lim_{n \to \infty}
+  \int_{0}^{\frac{1}{\sqrt[3]{n}}}
+  e^{-\frac{\z(\sqrt{n}x\y)^2}{2}}\,d\z(\sqrt{n}x\y)\;
+  \textcolor{red}{\z(*2\y)}\\
+&\xlongequal{\text{令}t=\sqrt{n}x} 1 \cdot \lim_{n \to \infty}
+  \int_{0}^{n^{\frac{1}{6}}} e^{-\frac{t^2}{2}}\,dt\\
+&=\int_{0}^{+\infty} e^{-\frac{t^2}{2}}\,dt 
+ =\sqrt{2}\int_{0}^{+\infty} 
+ e^{-\z(\frac{t}{\sqrt{2}}\y)^2}\,d\z(\frac{t}{\sqrt{2}}\y)\\
+&=\frac{\sqrt{2\pi}}{2}
+\end{align*}
+
+其中\textcolor{red}{$\z(*2\y)$}式$\displaystyle 
+\lim_{n \to \infty}e^{o\z(n\xi^3\y)}
+=\lim_{n \to \infty}e^{o\z[n\z(\frac{1}{\sqrt[3]{n}}\y)^3\y]}
+=\lim_{n \to \infty}e^{o\z(1\y)} = 1 $ 
+
+\begin{align*}
+0\leqslant\lim_{n\to\infty}I_2\leqslant
+\lim_{n\to\infty}\sqrt{n}\frac{\pi}{2}\cos^n\z(\frac{1}{\sqrt[3]{n}}\y)
+&\xlongequal{x=n^{-\frac{1}{3}}}
+\lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{n\ln\z(1-\frac{x^2}{2}+o\z(x^3\y)\y)}
+=\lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{n\z(-\frac{x^2}{2}+o\z(x^3\y)\y)}\\
+&=\lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{-\frac{nx^2}{2}} 
+  \cdot \lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{o\z(nx^3\y)}\\
+&\xlongequal{x=n^{-\frac{1}{3}}\text{回代}}
+  \lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{-\frac{n^{\frac{1}{3}}}{2}}
+  \cdot \lim_{n\to\infty}\frac{\pi}{2}\sqrt{n}e^{o\z(1\y)}\\
+&=0\cdot 1 = 0
+\end{align*}
+
+原极限$\displaystyle=\lim_{n\to\infty}(I_1+I_2)=\frac{\sqrt{2\pi}}{2}+0
+=\frac{\sqrt{2\pi}}{2}$
+\end{proof}
+\vspace{1mm}
+\begin{remark}
+第一次看这个肯定很懵逼，中间关键步骤很多，需要慢慢理解。
+\begin{enumerate}
+\item 首先是从$\frac{1}{\sqrt[3]{n}}$处拆开，为啥必须是$\frac{1}{\sqrt[3]{n}}$？
+
+①确定方法：我们可以观察积分号里面的函数$\cos^n x$，当$x$在0附近时，$\cos^n x$的值接近1；当$x$不在0附近时，$\cos^n x$的值接近0。就是说$x=0$这个点与其他点不同，所以我们从这个点处拆开，实际上一般就是从最大值点处拆开。
+
+②合适的拆开的点其实不止一个，只要知道分段的思想，也可以通过不断尝试得到。
+
+$\quad$本题在0附近，我们可以尝试在$\frac{1}{n} $、$\frac{1}{\sqrt{n}} $、$\frac{1}{\sqrt[3]{n}} $等这些点处拆开
+
+③有的时候需要很精确，不好猜出来。如果想要严格确定这个点需要用到Laplace方法，我们稍后讲。
+\item 然后是\textcolor{red}{$(*1)$}处，拆开后很多情况下不能直接算，转成e指数函数，后泰勒展开是一种常见思路，需要积累。
+
+这样做的好处是：方便后续使用积分中值定理；方便转成$\int_{0}^{+\infty}e^{-x^2}\,dx$
+可以积分出来的函数 
+
+\item 接着是\textcolor{red}{$(*2)$}处操作详解
+
+①处理泰勒余项：我们用第一积分中值定理把余项扔了。
+
+②处理$\sqrt{n}$：我们把$\sqrt{n}$凑进去，把原来的极限变成一个反常积分，一般凑进去的同时积分上限会变成$+\infty$，
+
+$\quad \quad \quad\quad\quad$我们用学过的反常积分可以算，本题最后转化成$\int_{0}^{+\infty}e^{-x^2}\,dx$就是一个经典的反常积分。
+
+$\quad \quad \quad\quad\quad$
+（大多数这种都是$\Gamma$函数、B函数、Frullani积分的变式，详细见我编的积分讲义）
+\item 最后是$I_2$的处理，一般拆成的两个积分，破坏点附近的那个积分有值，剩下那个值为0。可以理解成这个积分的大头都在0附近，超过0的部分收敛的很快，值为0
+\end{enumerate}
+\end{remark}
+
+\vspace{3mm}
+我们先了解解这种题目的基本步骤，即上面那4步，熟练之后再给大家说“从某处拆分”是如何确定的（这需要用到Laplace方法）。简单来说就是这几步：
+\begin{enumerate}\label{steps}
+\item 找到某点，把积分拆开
+\item 处理$I_1$：化成e指数，泰勒展开，第一积分中值定理处理余项；化成可计算反常积分
+\item 处理$I_2$：放缩，夹逼准则
+\item 如果没有特别精确，$I_1$和$I_2$都可以夹逼，像例\ref{积分正弦n次}那样
+\end{enumerate}
+
+这里有几道同类型题目，供大家练习
+
+\vspace{1mm}
+\begin{example}\label{蓝兔兔老师视频题}
+从$\displaystyle \frac{1}{\sqrt[3]{n}}$处拆分，计算
+$\displaystyle\lim_{n\to\infty} \sqrt{n}\int_{0}^{1}\z(\frac{\sin t}{t}\y)^n\,dt$
+\end{example}
+\vspace{1mm}
+
+\begin{remark}
+本题我使用了$O(x)$，它表示与$x$同阶或更高阶，与$o(x)$不同
+\end{remark}
+
+
+\begin{proof}
+$\displaystyle \text{原极限}=\lim_{n \to \infty} \sqrt{n} \int_0^{\frac{1}{\sqrt[3]{n}}} \left( \frac{\sin t}{t} \right)^n  dt+ \sqrt{n} \int_{\frac{1}{\sqrt[3]{n}}}^{1} \left( \frac{\sin t}{t} \right)^n dt 
+=\lim_{n\to\infty} I_1+I_2 $
+
+
+\begin{align*}
+\lim_{n \to \infty} I_1  &= \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{n \ln\z(\frac{\sin t}{t}\y)} dt
+ =\lim_{n \to \infty}  \sqrt{n} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{n\ln\z[1-\frac{t^2}{6}+O\z(t^4\y)\y]}\\
+& = \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{n \z[ -\frac{t^2}{6} + O(t^4) \y]} dt 
+= \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{ -\frac{nt^2}{6} + O(nt^4) } dt 
+\quad  \textcolor{red}{\z(\text{泰勒展开}\y) }\\
+&\xlongequal[\textcolor{red}{\text{中值定理}}]{\textcolor{red}{\text{第一积分}}}\lim_{n \to \infty}\sqrt{n}e^{O\z(n \xi^4\y)} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{-\frac{nt^2}{6}} \,dt  \quad \z( \xi \in \z(0,\frac{1}{\sqrt[3]{n}}\y)\y) \\
+& = \lim_{n \to \infty}e^{O\z(n \xi^4\y)} \cdot \lim_{n \to \infty} \sqrt{6} \int_0^{\frac{1}{\sqrt[3]{n}}} e^{-\z(\sqrt{\frac{n}{6}}t\y)^2} \,d\z(\sqrt{\frac{n}{6}}t\y) \\
+& \xlongequal{u =  \sqrt{\frac{n}{6}}t}1 \cdot \lim_{n \to +\infty} \sqrt{6} \int_0^{\frac{1}{\sqrt{6}}n^{\frac{1}{6}}} e^{-u^2} du\\
+&= \sqrt{6} \int_0^{\infty} e^{-u^2} du \\
+& =  \frac{\sqrt{6\pi}}{2} 
+\end{align*}
+\begin{align*}
+0 \leqslant \lim_{n\to\infty} I_2 &\leqslant 
+\lim_{n \to \infty} \sqrt{n} \int_{\frac{1}{\sqrt[3]{n}}}^{1} \left( \frac{\sin t}{t} \right)^n dt \leqslant \lim_{n \to \infty} \sqrt{n} \cdot \left(1 - \frac{1}{\sqrt[3]{n}}\right) \cdot \left( \frac{\sin \frac{1}{\sqrt[3]{n}}}{\frac{1}{\sqrt[3]{n}}} \right)^n \\
+& \leqslant \lim_{n \to \infty} \sqrt{n} \cdot \left(1 - \frac{1}{\sqrt[3]{n}}\right) \cdot e^{ -\frac{nh^2}{6} + O(nh^4) }
+=0 \quad     \z(\text{其中} h=\frac{1}{\sqrt[3]{n}}\y)
+\end{align*}
+
+$\displaystyle \text{故原极限}=\lim_{n\to\infty} I_1+I_2
+                 =\frac{\sqrt{6\pi}}{2}+0=\frac{\sqrt{6\pi}}{2} $
+\end{proof}
+\vspace{1mm}
+
+\begin{remark}
+本题还是\hyperref[steps]{注解}的那几个步骤。
+
+本题是蓝兔兔老师的视频
+\href{https://www.bilibili.com/video/BV1Y24y1F7xi/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【全国大学生数学竞赛/考研】非专业组，分段估值4---觉醒}
+
+本视频末有一道作业题，建议先不要做，因为不使用后续的Laplace方法很难做出来。作业题解答详见例\ref{蓝兔兔老师作业}
+\end{remark}
+
+
+接下来再看一道同类型题目，
+\vspace{1mm}
+\begin{example}
+从$\displaystyle \frac{1}{\sqrt[3]{x}}$拆积分，计算 $\displaystyle \lim_{x\to+\infty}\sqrt{x}\int_{0}^{\frac{\pi}{4}} e^{x\z(\cos t -1\y)}    \,dt$
+\end{example}
+\vspace{1mm}
+\begin{proof}
+$\displaystyle \text{原极限}=\lim_{x\to+\infty}\sqrt{x}\int_{0}^{\frac{1}{\sqrt[3]{x}}} e^{x\z(\cos t -1\y)}    \,dt
+ + \lim_{x\to+\infty}\sqrt{x}\int_{\frac{1}{\sqrt[3]{x}}}^{\frac{\pi}{4}} e^{x\z(\cos t -1\y)}    \,dt
+ = \lim_{x\to+\infty} I_1 + I_2 $
+
+\begin{align*}
+\lim_{x\to +\infty} I_1 &
+=\lim_{x\to +\infty} \sqrt{x} \int_0^{\frac{1}{\sqrt[3]{x}}} e^{x(\cos t -1)} \, dt 
+= \lim_{x\to +\infty} \sqrt{x} \int_0^{\frac{1}{\sqrt[3]{x}}} e^{-\z(\frac{-t^2}{2} + o(t^3)\y)} dt \\
+&= \lim_{x\to +\infty} \sqrt{x} e^{o(x\xi^3)} \int_0^{\frac{1}{\sqrt[3]{x}}} e^{-\frac{x}{2}t^2} dt \quad \z(\xi \in (0, \frac{1}{\sqrt[3]{x}})\y) \\
+&= \lim_{x\to +\infty} 1\cdot \lim_{x\to +\infty}\int_0^{\frac{1}{\sqrt[3]{x}}} e^{-\z(\frac{\sqrt{x}}{\sqrt{2}} t\y)^2} dt \\
+&= \lim_{x\to +\infty} \sqrt{2} \int_0^{\frac{1}{\sqrt[3]{x}}} e^{-\z(\frac{\sqrt{x}}{\sqrt{2}} t\y)^2} d\z(\frac{\sqrt{x}}{\sqrt{2}} t\y) \\
+&\xlongequal{u =  \sqrt{\frac{x}{2}}t} \lim_{x\to +\infty} \sqrt{2} \int_0^{\frac{1}{\sqrt{2}}x^{\frac{1}{6}}} e^{-u^2} du \\
+&= \sqrt{2} \int_0^{+\infty} e^{-u^2} du \\
+&= \frac{\sqrt{2\pi}}{2}
+\end{align*}
+\end{proof}
+
+\begin{remark}
+$I_2$的处理同前面两道题，放缩后极限为0，这里就不写了。
+
+实际上上面三题都是思路差不多的题，因为它们最后都化成$\int_{0}^{+\infty} e^{-x^2}\,dx $ ，所以思路都是先转化成e指数，然后再泰勒展开
+\end{remark}
+
+\begin{lemma}
+对于满足$f(0)=1,x\ge0 $时$f(x)\le1 $的$f(x)$，$\displaystyle \lim_{n\to\infty}\int_{0}^{a} \z[f(x)\y]^n \,dx $的解法是：
+\begin{enumerate}
+\item 找到某点，把积分拆开
+\item 处理$I_1$：化成e指数，泰勒展开，第一积分中值定理处理余项；化成可计算反常积分
+\item 处理$I_2$：放缩，夹逼准则
+\end{enumerate}
+\end{lemma}
+
+来看一道类型不一样的题
+\vspace{1mm}
+\begin{example}
+从$\frac{1}{n^{\frac{4}{5}}}$拆开积分，计算$\displaystyle \lim_{n\to\infty}n\int_{0}^{1}\frac{e^x}{1+\z(nx\y)^2+n^3x^4}\,dx $
+\end{example}
+\vspace{1mm}
+
+\begin{proof}
+$\displaystyle \text{原极限}=\lim_{n\to\infty} n\int_{0}^{\frac{1}{n^{\frac{4}{5}}}}\frac{e^x}{1+\z(nx\y)^2+n^3x^4}\,dx
+ + \lim_{n\to\infty} n\int_{\frac{1}{n^{\frac{4}{5}}}}^{1}\frac{e^x}{1+\z(nx\y)^2+n^3x^4}\,dx
+ = \lim_{n\to\infty} I_1 + I_2 $
+\begin{align*}
+\lim_{n\to\infty} I_1 & = \lim_{n\to\infty} n \int_0^{\frac{1}{n^{\frac{4}{5}}}} \frac{e^x}{1+n^2x^2+n^3x^4} dx
+\xlongequal[\text{中值定理}]{\text{第一积分}} \lim_{n\to\infty} n  e^\xi \int_{0}^{\frac{1}{n^{\frac{4}{5}}}} \frac{1}{1+n^2x^2+n^3x^4} dx \quad \z(\xi \in (0, \frac{1}{n^{\frac{4}{5}}})\y)\\
+&\xlongequal{t=nx}\lim_{n\to\infty} e^\xi \cdot \lim_{n\to\infty} \int_0^{n^{\frac{1}{5}}} \frac{1}{1+t^2+\frac{t^4}{n}} dt
+= 1\cdot \frac{\pi}{2}
+=\frac{\pi}{2}
+\end{align*}
+
+其中$\displaystyle 
+\lim_{n\to\infty} \int_0^{n^{\frac{1}{5}}} \frac{1}{1+t^2+\frac{t^4}{n}}\, dt 
+\geqslant \lim_{n\to\infty} 
+\int_0^{n^{\frac{1}{5}}} \frac{1}{1+\frac{1}{n^{\frac{1}{5}}}+t^2} dt 
+= \lim_{n\to\infty} \frac{1}{\sqrt{1+\frac{1}{n^{\frac{1}{5}}}}}
+\arctan \frac{n^{\frac{1}{5}}}{\sqrt{1+\frac{1}{n^{\frac{1}{5}}}}}
+=\frac{\pi}{2} $
+
+$\displaystyle \quad\quad \;
+\lim_{n\to\infty} \int_0^{n^{\frac{1}{5}}}\frac{1}{1+t^2+\frac{t^4}{n}}\, dt 
+\leqslant \lim_{n\to\infty} \int_0^{n^{\frac{1}{5}}} \frac{1}{1+t^2}\,dt
+=\int_{0}^{+\infty} \frac{1}{1+t^2}\,dt = \frac{\pi}{2}$
+
+
+\vspace{1mm}
+由夹逼准则知$\displaystyle \lim_{n\to\infty} \int_0^{n^{\frac{1}{5}}} 
+ \frac{1}{1+t^2+\frac{t^4}{n}}\, dt  = \frac{\pi}{2}$，
+故$\displaystyle \lim_{n\to\infty} I_1 = \frac{\pi}{2} $
+
+\vspace{1mm}
+
+而$\displaystyle 0 \leqslant \lim_{n\to\infty} I_2 
+=\lim_{n\to\infty} 
+  n\int_{\frac{1}{n^{\frac{4}{5}}}}^{1}\frac{e^x}{1+\z(nx\y)^2+n^3x^4}\,dx
+\leqslant \lim_{n\to\infty} 
+n\int_{\frac{1}{n^{\frac{4}{5}}}}^{1} \frac{e}{n^2x^2}\,dx
+=\lim_{n\to\infty} 
+ \frac{e}{n}\z[-\frac{1}{x}\y]_{\frac{1}{n^{\frac{4}{5}}}}^{1}
+=\lim_{n\to\infty}\frac{e}{n}\z(n^{\frac{4}{5}}-1\y) =0$
+
+\vspace{1mm}
+由夹逼准则知$\displaystyle \lim_{n\to\infty} I_2=0$
+
+故原极限$\displaystyle= \lim_{n\to\infty} I_1+I_2 
+  = \frac{\pi}{2}+0=\frac{\pi}{2}$
+\end{proof}
+\vspace{1mm}
+
+\begin{remark}
+本题和前面几题思路类似，都是先找到某点拆开积分，然后处理$I_1$和$I_2$。不过与前面几题不同，最后我们用到了$\int_{0}^{+\infty} \frac{1}{1+t^2}\,dt = \frac{\pi}{2}$这个结果。除此之外，本题$I_2$的处理比前面几题更难想到一些。我本来想尝试直接去掉积分号，分子放缩成最大值，分子放缩成最小值，发现不行。最后尝试出来只保留$\frac{1}{n^2x^2}$积分的放缩合适。
+
+蓝兔兔老师也出过本题视频，与我的解法不同：\href{https://www.bilibili.com/video/BV1WKxgzJEwf/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【大学生数学竞赛】分段估值+拟合法【极限偏难题】}
+\end{remark}
+
+
+
+
+
+
+
+\section{确定分段点：Laplace方法}
+
+在前面的题目里，我都将分段点先给到大家，虽然确定分段点是最开始的事情，但是先讲找点的话可能这里面有的操作大家就看不懂，所以我采用这样的顺序。
+
+简单来说Laplace方法就是找分段点的技巧，上述题目都可以使用Laplace方法来确定分段点
+
+\vspace{1mm}
+\begin{example}
+确定例\ref{积分正弦n次}$ \displaystyle \lim_{n \to \infty} \int_{0}^{\frac{\pi}{2}} \sin^{n}x \,dx$的分段点
+\end{example}
+\vspace{1mm}
+
+\begin{proof}
+\textcolor{red}{第一步\;确定分段点：}
+
+首先我们确定分段点的范围，观察\textcolor{red}{积分号里面的函数}$\sin^n x$，当$x$在$\frac{\pi}{2}$附近时，$\sin^n x$的值接近1；当$x$不在$\frac{\pi}{2}$附近时，$\sin^n x$的值接近0。所以$x=\frac{\pi}{2} $是分段点，从此处拆开。这一步如果积分号前面有东西也要放进去，比如下一题。
+
+我们可以把原积分化为$\displaystyle \int_{0}^{\frac{\pi}{2}} \cos^n x \,dx$，这时候分段点是$x=0$
+
+\textcolor{red}{第二步\;确定分段点的具体位置（Laplace方法）：}
+
+我们把拆分点设为$\varepsilon_n $，$\varepsilon_n \to 0$，然后我们分别计算$\displaystyle \int_{0}^{\varepsilon_n} \cos^n x \,dx$和$\displaystyle \int_{\varepsilon_n}^{\frac{\pi}{2}} \cos^n x \,dx$，分别记为$I_1$和$I_2$。
+
+我们希望找到的这个$\varepsilon_n$，能使拆分后的两式（取极限）都能计算出来，这样$\varepsilon_n$就算找到了。
+
+找到$\varepsilon_n$的方法也很简单，我们只需要假装$\varepsilon_n$存在，然后正常计算，然后在过程中看看怎么取$\varepsilon$才能算出来结果，我们最后就怎么取
+
+\textcolor{red}{第三步\;本题实操：}
+
+我们希望$\displaystyle \lim_{n\to\infty} \int_{0}^{\varepsilon_n} \cos^n x \,dx $和$\displaystyle \lim_{n\to\infty} \int_{\varepsilon_n}^{\frac{\pi}{2}} \cos^n x \,dx $都能算出来
+
+\begin{align*}
+0\leqslant\lim_{n\to\infty} I_1=
+\lim_{n\to\infty} \int_{0}^{\varepsilon_n} \cos^n x \,dx 
+\leqslant \varepsilon_n \cdot 1 =0
+\end{align*}
+
+要使上述极限为0，则可以考虑$\varepsilon_n=o(1) $
+
+\begin{align*}
+0\leqslant \lim_{n\to\infty} I_2=
+\lim_{n\to\infty} \int_{\varepsilon_n}^{\frac{\pi}{2}} \cos^n x \,dx 
+&\leqslant\lim_{n\to\infty} \frac{\pi}{2}
+e^{-\frac{n\varepsilon_n^2}{2}+o\z(n\varepsilon_n^3\y)}=0
+\end{align*}
+
+要使上述极限为0，则可以考虑
+$n\varepsilon_n^2 \to +\infty, o\z(n\varepsilon_n^3\y) \to 0 $
+所以$\varepsilon_n$可以取的范围$\z(\frac{1}{\sqrt{n}},\frac{1}{\sqrt[3]{n}} \y]$
+
+综上所述$\varepsilon_n $，我们得到的$\varepsilon_n$既要是$o(1)$，又要满足$\varepsilon_n\in\z(\frac{1}{\sqrt{n}},\frac{1}{\sqrt[3]{n}} \y]$
+
+所以$\varepsilon_n$可取$\frac{1}{\sqrt[3]{n}}$
+\end{proof}
+
+\begin{remark}\label{喵}
+考试时，不用把找分段点的过程写上去，我们找出分段点后直接用$\frac{1}{\sqrt[3]{n}}$来写过程。如果想省时间，可以直接用$\varepsilon_n$来写过程，最后等$\varepsilon_n$的范围确定了，直接在最开头处补上“设$\varepsilon_n=\frac{1}{\sqrt[3]{n}}$”就行，也没有特别严格。
+\end{remark}
+
+
+\vspace{1mm}
+\begin{example}
+确定例\ref{积分正弦n次高阶}计算$ \displaystyle 
+\lim_{n \to \infty} \sqrt{n} \int_{0}^{\frac{\pi}{2}} \sin^{n}x \,dx$
+的分段点
+\end{example}
+
+\begin{remark}
+我们先判断分段点的“大致”位置，考虑积分号里面的函数$\sqrt{n}\sin^n x $，当$x$在0附近时，$\sqrt{n}\sin^n x \text{的极限可能不为0} $，当$x$不在0附近时，$\sqrt{n}\sin^n x \text{的极限均为0} $，所以我们考虑在$x=0$附近分段。
+\end{remark}
+
+\vspace{1mm}
+\begin{proof}
+$\displaystyle \text{原极限} = \lim_{n \to \infty} \sqrt{n} \int_0^{\frac{\pi}{2} - \varepsilon_n} \sin^n x \, dx + \lim_{n \to \infty} \sqrt{n} \int_{\frac{\pi}{2} - \varepsilon_n}^{\frac{\pi}{2}} \sin^n x \, dx = \lim_{n \to \infty} (I_1 + I_2)$
+\begin{align*}
+0 \leqslant \lim_{n \to \infty} I_1 \leqslant \lim_{n \to \infty} \sqrt{n} (\frac{\pi}{2} - \varepsilon_n) \sin^n (\frac{\pi}{2} - \varepsilon_n) 
+&\leqslant \lim_{n \to \infty} \sqrt{n} \cos^n \varepsilon_n\\
+&= \lim_{n\to\infty} \sqrt{n} e^{n\ln\cos \varepsilon_n}
+\xlongequal{\text{泰勒}} \lim_{n \to \infty} \sqrt{n} e^{-\frac{n\varepsilon_n^2}{2} + o(n\varepsilon_n^3)}\\
+&= \lim_{n \to \infty} \sqrt{n} e^{-\frac{n\varepsilon_n^2}{2}} \cdot \lim_{n \to \infty} e^{o(n\varepsilon_n^3)}
+\end{align*}
+我们希望上述极限为0，所以可以考虑$\varepsilon_n$满足$n\varepsilon_n^2 \to +\infty$，$o(n\varepsilon_n^3) \to 0$，所以$\varepsilon_n$可以取的范围$\z(\frac{1}{\sqrt{n}},\frac{1}{\sqrt[3]{n}} \y]$
+\begin{align*}
+\lim_{n \to \infty} I_2 &=\lim_{n\to \infty} \sqrt{n}\int_{0}^{\varepsilon_n}\cos^n x \,dx=\lim_{n\to\infty}\sqrt{n}\int_0^{\varepsilon_n} e^{n\ln\cos x} dx
+=\lim_{n\to\infty} \sqrt{n}
+\int_0^{\varepsilon_n} e^{-\frac{nx^2}{2}+o(n x^3)} dx\\
+&\xlongequal{\text{第一积分中值定理}} \lim_{n\to\infty} e^{o(n\xi^3)} \sqrt{n}\int_0^{\varepsilon_n} e^{-\frac{nx^2}{2}} dx =\lim_{n\to\infty} e^{o(n\xi^3)} \cdot \lim_{n\to\infty} \int_{0}^{\varepsilon_n} e^{-\z(\frac{\sqrt{n}}{\sqrt{2}} x\y)^2} d\z(\frac{\sqrt{n}}{\sqrt{2}} x\y) \\
+&\xlongequal{t=\frac{\sqrt{n}}{\sqrt{2}}x} \lim_{n\to\infty} e^{o(n\xi^3)} \cdot \lim_{n\to\infty} \sqrt{2} \int_0^{\frac{\sqrt{n}\varepsilon_n}{\sqrt{2}}} e^{-t^2} dt
+=1 \cdot \sqrt{2} \int_0^{+\infty} e^{-t^2} dt =\frac{\sqrt{2\pi}}{2}
+\end{align*}
+我们希望这个积分能算，所以可以考虑$\varepsilon_n$满足$\frac{\sqrt{n}\varepsilon_n}{\sqrt{2}} \to +\infty$，$o(n\xi^3) \to 0$，所以$\varepsilon_n$可以取的范围$\z(\frac{1}{\sqrt{n}},\frac{1}{\sqrt[3]{n}} \y]$
+
+综上所述，$\varepsilon_n$可取$\frac{1}{\sqrt[3]{n}}$
+\end{proof}
+
+\vspace{1mm}
+\vspace{1mm}
+
+
+
+
+
+我们的Laplace方法就讲到这了，因为这个方法比较难理解，我也不知道写清楚没有，如果还有不理解的地方可以问我或者再看一下下面那个讲Laplace方法的视频
+
+篇幅有限，前面几道题的分段点自行确定，不再写了（实际上是懒）
+
+小白考研竞赛数学的视频 \href{https://www.bilibili.com/video/BV1PC4y1S7RQ/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【不会还有人没掌握吧？十五届也考到了！Laplace方法初步！】}
+
+
+
+\vspace{1mm}
+\begin{example}\label{蓝兔兔老师作业}
+蓝兔兔老师例\ref{蓝兔兔老师视频题}的作业题：计算
+$\displaystyle \lim_{n\to\infty}\sqrt{n}\int_{0}^{1}\z[(1-x)e^x\y]^n\,dx$
+\end{example}
+\vspace{1mm}
+
+\begin{remark}
+这个题目非常的阴，如果你按照蓝兔兔老师的方法，根本猜不到拆分点到底在哪。实际上这道题的拆分点位于$\frac{1}{\sqrt[3]{n}} $和$\frac{1}{\sqrt{n}}$之间，比如我们可以取$\frac{1}{n^{\frac{2}{5}}}$
+\end{remark}
+
+\begin{proof}
+给大家展示另一种方便的写法（见\hyperref[喵]{注解}）
+不妨取$\varepsilon_n=\frac{1}{n^{\frac{2}{5}}} $
+
+原极限=$\displaystyle \lim_{n\to\infty}\sqrt{n}\int_{0}^{1}\z[(1-x)e^x\y]^n\,dx = \lim_{n\to\infty}\sqrt{n}\int_{0}^{\varepsilon_n}\z[(1-x)e^x\y]^n\,dx + \lim_{n\to\infty}\sqrt{n}\int_{\varepsilon_n}^{1}\z[(1-x)e^x\y]^n\,dx=\lim_{n\to\infty}(I_1+I_2)$
+
+\begin{align*}
+\lim_{n\to\infty}I_1 
+&= \lim_{n\to\infty}\sqrt{n}\int_{0}^{\varepsilon_n}\z[(1-x)e^x\y]^n\,dx
+ = \lim_{n\to\infty}\sqrt{n}\int_{0}^{\varepsilon_n} e^{n\z[\ln(1-x)+x\y]} dx\\
+&= \lim_{n\to\infty}\sqrt{n}\int_{0}^{\varepsilon_n} e^{n\z[-\frac{x^2}{2}+O(x^3)\y]} dx \quad\textcolor{red}{\z(\text{注：}\ln\z(1-x\y)+x=-\frac{x^2}{2}+O(x^3)\y)}\\
+&\xlongequal{\text{第一积分中值定理}} \lim_{n\to\infty} e^{O(n\xi^3)} \cdot \lim_{n\to\infty} \sqrt{n}\int_0^{\varepsilon_n} e^{-\frac{nx^2}{2}} dx \quad \z(\xi \in (0, \varepsilon_n)\y)\\
+&= \lim_{n\to\infty} e^{O(n \xi^3)} \cdot \lim_{n\to\infty} \int_0^{\varepsilon_n} e^{-\z(\frac{\sqrt{n}}{\sqrt{2}} x\y)^2} d\z(\frac{\sqrt{n}}{\sqrt{2}} x\y) \\
+&\xlongequal{t=\frac{\sqrt{n}}{\sqrt{2}}x} \lim_{n\to\infty} e^{n O(\xi^3)} \cdot \lim_{n\to\infty} \sqrt{2} \int_0^{\frac{\sqrt{n}\varepsilon_n}{\sqrt{2}}} e^{-t^2} dt \\
+&= 1 \cdot \sqrt{2} \int_0^{+\infty} e^{-t^2} dt = \frac{\sqrt{2\pi}}{2}
+\end{align*}
+
+其中$\displaystyle \lim_{n\to\infty} e^{O(n\xi^3)} = \lim_{n\to\infty} e^{O(n\varepsilon_n^3)} = \lim_{n\to\infty} e^{O(n^{-\frac{1}{5}})} = 1$
+
+\begin{align*}
+0 \leqslant \lim_{n\to\infty} I_2
+&= \lim_{n\to\infty} \sqrt{n} \int_{\varepsilon_n}^{1} \z[(1-x)e^x\y]^n\,dx
+\leqslant \lim_{n\to\infty} \sqrt{n} \cdot (1-\varepsilon_n) \cdot \z[(1-\varepsilon_n)e^{\varepsilon_n}\y]^n \\
+&\leqslant \lim_{n\to\infty} \sqrt{n} \cdot 1\cdot e^{-\frac{n\varepsilon_n^2}{2}+O(n\varepsilon_n^3)} = \lim_{n\to\infty} \sqrt{n} e^{-\frac{n^{\frac{1}{5}}}{2}+O(n^{-\frac{1}{5}})} = 0
+\end{align*}
+综上所述，原积分=$I_1+I_2=\frac{\sqrt{2\pi}}{2}$
+\end{proof}
+
+
+\vspace{1mm}
+\begin{example}
+综合题$f(x)$在$[0,1]$上连续，计算$\displaystyle \lim_{n\to\infty} \frac{1}{n}\int_{0}^{1}f(x)\frac{\sin^2 nx}{\sin^2 x}\,dx$
+\end{example}
+
+\vspace{1mm}
+\begin{remark}
+我们先确定分段点的大致位置：
+
+\vspace{1mm}
+$ \displaystyle
+\text{对于被积分函数}\int_{0}^{1} \frac{f(x) }{n}\frac{\sin^2 nx}{\sin^2 x} \, dx \text{有}x \in [0, 1] \text{ 时，} x = 0 \text{ 取 } \frac{f(0)n^2 }{n} \text{，极限不一定存在；}
+$
+
+\vspace{1mm}
+$ \displaystyle
+\text{对于 } x \in (0, 1]\text{，}\frac{f(x)}{n} \frac{\sin^2 nx}{\sin^2 x} \to 0 \quad (n \to +\infty)\text{，}\text{因此分段点在 } x = 0 \text{附近} \text{。}
+$
+\vspace{1mm}
+
+除此之外，这道题还有一个技巧，要先把极限化为$\displaystyle \lim_{n\to\infty} \frac{1}{n}\int_{0}^{1}\frac{x^2f(x)}{\sin^2 x}\frac{\sin^2 nx}{x^2}\,dx$，原因主要在于$\displaystyle \int_{0}^{+\infty} \frac{\sin^2 x}{x^2}\,dx $，这个积分我们是可以计算出来的，可见我编的积分讲义。也可以看后面的过程加上自己的理解，来理解这一步。
+\end{remark}
+
+
+\vspace{1mm}
+\begin{proof}
+待定 $\varepsilon_n $，满足当$n\to\infty\text{时} \varepsilon_n \to 0 $
+
+\vspace{1mm}
+原积分= $\displaystyle \lim_{n\to\infty} \frac{1}{n}\int_{0}^{\varepsilon_n}\frac{x^2f(x)}{\sin^2 x}\frac{\sin^2 nx}{x^2}\,dx + \lim_{n\to\infty} \frac{1}{n}\int_{\varepsilon_n}^{1}\frac{x^2f(x)}{\sin^2 x}\frac{\sin^2 nx}{x^2}\,dx = \lim_{n\to\infty} (I_1 + I_2)$
+\vspace{1mm}
+
+\begin{align*}
+\lim_{n\to\infty} I_1 & = \lim_{n\to\infty} \frac{1}{n}\int_{0}^{\varepsilon_n}\frac{x^2f(x)}{\sin^2 x}\frac{\sin^2 nx}{x^2}\,dx
+\xlongequal[\text{中值定理}]{\text{第一积分}} \lim_{n\to\infty} \frac{\xi^2f(\xi)}{\sin^2 \xi}\cdot  \lim_{n\to\infty}  \frac{1}{n} \int_0^{\varepsilon_n}  \cdot \frac{\sin^2 nx}{x^2} \, dx \quad \z(\xi \in (0, \varepsilon_n)\y)\\
+&= \lim_{n\to\infty} \frac{\xi^2f(\xi)}{\sin^2 \xi}\cdot  \lim_{n\to\infty}  \int_0^{\varepsilon_n}  \cdot \frac{\sin^2 nx}{(nx)^2} \, d(nx) 
+\xlongequal{t=nx} \lim_{n\to\infty} \frac{\xi^2f(\xi)}{\sin^2 \xi}\cdot  \lim_{n\to\infty}  \int_0^{n\varepsilon_n}  \cdot \frac{\sin^2 t}{t^2} \, dt\\
+&=f(0)\cdot \int_0^{+\infty} \frac{\sin^2 t}{t^2} dt = \frac{\pi}{2}f(0)
+\end{align*}
+
+其中$\displaystyle \lim_{n\to\infty} \frac{\xi^2f(\xi)}{\sin^2 \xi} = \lim_{\xi\to 0} \frac{\xi^2f(\xi)}{\sin^2 \xi} = f(0)$；
+$\displaystyle \int_{0}^{+\infty} \frac{\sin^2 t}{t^2} dt = \frac{\pi}{2} \quad$（使用分部积分法可以计算）
+
+\vspace{1mm}
+\begin{align*}
+0 \leqslant \lim_{n\to\infty} I_2 & = \lim_{n\to\infty} \frac{1}{n}\int_{\varepsilon_n}^{1}\frac{x^2f(x)}{\sin^2 x}\frac{\sin^2 nx}{x^2}\,dx
+\leqslant \lim_{n\to\infty} \frac{1}{n} \cdot M \int_{\varepsilon_n}^{1}  \frac{1}{x^2} \,dx \leqslant \lim_{n\to\infty} \frac{1}{n} \cdot M \cdot \frac{1-\varepsilon_n}{\varepsilon_n}
+= \lim_{n\to\infty} \frac{M}{n\varepsilon_n} = 0
+\end{align*}
+
+其中$\displaystyle\frac{x^2f(x)}{\sin^2 x} $在$[\varepsilon_n, 1]$上连续，所以存在最大值$M$，$\sin^2 nx \leqslant 1 $
+
+而要使上述极限存在，则需要$\displaystyle \varepsilon_n \to 0$且$n\varepsilon_n \to +\infty$，例如取$\displaystyle \varepsilon_n = \frac{1}{\sqrt{n}}$
+
+综上所述，原极限=
+$\displaystyle I_1 + I_2 = \frac{\pi}{2}f(0) + 0 = \frac{\pi}{2}f(0)$
+\end{proof}
+
+
+
+
+\vspace{5mm}
+我们最后再看一道2025复旦插班生的真题吧！
+\begin{example}[复旦2025]
+已知$ \displaystyle
+D = \{(x,y) \mid -R \leqslant x \leqslant R,\ -R \leqslant y \leqslant R\}
+$
+\vspace{1mm}
+
+(1)求$ \displaystyle
+L = \lim_{R \to +\infty} \iint_{D} \mathrm{e}^{-\sqrt{x^2+y^2}} \, \mathrm{d}x \,\mathrm{d}y
+$
+\vspace{1mm}
+
+(2)求$\displaystyle \lim_{ R \to +\infty} \frac{L - \iint_{D} \mathrm{e}^{-\sqrt{x^2+y^2}}}{R \mathrm{e}^{-R}}$
+\end{example}
+\vspace{1mm}
+
+\begin{proof}
+\textcolor{blue}{(1).}
+\begin{align*}
+\text{由对称性，原积分}&=8\iint_{D} e^{-\sqrt{x^2+y^2}} dx\,dy = 8\int_{0}^{\frac{\pi}{4}}d\theta \int_{0}^{\frac{R}{\cos\theta}} \rho e^{-\rho} d\rho\\
+&=8\int_{0}^{\frac{\pi}{4}} 1-\z(\frac{R}{\cos\theta}+1\y)e^{-\frac{R}{\cos\theta}} d\theta\\
+&=2\pi - 8\int_{0}^{\frac{\pi}{4}} e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)d\theta
+\end{align*}
+\[\text{而}0\leqslant\lim_{R\to +\infty} \int_{0}^{\frac{\pi}{4}} e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)d\theta 
+\leqslant \lim_{R\to +\infty} \frac{\sqrt{2}R+1}{e^R}=0  \]
+\[\text{由夹逼准则可得} \lim_{R\to +\infty} \int_{0}^{\frac{\pi}{4}} e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)d\theta =0 \text{，故}L=2\pi\]
+
+\textcolor{blue}{(2).}
+原积分=$\displaystyle \lim_{ R \to +\infty} \frac{L - \iint_{D} \mathrm{e}^{-\sqrt{x^2+y^2}}}{R \mathrm{e}^{-R}} = \lim_{ R \to +\infty} 
+\frac{8\int_{0}^{\frac{\pi}{4}} e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)d\theta }{Re^{-R}}$
+
+\vspace{1mm}
+观察积分号里面的函数 $\displaystyle \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}}$ ，当$\theta$在0附近时，函数$\displaystyle \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}} \sim \frac{8e^{-R}\z(R+1\y)}{Re^{-R}} \to 8 $，当$\theta$不在0附近时，函数$\displaystyle \frac{8e^{-\frac{R}{1-\varepsilon}}\z(\frac{R}{1-\varepsilon}+1\y)}{Re^{-R}} \to 0 $，所以我们考虑在$\theta=0$附近分段.
+
+\vspace{1mm}
+设分段点为$\varepsilon_R$，满足当$R\to +\infty$时$\varepsilon_R \to 0 $
+
+\vspace{1mm}
+则原积分=$\displaystyle \lim_{ R \to +\infty} \int_{0}^{\varepsilon_R} \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}} d\theta + \lim_{ R \to +\infty} \int_{\varepsilon_R}^{\frac{\pi}{4}} \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}} d\theta = \lim_{ R \to +\infty} (I_1 + I_2)$
+\vspace{1mm}
+
+\begin{align*}
+\lim_{ R \to +\infty} I_1 & = \lim_{ R \to +\infty} \int_{0}^{\varepsilon_R} \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}} d\theta
+\xlongequal{\text{泰勒展开}} \lim_{ R \to +\infty} \int_{0}^{\varepsilon_R} 
+\frac{8e^{-R\z(1 + \frac{\theta^2}{2} + o(\theta^3)\y)} \z[R \z(1 + \frac{\theta^2}{2} + o(\theta^3) \y ) +1 \y]  }{Re^{-R}} d\theta \quad \textcolor{red}{(*1)}\\
+&= \lim_{ R \to +\infty} \int_{0}^{\varepsilon_R} 8e^{-R\z(\frac{\theta^2}{2}+o(\theta^3)\y)} \z(1 + \frac{1}{R} + \frac{\theta^2}{2} + o(\theta^3) \y) d\theta\\
+&\xlongequal[\text{中值定理}]{\text{第一积分}} \lim_{ R \to +\infty} 8e^{o\z(R\xi^3\y) }\cdot \z(1+\frac{1}{R}+\frac{\xi^2}{2}+ o\z(\xi^3\y) \y) \int_{0}^{\varepsilon_R} e^{-\frac{R\theta^2}{2}} d\theta \quad \z(\xi \in (0, \varepsilon_R)\y)\\
+&=\lim_{ R \to +\infty} 8\cdot1\cdot \sqrt{\frac{2}{R}}\int_{0}^{\varepsilon_R}e^{-\z(\sqrt{\frac{R}{2}}\theta \y)^2} d\z(\sqrt{\frac{R}{2}}\theta \y) \\
+&\xlongequal{t=\sqrt{\frac{R}{2}}\theta} \lim_{ R \to +\infty}8\sqrt{\frac{2}{R}} \int_0^{\sqrt{\frac{R}{2}}\varepsilon_R} e^{-t^2} dt\\
+&=\lim_{ R \to +\infty}8\sqrt{\frac{2}{R}}\int_0^{+\infty} e^{-t^2} dt 
+= \lim_{ R \to +\infty} \frac{4\sqrt{2\pi}}{\sqrt{R}} = 0\quad \textcolor{red}{(*2)}
+\end{align*}
+要使上述极限能算出来，我们可以考虑$\varepsilon_R$满足$R\varepsilon_R^2 \to +\infty$，$o(R\varepsilon_R^3) \to 0$，所以$\varepsilon_R$可以取的范围$\z(\frac{1}{\sqrt{R}},\frac{1}{\sqrt[3]{R}} \y]$
+
+\begin{align*}
+0\leqslant\lim_{ R \to +\infty} I_2 & = \lim_{ R \to +\infty} \int_{\varepsilon_R}^{\frac{\pi}{4}} \frac{8e^{-\frac{R}{\cos\theta}}\z( \frac{R}{\cos\theta}+1\y)}{Re^{-R}} d\theta
+\leqslant \lim_{ R \to +\infty} \int_{\varepsilon_R}^{\frac{\pi}{4}} \frac{8e^{-\frac{R}{\cos\varepsilon_R}}\z( \frac{R}{\cos\varepsilon_R}+1\y)}{Re^{-R}} d\theta\\
+&\xlongequal{\text{泰勒展开}} \lim_{ R \to +\infty} \int_{\varepsilon_R}^{\frac{\pi}{4}} \frac{8e^{-R\z(1 + \frac{\varepsilon_R^2}{2} + o(\varepsilon_R^3)\y)} \z(1 + \frac{1}{R} + \frac{\varepsilon_R^2}{2} + o(\varepsilon_R^3) \y) d\theta}{e^{-R}}\\
+&\leqslant \lim_{ R \to +\infty} \frac{\pi}{4}\cdot 8e^{-\frac{R\varepsilon_R^2}{2} + o\z(R\varepsilon_R^3\y)} \cdot 2 \\
+&= 0
+\end{align*}
+要使上述极限能算出来，我们可以考虑$\varepsilon_R$满足$R\varepsilon_R^2 \to +\infty$，$o(R\varepsilon_R^3) \to 0$，所以$\varepsilon_R$可以取的范围$\z(\frac{1}{\sqrt{R}},\frac{1}{\sqrt[3]{R}} \y]$
+
+分段点可取$\varepsilon_R = \frac{1}{\sqrt[3]{R}}$
+
+原极限=$\displaystyle \lim_{ R \to +\infty} (I_1 + I_2) = 0 + 0 = 0$
+\end{proof}
+
+
+\begin{remark}
+
+\textcolor{red}{(*1)处}根据泰勒公式除法，$\displaystyle \frac{1}{\cos\theta} = 1 + \frac{\theta^2}{2} + o(\theta^3)$，参考视频\href{https://www.bilibili.com/video/BV1cm421N7YX/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【求泰勒展开的全新方法——多项式的长除法求】 }并且这个技巧一定要会
+
+\textcolor{red}{(*2)处} 我们可以看到这个结果实际上是0，这说明这个估计不是最优的。实际上我们可以计算$\displaystyle \lim_{ R \to +\infty} \frac{L - \iint_{D} \mathrm{e}^{-\sqrt{x^2+y^2}}}{\sqrt{R} \mathrm{e}^{-R}} $，结果是$4\sqrt{2\pi}$，按照分段估计的方法也可以做！大家可以先试试。
+
+本题静流在小红书上发布了解答，但是和我的解法不同，直接把链接放这里\href{https://www.xiaohongshu.com/discovery/item/6862592e000000000b02c549?source=webshare&xhsshare=pc_web&xsec_token=ABPi7OqexmjMhwwcWvAond8U3ksyBnjQLJ9fsFayjALlA=&xsec_source=pc_share}{【首发！25年复旦大学插班生高数压轴个人解答 - 静流的学习小屋 | 小红书 - 你的生活兴趣社区】}
+\end{remark}

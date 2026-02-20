@@ -1,0 +1,1288 @@
+\chapter{不定积分与定积分计算}
+
+%——————————————————————————————————%
+
+\section{不定积分计算}
+
+这一节大部分技巧都参考蓝兔兔老师的寒假集训\url{https://b23.tv/L2qfdsV}，蓝兔兔老师这个视频里面有100多道积分题，里面有大部分技巧。
+
+我也看了陈兆斗和佘志坤得的竞赛书，那上面的题目有点少，只能作为练习。不建议第一遍就刷。
+
+此外我在小红书也发布了关于蓝兔兔老师这个视频的不定积分笔记\url{http://xhslink.com/o/80Hi4HJnr14 }
+
+
+\subsection{纯含三角函数的不定积分}
+
+参考蓝兔兔老师的寒假集训\url{https://b23.tv/L2qfdsV}。
+
+\subsection{有理分式和凑微分}
+
+参考蓝兔兔老师的寒假集训\url{https://b23.tv/L2qfdsV}。
+
+\subsection{补充视频中没有讲到的方法}
+
+\subsubsection{形如$\int \frac{Ax^2 + B }{Cx^4 + Dx^2 + E} dx $的积分题目}
+
+\begin{example}
+计算不定积分$ \displaystyle \int \frac{1}{x^4 + x^2 + 1} dx $
+\end{example}
+\begin{proof}
+\begin{align*}
+\int \frac{1}{x^4 + x^2 + 1} \, dx 
+&= \frac{1}{2} \int \frac{\frac{1}{x^2}}{x^2 + 1 + \frac{1}{x^2}} \, dx  \\
+&= \frac{1}{2} \int \frac{1 + \frac{1}{x^2}}{x^2 + \frac{1}{x^2} + 1} \, dx 
+   - \frac{1}{2} \int \frac{1 - \frac{1}{x^2}}{x^2 + \frac{1}{x^2} + 1} \, dx \\
+&= \frac{1}{2} \int \frac{1}{\z(x - \frac{1}{x}\y)^2 + 3} \, d\z(x - \frac{1}{x}\y) 
+   - \frac{1}{2} \int \frac{1}{\z(x + \frac{1}{x}\y)^2 - 1} \, d\z(x + \frac{1}{x}\y) \\
+&= \frac{\sqrt{3}}{6} \arctan \z(\frac{1}{\sqrt{3}} \z(x - \frac{1}{x}\y)\y) 
+   + \frac{1}{4} \ln \z|\frac{x + \frac{1}{x} + 1}{x + \frac{1}{x} - 1}\y| + C.
+\end{align*}
+\end{proof}
+
+\begin{remark}
+这种形如$\displaystyle \int \frac{Ax^2 + B }{Cx^4 + Dx^2 + E} dx $的积分题目,是一种类型题目。我们的做法有以下几步(以本题$\int \frac{1}{x^4 + x^2 + 1} \, dx $为例):
+\begin{enumerate}
+    \item 先分子分母同时除以$x^2$，得到
+    $ \displaystyle  \int \frac{1 + \frac{1}{x^2}}{x^2 + \frac{1}{x^2} + 1} \, dx  $.
+    \item 然后应该先考虑分母$x^2 + \frac{1}{x^2} + 1$，分别配成$(x - \frac{1}{x})^2+3$和$(x + \frac{1}{x})^2-1$的形式。
+    \item 再把分子拆成两部分，一部分是$(x - \frac{1}{x})$的微分，即$(1+ \frac{1}{x^2} )$；
+    
+    另一部分是$(x + \frac{1}{x})$的微分，即$(1 - \frac{1}{x^2})$。
+
+    1是原来的分子。待定$1 = A(1 + \frac{1}{x^2}) + B(1 - \frac{1}{x^2})$，得到$A=B=\frac{1}{2}$，然后拆成两项分别积分。
+\end{enumerate}
+\end{remark}
+
+\newpage
+
+%——————————————————————————————————%
+
+
+\begin{example}
+计算不定积分$ \displaystyle \int \frac{3x^2 + 2}{x^4 + 4} dx $
+\end{example}
+
+\begin{remark}
+    \begin{enumerate}
+    \item 原积分先变为$\displaystyle \int \frac{3 + \frac{2}{x^2}}{x^2 + \frac{4}{x^2}} \, dx$
+
+    \item 我们把分母可以变为
+    $x^2 + \frac{4}{x^2}$ = $(x + \frac{2}{x})^2 - 4$. 和
+    $x^2 + \frac{4}{x^2}$ = $(x - \frac{2}{x})^2 + 4$. 
+
+    \item 分母里面的导数分别是
+    $1 - \frac{2}{x^2}$ 和 $1 + \frac{2}{x^2}$。
+
+
+    \item 因此我们把分子拆成这两部分的线性组合，待定系数。
+    待定 $A(1 - \frac{2}{x^2}) + B(1 + \frac{2}{x^2}) = 3 + \frac{2}{x^2} $,得到$A=1$，$B=2$
+    
+    \item 后续直接进行积分计算。
+    \end{enumerate}
+\end{remark}
+
+\begin{proof}
+
+\begin{align*}  
+\int \frac{3x^2 + 2}{x^4 + 4} \, dx
+&= \int \frac{3 + \frac{2}{x^2}}{x^2 + \frac{4}{x^2}} \, dx 
+= \int \frac{1 - \frac{2}{x^2}}{x^2 + \frac{4}{x^2}} \, dx + 2 \int \frac{1 + \frac{2}{x^2}}{x^2 + \frac{4}{x^2}} \, dx \\
+&= \int \frac{1}{\z(x + \frac{2}{x}\y)^2 - 4} \, d\z(x + \frac{2}{x}\y)  
+   +   2 \int \frac{1}{\z(x - \frac{2}{x}\y)^2 + 4} \, d\z(x - \frac{2}{x}\y) \\
+&= \frac{1}{4} \ln \left|\frac{x + \frac{2}{x} - 2}{x + \frac{2}{x} + 2}\right| 
+   + \arctan\left(\frac{x - \frac{2}{x}}{2}\right) + C.
+\end{align*}
+其中这一项，根据平方差公式可得
+\begin{align*}
+\int \frac{1}{\z(x + \frac{2}{x}\y)^2 - 4} \, d\z(x + \frac{2}{x}\y)  
+= \frac{1}{4} \int \frac{1}{\z(  x + \frac{2}{x} \y)^2 - 2} - 
+\frac{1}{\z(  x + \frac{2}{x} \y)^2 + 2} \, d\z(x + \frac{2}{x}\y)
+= \frac{1}{4} \ln \left|\frac{x + \frac{2}{x} - 2}{x + \frac{2}{x} + 2}\right| + C. 
+\end{align*}
+\end{proof}
+
+\subsubsection{形如$ \int \frac{1}{\sqrt[3]{(x-1)^2 (x+1)^4}} \, dx$的不定积分}
+
+\begin{example}
+求不定积分$\displaystyle \int \frac{1}{\sqrt[3]{(x-1)^2 (x+1)^4}} \, dx$
+\end{example}
+
+\begin{proof}
+我们注意到：$\displaystyle \left( \dfrac{x-1}{x+1} \right)' = \dfrac{2}{(x+1)^2}$
+\begin{align*}
+\text{原积分}&=\int \frac{1}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{\z(\dfrac{x-1}{x+1}\y)^2}} \, dx
+=\frac{1}{2} \int \frac{1}{\sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{\z(\dfrac{x-1}{x+1}\y)^2}} \,d\z(  \dfrac{x-1}{x+1} \y)\\
+&=\frac{1}{2} \int \z( \frac{x-1}{x+1} \y)^{-\frac{2}{3}} d\z(  \dfrac{x-1}{x+1} \y)
+=\frac{3}{2} \z( \frac{x-1}{x+1} \y)^{\frac{1}{3}} + C
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+这种形式的积分，我们循序渐进来讲
+\begin{enumerate}
+    \item 求 $\displaystyle \int \dfrac{1}{x^2\sqrt[{\raisebox{0.5ex}{$\scriptstyle n$}}]{\dfrac{1}{x}}}  \, dx = -\int \dfrac{1}{\sqrt[{\raisebox{0.5ex}{$\scriptstyle n$}}]{\dfrac{1}{x}}} \left( \dfrac{1}{x} \right)' dx = -\int \left( \dfrac{1}{x} \right)^{-\frac{1}{n}} d\left( \dfrac{1}{x} \right)$\quad \textcolor{red}{注：$ \displaystyle d\z( \frac{1}{x} \y)= -\frac{1}{x^2} dx $}
+
+    \item 求 $\displaystyle \int \frac{1}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle n$}}]{\dfrac{1}{x+1}}} \, dx = -\int \left( \dfrac{1}{x+1} \right)^{-\frac{1}{n}} d\left( \dfrac{1}{x+1} \right)\quad $\textcolor{red}{注：$ \displaystyle d\z( \frac{1}{x+1} \y) = -\frac{1}{(x+1)^2}dx $}
+
+    \item 求 $\displaystyle \int \frac{1}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle n$}}]{\dfrac{x-1}{x+1}}} \, dx 
+    = \int \z( \frac{x-1}{x+1} \y)^{-\frac{1}{n}} d\z( \frac{x-1}{x+1} \y) \xlongequal{t=\frac{x-1}{x+1}} \int t^{-\frac{1}{n}} dt$
+    \quad \textcolor{red}{注：$\displaystyle \left( \dfrac{x-1}{x+1} \right)' = \dfrac{2}{(x+1)^2}$}
+
+    \item 求 $\displaystyle \int \frac{1}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle n$}}]{\z(\dfrac{x-1}{x+1}\y)^k}} \, dx 
+    = \int \z( \frac{x-1}{x+1} \y)^{-\frac{k}{n}} d\z( \frac{x-1}{x+1} \y) \xlongequal{t=\frac{x-1}{x+1}} \int t^{-\frac{k}{n}} dt$
+
+    \item 同济课本练习：$\displaystyle \int \frac{1}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{\z(\dfrac{x-1}{x+1}\y)^2}} \, dx$\quad \textcolor{red}{课本给的形式：$\displaystyle \int \frac{1}{\sqrt[3]{(x-1)^2 (x+1)^4}} \, dx$}
+
+    %\item 举一反三：求 $\displaystyle \int \frac{\ln \left( \dfrac{x-1}{x+1} \right)}{\sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{(x-1)^2 (x+1)^4}} \, dx$。
+\end{enumerate}
+
+\vspace{1mm}
+我们要学会求的就是最后那一种变形，如果直接变形到最后一种，我们可能一眼没办法看出来如何凑。如果我们一步一步来，能理解这是如何凑微分的了。
+\end{lemma}
+
+\begin{example}
+求 $\displaystyle \int \frac{\ln \left( \dfrac{x-1}{x+1} \right)}{\sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{(x-1)^2 (x+1)^4}} \, dx$
+\end{example}
+
+\begin{proof}
+我们注意到：$\displaystyle \left( \dfrac{x-1}{x+1} \right)' = \dfrac{2}{(x+1)^2}$
+\begin{align*}
+\text{原积分}&=\int \frac{\ln \left( \dfrac{x-1}{x+1} \right)}{(x+1)^2 \sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{\z(\dfrac{x-1}{x+1}\y)^2}} \, dx
+=\frac{1}{2} \int \frac{\ln \left( \dfrac{x-1}{x+1} \right)}{\sqrt[{\raisebox{0.5ex}{$\scriptstyle 3$}}]{\z(\dfrac{x-1}{x+1}\y)^2}} \,d\z(  \dfrac{x-1}{x+1} \y)\\
+&\xlongequal{t=\frac{x-1}{1+x}}\frac{1}{2} \int t^{-\frac{2}{3}}\ln t\, dt
+=\frac{3}{2}\int \ln t \, dt^{\frac{1}{3}}
+\xlongequal{\text{分部积分}}\frac{3}{2}t^{\frac{1}{3}}\ln t - \frac{3}{2} \int t^{\frac{1}{3}}d\ln t \\
+&=\frac{3}{2}t^{\frac{1}{3}}\ln t-\frac{3}{2} \int t^{-\frac{2}{3}}\,dt
+=\frac{3}{2}t^{\frac{1}{3}}\ln t-\frac{9}{2} t^{\frac{1}{3}}+C
+\end{align*}
+最后把$\displaystyle t=\frac{x-1}{1+x} $代入即可
+\end{proof}
+
+\subsubsection{含阶乘的不定积分}
+这种题目通常需要找出一些联系，然后凑微分
+\vspace{3mm}
+\begin{example}
+计算不定积分 $\displaystyle \int \frac{x^n}{1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!}} dx$。
+\end{example}
+
+\begin{proof}
+   我们注意到 $ \displaystyle \z( 1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} \y)' = 1 + x + \frac{x^2}{2} + \cdots + \frac{x^{n-1}}{(n-1)!}  $.
+   \begin{align*}
+   \text { 原积分 } 
+   &= n! \int \frac{\z( 1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} \y) - \z( 1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} \y)'  }{ 1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} } dx \\
+   &= n! \int \z[  1 - \frac{  \z(1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} \y)'  }{1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!} }  \y] dx 
+   = n! \z[  x - \ln \z( 1 + x + \frac{x^2}{2} + \cdots + \frac{x^n}{n!}  \y) \y] + C
+   \end{align*}
+\end{proof}
+
+
+\begin{example}
+计算不定积分$ \displaystyle \int \z(1 + x + x^2 + \cdots + x^{n-1} \y)^2 \cdot \z[ 1 + 4x + 7x^2 + \cdots + (3n-2)x^{n-1} \y] dx $ 
+\end{example}
+
+\begin{remark}
+本题选自蓝兔兔老师的视频【【竞赛】非专业组，一道重量级积分题】 
+\url{https://www.bilibili.com/video/BV1EB4y1J76m/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+
+这道题右边似乎是某个函数求导得到的，但是并不是左边一部分直接求导，如果遇到这种情况我们可以考虑换元，这道题就用了$ x = t^3 $的换元，然后就能把右边变成左边的求导。
+只要学到这个思路，以后这种题都能秒杀
+\end{remark}   
+
+\begin{proof}
+   \begin{align*}
+   \text { 原积分 }
+   &\xlongequal{x = t^3} \int \z(1 + t^3 + t^6 + \cdots + t^{3(n-1)} \y)^2 \cdot \z[ 1 + 4t^3 + 7t^6 + \cdots + (3n-2)t^{3(n-1)} \y] \cdot 3t^2 dt \\
+   &= 3 \int \z(t + t^4 + t^7 + \cdots + t^{3n-2} \y)^2 \cdot \z[ 1 + 4t^3 + 7t^6 + \cdots + (3n-2)t^{3(n-1)} \y] dt \\
+   &= 3 \int \z(t + t^4 + t^7 + \cdots + t^{3n-2} \y)^2 d \z( t + t^4 + t^7 + \cdots + t^{3n-2} \y) \\
+   &= \z( t + t^4 + t^7 + \cdots + t^{3n-2} \y)^3 + C 
+   \end{align*}
+\end{proof}
+
+\subsubsection{隐函数求不定积分}
+
+在学习这一部分之前我们先来了解隐函数如何才能转化成显函数.或者隐函数转化为参数方程。
+\vspace{3mm}
+\begin{example}
+   将如下隐函数转化为参数方程(结果不唯一)
+   \begin{enumerate}
+      \item $ y (x - y)^2 = x $
+      \item $ y^3 (x + y) = x^3 $
+   \end{enumerate}
+\end{example}
+
+\begin{proof}
+(1) \textcolor{red}{法一:}\\
+令$ t = x - y $，则$ x = y + t $，代入原式得$ y t^2 = y + t $，解得$ y = \frac{t}{t^2 - 1} $，从而$ x = \frac{t^3}{t^2 - 1} $。因此参数方程为
+\[ \begin{cases}
+x = \frac{t^3}{t^2 - 1} \\
+y = \frac{t}{t^2 - 1}
+\end{cases} \]
+
+\textcolor{red}{法二:}\\
+令$ y = t x $，则代入原式得$ t x (x - t x)^2 = x $，即$ x^2 = \frac{1}{t (1 - t)^2} $，从而$ x = \frac{1}{\sqrt{t} (1 - t)} $，$ y=\frac{\sqrt{t}}{1 - t} $ 因此参数方程为
+\[ \begin{cases}
+x = \frac{1}{\sqrt{t} (1 - t)} \\
+y = \frac{\sqrt{t}}{1 - t}
+\end{cases} \]
+
+(2) 令$ y=tx $，则代入原式得$ t^3 x^3 (x+tx) = x^3 $，得$ t^3 (1+t)x = 1 $，从而$ x = \frac{1}{t^3 (1+t)} $。因此参数方程为
+\[ \begin{cases}
+x = \frac{1}{t^3 (1+t)}\\
+y = \frac{1}{t^2 (1+t)}
+\end{cases} \]
+\end{proof}
+
+\begin{note}
+将隐函数化成参数方程只需要随便找一个关系，这里指的是第一步y=tx或者x=y+t之类的，然后代入原式解出x和y即可。用不同关系化出来的参数方程也不同。
+
+如果不理解，大家可以把最终的参数方程再代到原式，结果都是成立的。而且参数方程也不是唯一的，因为我们找的关系不是唯一的，只要能解出x和y即可。
+\end{note}
+
+
+接下来我们看一些有关隐函数的题目
+
+隐函数也可以求渐近线，求不定积分，方法就是先化成参数方程然后去求。我们这里讲隐函数求不定积分。
+\begin{example}
+   设$ y(x-y)^2 =x $，求$ \displaystyle \int \frac{dx}{x-3y} $
+\end{example}
+
+\begin{proof}
+   由上面的例子可知参数方程为
+   \[ \begin{cases}
+   x = \frac{t^3}{t^2 - 1} \\
+   y = \frac{t}{t^2 - 1}
+   \end{cases} \]
+   \begin{align*}
+   \text{原积分}
+   &= \int \frac{1}{ \frac{t^3}{t^2 - 1} - \frac{3t}{t^2 - 1} } \cdot d \z( \frac{t^3}{t^2 - 1} \y)
+   = \int \frac{t^2 - 1}{t^3 - 3t } \cdot \frac{3t^2 \cdot \z( t^2 - 1 \y) - 2t \cdot t^3 }{ \z( t^2 - 1 \y )^2 } dt \\
+   &= \int \frac{t^2 - 1}{t^3 - 3t } \cdot \frac{ t^4 - 3t^2 }{\z( t^2 - 1 \y )^2}  dt
+   = \int  \frac{t}{t^2 - 1} dt \\
+   &= \frac{1}{2} \ln |t^2 - 1| + C
+   = \frac{1}{2} \ln \z|  \z( x - y \y)^2 -1 \y|  + C
+   \end{align*}
+\end{proof}
+
+\begin{remark}
+如果用另一种参数方程，即例1.5(1)中法二的参数方程，则结果也是一样的。
+
+这部分参考\textcolor{red}{清疏最新讲义P444 例14.6}
+\end{remark}
+
+
+\subsubsection{ 不定积分递推题型 }
+递推的核心是分部积分，这一部分没有很重要的题目，对非数学来说可能比较经典的是$ \int \sec^n x \,dx $的递推，还有点火公式的递推。其他就没有了
+
+\newpage
+
+
+
+%——————————————————————————————————%
+
+
+
+
+
+
+
+
+\section{定积分计算}
+
+\subsection{对称区间积分公式}
+
+\begin{theorem}[对称区间计算公式]
+设函数$f(x)$在区间$[-a,a]$上连续，则有以下结论：
+
+\[ \int_{-a}^{a} f(x) dx = \int_{0}^{a} \z[f(x) + f(-x) \y] dx \]
+\end{theorem}
+
+\begin{proof}
+\begin{align*}
+\int_{-a}^{a} f(x) dx &= \int_{-a}^{0} f(x) dx + \int_{0}^{a} f(x) dx \\
+&\xlongequal{x = -u} \int_{a}^{0} f(-u) d(-u) + \int_{0}^{a} f(x) dx \\
+&= \int_{0}^{a} f(-u) du + \int_{0}^{a} f(x) dx \\
+&= \int_{0}^{a} [f(x) + f(-x)] dx
+\end{align*}
+\end{proof}
+\begin{remark}
+建议熟练记忆上面这个公式，不要只记奇偶函数的特殊情况。首先是比较常用，再者考场上反复推导容易变错号。下面的例题我会说这个公式如何使用。
+\end{remark}
+
+\begin{lemma}[特殊情况]
+设函数$f(x)$在区间$[-a,a]$上连续，则有以下结论：
+\[  \text{当} f(x) \text{为偶函数时} \quad  \int_{-a}^{a} f(x) dx = 2 \int_{0}^{a} f(x) dx  \]
+\[ \text{当} f(x) \text{为奇函数时}  \quad \int_{-a}^{a} f(x) dx = 0   \]
+\end{lemma}
+
+\begin{example}
+计算定积分$ \displaystyle  \int_{-1}^{1} x \ln \z( e^x + 1 \y) dx  $
+\end{example}
+
+\begin{proof}
+   我们使用对称区间积分公式
+   \begin{align*}
+   \text{原积分} &= \int_{0}^{1} \z[ x \ln \z( e^x + 1 \y) + (-x) \ln \z( e^{-x} + 1 \y) \y] dx \\
+   &= \int_{0}^{1} x \z[ \ln \z( e^x + 1 \y) - \ln \z( e^{-x} + 1 \y) \y] dx \\
+   &= \int_{0}^{1} x \ln \z( \frac{e^x + 1}{e^{-x} + 1} \y) dx 
+   = \int_{0}^{1} x \ln \z( e^x \y) dx = \int_{0}^{1} x^2 dx = \frac{1}{3}
+   \end{align*}
+\end{proof}
+
+\begin{example}
+计算定积分$ \displaystyle  \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \frac{\sin^2x}{e^x + 1} dx $
+\end{example}
+
+\begin{proof}
+   我们使用对称区间积分公式
+   \begin{align*}
+   \text{原积分} &= \int_{0}^{\frac{\pi}{2}} \z[ \frac{\sin^2 x}{e^x + 1} + \frac{\sin^2 (-x)}{e^{-x} + 1} \y] dx \\
+   &= \int_{0}^{\frac{\pi}{2}} \sin^2 x \z[ \frac{1}{e^x + 1} + \frac{1}{e^{-x} + 1} \y] dx \\
+   &= \int_{0}^{\frac{\pi}{2}} \sin^2 x \cdot 1 \, dx 
+   \xlongequal{\text{点火公式}} \frac{1}{2} \cdot \frac{\pi}{2} 
+   = \frac{\pi}{4}
+   \end{align*}
+\end{proof}
+
+\begin{note}
+对称区间积分公式是定积分计算中非常重要的一个工具，上面两道例题告诉各位同学，一定不要仅仅局限于奇偶函数形式，建议大家熟练掌握原始的公式，即$ \displaystyle \int_{-a}^{a} f(x) dx = \int_{0}^{a} \z[f(x) + f(-x) \y] dx $ 这个公式。
+\end{note}
+
+
+\newpage   %——————————————————————————————————%
+%—————————————————————————————————————————————%
+
+
+
+\subsection{区间再现技巧}
+区间再现的基础内容参考蓝兔兔老师的视频课，如果你完全不懂或者只是略知一点，可以先看这个视频课
+
+第一集【公式理解】\url{https://www.bilibili.com/video/BV1QG4117737/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+
+第二集【模型掌握】\url{https://www.bilibili.com/video/BV1nT411K7at/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+
+第三集【题型练习】\url{https://www.bilibili.com/video/BV1Dd4y1q7eX/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+
+蓝兔兔老师讲的非常基础、详细。
+
+\subsubsection{区间再现简介}
+区间再现的两种主要思想：
+\begin{enumerate}
+\item 对于[a,b]区间上，令 $ t = a + b - x $ 进行代换
+\item 对于[0,1],[1,+∞),[0,+∞)等区间，令 $ t = \frac{1}{x} $ 进行代换，有[0,1],[1,+∞)相互转化的功能
+\end{enumerate}
+
+\begin{theorem}[区间再现恒等式]
+当下述积分有意义时，我们有
+\begin{enumerate}
+\item \[\int_{a}^{b}f(x)\,dx=\int_{a}^{b}f(a+b-x)\,dx \] 
+        \[\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;=\frac{1}{2}\int_{a}^{b}\z[f(x)+f(a+b-x)\y] \,dx \]
+        \[\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;=\int_{a}^{\frac{a+b}{2}}\z[f(x)+f(a+b-x)\y] \]
+\item \[ \int_{0}^{+\infty} f(x)\,dx 
+        = \int_{0}^{1} f(x)\,dx+\int_{1}^{+\infty} f(x)\,dx\]
+        \[ \;\;\;\;\;\;\;\;\;\;\;\;=\int_{0}^{1} f(x)+\frac{f\z(\frac{1}{x}\y)}{x^2} \,dx\]
+\end{enumerate}
+
+\end{theorem}
+
+具体情况再具体分析，下面是一些“重要”例题，这些例题很经典，这些题目基本涵盖了区间再现的各种使用方法，更重要的是，它们是很多题目的变式，经常出现化简到最后就是这几个积分。我在这里把它们都整理了一下。
+
+
+
+\subsubsection{区间再现重要例题}
+
+这几道例题是我精选出来的。这些例题重要性就在于，它们是很多变形题目的原型，只要掌握这几道重要题目，很多变形题目都能迎刃而解。
+
+\begin{example}
+计算定积分$ \displaystyle \int_{0}^{\frac{\pi}{4}} \ln \z( 1 + \tan x \y) dx  $
+\end{example}
+
+\begin{proof}
+\begin{align*}
+\text{原积分} &= \int_{0}^{\frac{\pi}{4}} \ln \z( 1 + \tan x \y) dx
+\xlongequal{t = \frac{\pi}{4} - x} \int_{0}^{\frac{\pi}{4}} \ln \z( 1 + \frac{1 - \tan x}{1 + \tan x} \y) dt \\
+&=\frac{1}{2} \int_{0}^{\frac{\pi}{4}} \ln \z( 1 + \tan x \y) +  \ln \z( 1 + \frac{1 - \tan x}{1 + \tan x} \y) dt \\
+&= \frac{1}{2} \int_{0}^{\frac{\pi}{4}} \ln 2 \, dt
+= \frac{\pi}{8} \ln 2
+\end{align*}
+\end{proof}
+
+
+\begin{example}
+计算定积分$ \displaystyle \int_{0}^{1} \frac{\ln (x+1)}{x^2 + 1} dx $
+\end{example}
+
+\begin{proof}
+考虑换元 $ x = \tan t $ ，则原积分变为$ \displaystyle \int_{0}^{\frac{\pi}{4}} \ln \z( 1 + \tan t \y) dt $ ,接下来的步骤同上一个例题，结果为$ \displaystyle \frac{\pi}{8} \ln 2 $
+\end{proof}
+
+\begin{example}\label{ex:integral-sin-cos-ln}
+计算定积分$ \displaystyle \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx $
+\end{example}
+
+\begin{proof}
+\begin{align*}
+\text{原积分} &= \int_{0}^{\frac{\pi}{2}}\ln \z( \sin x \y)  dx
+\xlongequal{t = \frac{\pi}{2} - x}\int_{0}^{\frac{\pi}{2}}\ln \z( \cos t \y) dt \\
+&\xlongequal[\text{再除以2}] {\text{前两式相加}} \frac{1}{2} \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \cos x \y) dx 
+\xlongequal{\text{倍角公式}} \frac{1}{2} \int_{0}^{\frac{\pi}{2}} \ln \z( \frac{\sin 2x }{2} \,dx \y) 
+=\frac{1}{2} \int_{0}^{\frac{\pi}{2}} \ln \z( \sin 2x \y) -  \ln 2 \, dx \\
+&\xlongequal{t = 2x} \frac{1}{2} \int_{0}^{\pi} \ln \z( \sin t \y) d \z( \frac{t}{2} \y) - \frac{\pi}{4} \ln 2 
+= \frac{1}{4} \int_{0}^{\pi} \ln \z( \sin x \y) dx - \frac{\pi}{4} \ln 2 \\
+&= \frac{1}{2} \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx - \frac{\pi}{4} \ln 2
+\end{align*}
+故有
+\[  \displaystyle \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx = \frac{1}{2} \displaystyle \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx - \frac{\pi}{4} \ln 2 \]
+解得
+\[  \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx = -\frac{\pi}{2} \ln 2 \]
+\end{proof}
+
+
+
+
+\begin{example}
+计算定积分$ \displaystyle \int_{0}^{1} \frac{\arcsin x}{x} dx $
+\end{example}
+
+\begin{proof} 
+先进行分部积分，
+$ \text{原积分} =  \displaystyle \int_{0}^{1} \arcsin x \; d \z( \ln x \y) = \arcsin x \cdot \ln x |_{0}^{1} - \int_{0}^{1} \ln x \; d \z( \arcsin x \y) $
+
+第一项结果为0，令$ \displaystyle x = \sin t $，原积分变为$ -\displaystyle \int_{0}^{\frac{\pi}{2}}\ln \z( \sin x \y) \, dx $
+
+我们在上一个例题中已经计算过，因此原积分结果为$ \displaystyle \frac{\pi}{2} \ln 2 $
+\end{proof}
+
+
+\begin{example}
+计算定积分$ \displaystyle \int_{0}^{1} \frac{\arctan x}{1 + x} dx $
+\end{example}
+\begin{proof}
+\textcolor{red}{法一(莫比乌斯变换)}\\
+考虑换元 $ x = \frac{1 - t}{1 + t} $，$x \rightarrow 0$时，$t \rightarrow 1$；$x \rightarrow 1$时，$t \rightarrow 0$，\\
+且有$\displaystyle \arctan \z( \frac{1-t}{1+t} \y) = \frac{\pi}{4} - \arctan t $
+，$ \displaystyle 1 + x = 1 + \frac{1-t}{1+t} = \frac{2}{1+t} $，$ \displaystyle dx = d \z(  \frac{1-t}{1+t} \y ) =  d \z(  \frac{2}{1+t} -1 \y ) = - \frac{2}{\z( 1+t \y)^2} dt  $
+\begin{align*}
+\text{原积分} &= \int_{0}^{1} \frac{\arctan x}{1 + x} dx
+\xlongequal{x = \frac{1 - t}{1 + t}} \int_{1}^{0} \frac{\frac{\pi}{4} - \arctan t}{\frac{2}{1+t}} \cdot \z[- \frac{2}{\z( 1+t \y)^2} \y] dt \\
+&\xlongequal[\text{约分}]{\text{负号交换积分上下限}} \int_{0}^{1}  \frac{\pi}{4} \cdot \frac{1}{1+t} - \frac{\arctan t}{1+t} \, dt \\
+&=  \frac{\pi}{4} \ln 2 - \int_{0}^{1} \frac{\arctan x}{1+x} \, dx
+\end{align*}
+故有 $ \displaystyle \int_{0}^{1} \frac{\arctan x}{1 + x} \, dx = \frac{\pi}{4} \ln 2 - \int_{0}^{1} \frac{\arctan x}{1+x} \, dx $\\
+移项，解得 
+$ \displaystyle \int_{0}^{1} \frac{\arctan x}{1 + x} \, dx =  \frac{\pi}{8} \ln 2  $
+\end{proof}
+\begin{note}
+\begin{enumerate}
+\item $\displaystyle \arctan a + \arctan b = \arctan \z( \frac{a+b}{1-ab} \y)$  
+, \; $\displaystyle \arctan a - \arctan b = \arctan \z( \frac{a-b}{1+ab} \y)  $
+\item 莫比乌斯换元，形如$ \displaystyle x = \frac{a t + b}{ct + d}$，有的时候会很好用，我感觉如果穷途末路了可以再尝试这种换元，不过像$\arctan$有很好的特点，所以比较适用。参考视频：【绝处逢生！高阶积分技巧：莫比乌斯变换（上）】\url{ https://www.bilibili.com/video/BV1RVNueXEq9/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c }
+\end{enumerate}
+\end{note}
+
+
+\begin{proof}
+\textcolor{red}{法二(化成之前的模型)}\\
+进行分部积分，原积分=$ \displaystyle \int_{0}^{1} \arctan x \, d\z[ \ln(1+x)\y] = \arctan x \cdot \ln(1+x) |_{0}^{1} - \int_{0}^{1} \frac{\ln(1+x)}{1+x^2} dx = \frac{\pi}{4} \ln 2 - \int_{0}^{1} \frac{\ln(1+x)}{1+x^2} dx  $
+我们由\textcolor{red}{例1.11}知道$ \displaystyle \int_{0}^{1} \frac{\ln(1+x)}{1+x^2} dx = \frac{\pi}{8} \ln 2 $，故原积分= $ \displaystyle \frac{\pi}{8} \ln 2 $
+\end{proof}
+
+
+
+
+
+
+
+\newpage   %——————————————————————————————————%
+%—————————————————————————————————————————————%
+\subsection{一重积分转二重积分}
+
+\begin{theorem}[Frullani积分]
+设$f(x)$在$(0,+ \infty)$内连续有界，$\displaystyle \lim_{x \rightarrow + \infty} f(x) , \lim_{x \rightarrow 0^+} f(x) $都存在，则
+\[ \displaystyle \int_{0}^{+\infty} \frac{f(bx) - f(ax) }{x} \, dx = \z[ f(+ \infty ) - f(0^+) \y] \ln \frac{b}{a} \]
+\end{theorem}
+
+\begin{remark}
+这里只要求f(x)在$(0,+ \infty)$内连续有界即可，这个定理严谨证明要用数学类的数学分析的方法。我们下面给出一个比较直观的证明，非数比较好接受，如果我们的f(x)性质足够“良好”，也可以用如下的证明方法(这里实际上是把原来的f(x)给弱化了).
+\end{remark}   
+
+\begin{proof}
+\begin{align*}
+\textbf{原积分}&=\int_{0}^{+\infty} dx \int _{a}^{b} f'(tx) \, dt
+\xlongequal{\text{交换积分次序}}\int_{a}^{b} dt \int _{0}^{+\infty} f'(tx) \, dx \\
+&=\int_{a}^{b} \frac{f(+\infty)-f(0)}{t} dt
+=\z[ f(+ \infty ) - f(0^+) \y] \cdot \ln \frac{b}{a} 
+\end{align*}
+\end{proof}
+
+\begin{example}
+计算反常积分$ \displaystyle \int_{0}^{+\infty} \frac{e^{-bx} - e^{-ax}}{x} \, dx  $
+\end{example}
+\begin{proof}
+\begin{align*}
+\text{原积分}&= \int_{0}^{+\infty} \frac{e^{-bx} - e^{-ax}}{x} \, dx
+=\int_{0}^{+ \infty} dx \int_{a}^{b} -e^{-tx} dt 
+\xlongequal{\text{交换积分次序}} \int_{a}^{b} dt \int_{0}^{+ \infty} e^{-tx}dx\\
+&=\z[ \lim_{x \rightarrow + \infty} e^{-x} - \lim_{x \rightarrow 0^+} e^{-x} \y] \cdot \ln \frac{b}{a} \\
+&= \z[ 0 - 1 \y] \cdot \ln \frac{b}{a} = \ln \frac{a}{b}
+\end{align*}
+\end{proof}
+
+\begin{remark}
+如果函数$f(x)$条件良好，我们就可以按照二重积分方法去算
+这个例题其实是Frullani积分的一个特例，我们也可以直接套用Frullani积分公式来计算。
+$\displaystyle f(x) = e^{-x}$，则$ f(+ \infty) = 0 $，$ f(0^+) = 1 $，因此原积分$ = (0 - 1) \ln \frac{b}{a} = \ln \frac{a}{b} $
+
+另外我在这里只是为了方便，请不要写$ f(+ \infty) , f(0^+) $这种写法。
+\end{remark}
+
+\vspace{5mm}
+
+\begin{example}
+计算反常积分$ \displaystyle \int_{0}^{+\infty} \frac{\sin x}{x} \, dx  $
+\end{example}
+
+\begin{remark}
+如果这样操作，后面会发现做不下去
+
+\[ \text{原积分} = \int_{0}^{+\infty} \frac{\sin (1 \cdot x) - \sin (0 \cdot x)}{x} \, dx
+= \int_{0}^{1} dt \int_{0}^{+\infty} \cos (tx) dx   \] 
+
+像这种积分不能用如上方法，因为$ \sin x $是震荡的，$ \displaystyle \lim_{x \rightarrow +\infty} \sin x $不存在，那我们应该如何去做？
+\end{remark}
+
+\begin{proof}
+我们考虑这样变二重积分$ \displaystyle \frac{1}{x} = \int_{0}^{+\infty} e^{-tx} dt $
+
+\begin{align*}
+\text{原积分} &= \int_{0}^{+\infty} \sin x \cdot \frac{1}{x} \, dx
+= \int_{0}^{+\infty} \sin x \cdot \int_{0}^{+\infty} e^{-tx} dt \, dx \\
+&\xlongequal{\text{交换积分次序}} \int_{0}^{+\infty} dt \int_{0}^{+\infty} e^{-tx} \cdot \sin x \, dx \\
+&=\int_{0}^{+\infty} \frac{1}{t^2+1} \,dt = \z. \arctan t \y|^{+\infty}_{0} = \frac{\pi}{2}
+\end{align*}
+
+其中
+$ \displaystyle \int_{0}^{+\infty} e^{-tx} \cdot \sin x \, dx = \z.
+\frac{   \z| \begin{matrix}
+        \z( e^{-tx} \y)' &\z( \sin x \y)'\\ 
+         e^{-tx}         &\sin x  
+       \end{matrix} \y| }{t^2 + 1^2}  \y| ^{+\infty}_0 = \z.
+\frac{   \z| \begin{matrix}
+         -te^{-tx}     &\cos x\\ 
+           e^{-tx}     &\sin x 
+       \end{matrix} \y| }{t^2 + 1^2}  \y| ^{+\infty}_0 = 
+\frac{1}{t^2 + 1} $
+
+
+\end{proof}
+
+\begin{note}
+对于这种积分，我们有公式，此积分在蓝兔兔老师的寒假集训视频中亦有记载
+\[ \displaystyle \int e^{ax} \cdot \sin bx \,dx=
+\frac{ \z| \begin{matrix}
+         \z( e^{ax} \y)' &\z( \sin bx \y)' \\ 
+         e^{ax}          &\sin bx
+       \end{matrix} \y| }{a^2 + b^2} + C ,
+ \displaystyle \int e^{ax} \cdot \cos bx \,dx=
+\frac{ \z| \begin{matrix}
+         \z( e^{ax} \y)' &\z( \cos bx \y)' \\ 
+         e^{ax}          &\cos bx
+       \end{matrix} \y| }{a^2 + b^2} + C \]
+\end{note}
+
+
+
+\begin{example}
+求定积分$\displaystyle \int_{0}^{1} \frac{x^b-x^a}{\ln x} \, dx$
+\end{example}
+\begin{note}
+这一题我们考虑$ \displaystyle \int_{a}^{b} x^y \,dy = \frac{x^b-x^a}{\ln x}$，其中$ \displaystyle d(x^y) = x^y \ln x \, dy $，这样变二重积分。
+
+详细过程可以参考蓝兔兔老师这个视频。
+
+【竞赛】非专业组，一重积分变二重积分的题型【必须拿下】 \url{https://www.bilibili.com/video/BV17T411K7uZ/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+\end{note}
+
+\begin{lemma}
+综合来看，我们有这三种比较常见的一重转二重积分技巧，这种一般就是对某一部分求导构造出一个内层积分，然后再交换积分次序。
+\begin{enumerate}
+\item Frullani积分:$ \displaystyle \int_{0}^{+\infty} \frac{f(bx) - f(ax) }{x} \, dx = \z[ f(+ \infty ) - f(0^+) \y] \ln \frac{b}{a} $
+\item $ \displaystyle \frac{1}{x} = \int_0^{+\infty} e^{-xt} \, dt $，例题:$ \displaystyle \int_{0}^{+\infty} \frac{\sin x}{x} \,dx $
+\item $ \displaystyle \frac{x^b-x^a}{\ln x} = \int_{a}^{b} x^y \,dy$，其中$ \displaystyle d(x^y) = x^y \ln x \, dy $，例题:$\displaystyle \int_{0}^{1} \frac{x^b-x^a}{\ln x} \,dx $
+\end{enumerate}
+\end{lemma}
+
+除此之外，还有一些没有通法使用一重转二重积分的题目。这一类题目比较难，需要尝试才能发现怎么做
+\vspace{1mm}
+\begin{example}
+求反常积分$ \displaystyle \int_{0}^{+\infty} \frac{e^{-x^2}}{\z( x^2+\frac{1}{2} \y)^2} \,dx $
+\end{example}
+\vspace{1mm}
+
+\begin{remark}
+经过我多次尝试，本题考虑一重变二重的方法，考虑
+\[ \text{原积分} = \int_{0}^{+\infty} \frac{e^{-x^2}}{x} \cdot \frac{x}{(x^2+\frac{1}{2})^2} \, dx \text{，又有}\z( \frac{e^{-x^2}}{x} \y)'=\frac{-(2x^2+1)e^{-x^2}}{x^2} \text{，故} \frac{e^{-x^2}}{x} = \int_{+\infty}^{x} \frac{-(2y^2+1)e^{-y^2}}{y^2} \,dy\]
+\end{remark}
+
+\begin{proof}
+\begin{align*}
+   \text{原积分}&=\int_{0}^{+\infty}\frac{x\,dx}{(x^2+\frac{1}{2})^2} \int_{+\infty}^{x} \frac{-(2y^2+1)e^{-y^2}}{y^2} \,dy
+   =\int_{0}^{+\infty}\frac{x\,dx}{(x^2+\frac{1}{2})^2} \int_{x}^{+\infty} \frac{(2y^2+1)e^{-y^2}}{y^2} \,dy \\
+   &\xlongequal{\text{交换积分次序}}\int_{0}^{+\infty} \frac{(2y^2+1)e^{-y^2}}{y^2} \,dy \int_{0}^{y}\frac{x}{(x^2+\frac{1}{2})^2}\,dx 
+   = \int_{0}^{+\infty} \frac{(2y^2+1)e^{-y^2}}{y^2} \z.\z[- \frac{1}{2}\cdot \frac{1}{x^2+\frac{1}{2}}\y]\y|^{y}_{0} \,dy \\
+   &=\int_{0}^{+\infty} \frac{(2y^2+1)e^{-y^2}}{y^2} \cdot \z(1- \frac{1}{2y^2+1}  \y)\,dy
+   ==\int_{0}^{+\infty} \frac{(2y^2+1)e^{-y^2}}{y^2} \cdot \z( \frac{2y^2}{2y^2+1}  \y)\,dy\\
+   &=2\int_{0}^{+\infty} e^{-y^2}\,dy = \sqrt{\pi} 
+\end{align*}
+\end{proof}
+
+\begin{lemma}[通过求导构造二重积分的方法]
+对可导函数$ f(x),g(x) $，且$ f(x_0)=0 $，我们有
+\[ \int_{0}^{+\infty} f(x)g(x) dx = \int_{0}^{+\infty} g(x)dx\int_{x_0}^{x} f'(y) dy\]
+如果想要交换积分次序，那么$x_0$必然是0或$+\infty$，不然无法构成合法的二重积分区域，就不能交换
+\begin{enumerate}
+\item 若$\displaystyle x_0=0$，则$\displaystyle\int_{0}^{+\infty} f(x)g(x) dx = \int_{0}^{+\infty} g(x)dx\int_{0}^{x} f'(y) dy\  \xlongequal{\text{交换积分次序}}\int_{0}^{+\infty}f'(y)dy\int_{y}^{+\infty}g(x)dx$
+\item 若$\displaystyle x_0=+\infty$，则$\displaystyle \int_{0}^{+\infty} f(x)g(x) dx = \int_{0}^{+\infty} g(x)dx\int_{+\infty}^{x} f'(y) dy\ \xlongequal{\text{交换积分次序}}-\int_{0}^{+\infty}f'(y)dy\int_{0}^{y}g(x)dx$
+\end{enumerate}
+\end{lemma}   
+
+刚刚总结的，那也是极特殊情况下的通用解法。一重转二重这种方法没有通用的，网上也没什么资料，但常见的就上面几种了，做题时只需要灵活即可，说白了就是全凭你知道这种方法然后考验你的注意力。
+
+%\vspace{4mm}
+接下来是一些变式习题
+\vspace{1mm}
+\begin{example}
+计算$ \displaystyle \int_{0}^{+\infty} \frac{\sin x}{x} e^{-x} dx$
+\end{example}
+\begin{proof}
+\begin{align*}
+\text{原积分} & = \int_{0}^{+\infty} e^{-x}\sin x dx \left( \int_{0}^{+\infty} e^{-xy} dy \right)  \\
+& = \iint \limits_{0 \leq x , 0 \leq y } \sin x \cdot e^{-(y+1)x} dxdy = \int_{0}^{+\infty} dy \int_{0}^{+\infty} \sin x \cdot e^{-(y+1)x} dx \\
+& = \int_{0}^{+\infty} \frac{1}{1+(y+1)^{2}} dy = \arctan (y+1) \bigg|_{0}^{+\infty} = \frac{\pi}{4}
+\end{align*}
+\end{proof}
+
+\begin{example}
+计算$ \displaystyle \int_{0}^{1} \frac{x^b - x^a}{\ln x} \sin (\ln x) \, dx $
+\end{example}
+\begin{proof}
+\begin{align*}
+\text{原积分} &=\int_{0}^{1} \,dx \int_{a}^{b} x^y \sin(\ln x) \,dy\\
+&\xlongequal{\text{令}t=-\ln x} \int_{+\infty}^{0} -e^{-t} dt \int_{a}^{b} e^{-ty}\sin(-t) \,dy
+=-\int_{a}^{b} dy \int_{0}^{+\infty}  e^{-(y+1)t} \sin t \,dt\\
+&=-\int_{a}^{b}\frac{1}{(1+y)^2+1} \,dy = \arctan (a+1) - \arctan (b+1)
+\end{align*}
+\end{proof}
+
+\begin{example}
+    计算积分 $\displaystyle \int_{0}^{+\infty} \sin x^2 \, dx$。
+\end{example}
+
+\begin{proof}
+    计算过程如下：
+    \begin{align*}
+        \int_{0}^{+\infty} \sin x^2 \, dx
+        &\xlongequal{\text{令}x=\sqrt{t}}\frac{1}{2} \int_{0}^{+\infty} \sin t \cdot \frac{1}{\sqrt{t}} dt \;\; \textcolor{red}{\z(\text{注：}\frac{1}{\sqrt{t}}=\frac{2}{\sqrt{\pi}}\int_{0}^{+\infty}e^{-ty^2} \, dy \y)} \\
+        &= \frac{1}{2} \int_{0}^{+\infty} \sin t \left( \frac{2}{\sqrt{\pi}} \int_{0}^{+\infty} e^{-ty^2} \, dy \right) dt \\
+        &= \frac{1}{\sqrt{\pi}} \int_{0}^{+\infty} \sin t \, dt \int_{0}^{+\infty} e^{-ty^2} \, dy \\
+        &= \frac{1}{\sqrt{\pi}} \int_{0}^{+\infty} \cos y \int_{0}^{+\infty} e^{-ty^2} \sin t \, dt \\
+        &= \frac{1}{\sqrt{\pi}} \int_{0}^{+\infty} \frac{1}{1+y^4} \, dy = \frac{\sqrt{2\pi}}{4}.
+    \end{align*}
+
+    对于积分 $\displaystyle \int_{0}^{+\infty} \frac{1}{1+y^4} \, dy$，可用多种方法求解：
+
+    \textbf{方法一：}区间再现，利用积分$\displaystyle \int \frac{Ax^2 + B }{Cx^4 + Dx^2 + E} dx $
+
+    \begin{align*}
+        \int_{0}^{+\infty} \frac{1}{1+y^4} \, dy 
+        &\xlongequal{\text{区间再现}} \int_{0}^{1} \frac{1}{1+y^4} \, dy +  \int_{0}^{1} \frac{1}{y^2} \cdot \frac{y^4}{1+y^4} \,dy 
+        = \int_{0}^{1} \frac{1+y^2}{1+y^4} \, dy \\
+        &= \int_{0}^{1} \frac{d\left(y - \frac{1}{y}\right)}{\left(y - \frac{1}{y}\right)^2 + 2} 
+        = \frac{1}{\sqrt{2}} \arctan\left( \frac{y - \frac{1}{y}}{\sqrt{2}} \right) \bigg|_{0}^{1} 
+        = \frac{\pi}{2\sqrt{2}}.
+    \end{align*}
+
+    \textbf{方法二：} 利用 Beta 函数。  
+
+    令 $t = y^4$，则 $\displaystyle dy = \frac{1}{4} t^{-\frac{3}{4}} \, dt$，于是
+    \begin{align*}
+        \int_{0}^{+\infty} \frac{1}{1+y^4} \, dy 
+        &\xlongequal{\text{令}t = y^4} \frac{1}{4} \int_{0}^{+\infty} \frac{t^{-\frac{3}{4}}}{1+t} \, dt 
+        = \frac{1}{4} B\left( \frac{1}{4}, \frac{3}{4} \right) 
+        = \frac{1}{4} \cdot \frac{\Gamma\left(\frac{1}{4}\right) \Gamma\left(\frac{3}{4}\right)}{\Gamma(1)}.
+    \end{align*}
+
+    由余元公式 $\displaystyle \Gamma(p) \Gamma(1-p) = \frac{\pi}{\sin(\pi p)}$，取 $\displaystyle p = \frac{1}{4}$ 可得
+    \[
+        \Gamma\left(\frac{1}{4}\right) \Gamma\left(\frac{3}{4}\right) = \frac{\pi}{\sin\z(\frac{\pi}{4}\y)} =  \sqrt{2}\pi.
+    \]
+
+    因此
+    \[
+        \int_{0}^{+\infty} \frac{1}{1+y^4} \, dy = \frac{ \sqrt{2}\pi}{4} = \frac{\pi}{2\sqrt{2}}.
+    \]
+\end{proof}
+
+\begin{remark}
+这道题我觉得超级好，一方面拓展了我们一重积分转二重的思路。另一方面，在后面我们发现可以用 Beta 函数巧妙简化运算！如果用方法一，也可以用区间再现来简化，如果不用区间再现，计算量要大得多，直接算这个的不定积分会很复杂，你们可以试试。这也算是给你们提供一种思路。
+
+如果不知道 Beta 函数，详见后面章节，Beta函数也是一个很好用的工具。
+\end{remark}
+\vspace{3mm}
+
+
+\begin{example}[十六届CMC初]
+已知 \(\displaystyle \int_{0}^{+\infty} \frac{\sin x}{x} dx = \frac{\pi}{2} \)
+
+(1)计算\(\displaystyle I_1=\int_{0}^{+\infty} \z( \frac{\sin x}{x} \y)^2 dx \)。
+
+(2)计算\(\displaystyle I_2=\int_{0}^{+\infty} \z( \frac{\sin x}{x} \y)^3 dx \)。
+\end{example}
+
+\begin{proof}
+解答. (1) 当 \( a > 0 \) 时，做变换 \(\displaystyle x = \frac{u}{a} ,\int_{0}^{+\infty} \frac{\sin(ax)}{x} dx = \int_{0}^{+\infty} \frac{\sin u}{\frac{u}{a}} d\z( \dfrac{u}{a} \y) = \frac{\pi}{2} \)
+
+\[\begin{aligned}
+\int_{0}^{+\infty} \z( \frac{\sin x}{x} \y)^2 dx &= -\frac{1}{x} \cdot \sin^2 x \bigg|_{0}^{+\infty} + \int_{0}^{+\infty} \frac{1}{x} \cdot 2 \sin x \cos x dx \\
+&= \int_{0}^{+\infty} \frac{\sin(2x)}{x} dx = \frac{\pi}{2}.
+\end{aligned}\]
+
+
+(2) \( a > 0 \) 时，做变换 \(\displaystyle x = \frac{u}{a} \)，易得 \( \displaystyle \int_{0}^{+\infty} \z( \frac{\sin(ax)}{x} \y)^2 dx = \frac{\pi}{2} a \)
+
+因此
+\begin{align*}
+\int_{0}^{+\infty} \z( \frac{\sin x}{x} \y)^3 dx &= -\frac{1}{2x^2} \cdot \sin^3 x \bigg|_{0}^{+\infty} + \int_{0}^{+\infty} \frac{1}{2x^2} \cdot 3 \sin^2 x \cos x dx \\
+&= \frac{3}{4} \int_{0}^{+\infty} \frac{\sin x \sin(2x)}{x^2} dx = \frac{3}{8} \int_{0}^{+\infty} \frac{\cos x - \cos(3x)}{x^2} dx \\
+&= \frac{3}{8} \int_{0}^{+\infty} \frac{(1 - \cos(3x)) - (1 - \cos x)}{x^2} dx \\
+&= \frac{3}{8} \int_{0}^{+\infty} \frac{2 \sin^2 \z( \frac{3x}{2} \y) - 2 \sin^2 \z( \frac{x}{2} \y)}{x^2} dx \\
+&= \frac{3}{4} \z( \int_{0}^{+\infty} \frac{\sin^2 \z( \frac{3x}{2} \y)}{x^2} dx - \int_{0}^{+\infty} \frac{\sin^2 \z( \frac{x}{2} \y)}{x^2} dx \y) \\
+&= \frac{3}{4} \cdot \frac{\pi}{2} = \frac{3\pi}{8}.
+\end{align*}
+\end{proof}
+
+\begin{note}
+本题的思想是分部积分
+\end{note}
+
+
+\newpage
+%%%-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+\subsection{含参积分}
+
+含参积分的解法某种意义上也算是一重转二重积分，平时的竞赛资料很少讲这个，但紫书中讲了，感觉也有必要掌握。紫皮书即《高等数学同步辅导与复习提高》一书。
+
+本小节在紫皮书6.3中亦有记载，同学们可以参考上面的例题，我这里从紫皮书挑出来一道例题(对应:例6.3.18)，一道习题(对应:习题9(1))给大家讲解
+
+\begin{theorem}[莱布尼兹公式(含参积分求导公式)]
+    如果函数 \(f(x,y)\) 及其偏导数 \(f_x(x,y)\) 都在矩形 \(R=[a,b] \times [c,d]\) 上连续，
+    函数 \(\alpha(x)\) 与 \(\beta(x)\) 都在区间 \([a,b]\) 上可微，且
+    \[
+    c \leq \alpha(x) \leq d, \quad c \leq \beta(x) \leq d \quad (a \leq x \leq b),
+    \]
+    那么由积分
+    \[
+    \Phi(x) = \int_{\alpha(x)}^{\beta(x)} f(x,y)  \, dy
+    \]
+    确定的函数 \(\Phi(x)\) 在 \([a,b]\) 上可微，且
+    \[
+    \Phi'(x) = \frac{d}{dx} \int_{\alpha(x)}^{\beta(x)} f(x,y)  \, dy
+    = \int_{\alpha(x)}^{\beta(x)} f_x(x,y)  \, dy
+    + f(x,\beta(x)) \beta'(x) - f(x,\alpha(x)) \alpha'(x).
+    \]
+\end{theorem}
+
+\begin{example}
+    设 \(\Phi(x) = \displaystyle \int_{x}^{x^2} \frac{\sin(xy)}{y}  \, dy\)，求 \(\Phi'(x)\)
+\end{example}
+
+\begin{proof}
+    应用莱布尼茨公式，可得
+    \begin{align*}
+        \Phi'(x) &= \int_{x}^{x^2} \frac{\partial}{\partial x} \left( \frac{\sin(xy)}{y} \right) dy 
+        + \frac{\sin(x \cdot x^2)}{x^2} \cdot (x^2)' - \frac{\sin(x \cdot x)}{x} \cdot (x)' \\
+        &= \int_{x}^{x^2} \cos(xy)  \, dy + \frac{\sin x^3}{x^2} \cdot 2x - \frac{\sin x^2}{x} \cdot 1 \\
+        &= \left[ \frac{\sin(xy)}{x} \right]_{x}^{x^2} + \frac{2 \sin x^3}{x} - \frac{\sin x^2}{x} \\
+        &= \frac{\sin(x^3) - \sin(x^2)}{x} + \frac{2 \sin x^3}{x} - \frac{\sin x^2}{x} \\
+        &= \frac{3 \sin x^3 - 2 \sin x^2}{x}.
+    \end{align*}
+\end{proof}
+
+\begin{lemma}[特殊情况:上下限为常数的含参积分求导]
+   由积分$\displaystyle \Phi(x) = \int_{a}^{b} f(x,y)  \, dy$
+   确定的函数 $\Phi(x)$ ，满足上述条件，则有
+    \[
+    \Phi'(x) = \frac{d}{dx} \int_{a}^{b} f(x,y)  \, dy
+    = \int_{a}^{b} f_x(x,y)  \, dy.\]
+\end{lemma}
+
+这个定理是我们解决含参积分问题的基础，知道这个才能继续往下说。
+\vspace{2mm}
+
+\begin{example}[（紫书6.3.18）]
+    计算 $\displaystyle I(\theta) = \int_{0}^{\pi} \ln(1 + \theta \cos x) \, dx$，其中 $|\theta| < 1$。
+\end{example}
+
+\begin{proof}
+    对于任意满足 $|\theta| < 1$ 的 $\theta$，取正数 $a < 1$，使得 $|\theta| \leq a$。记 $f(x, \theta) = \ln(1 + \theta \cos x)$，易知 $f(x, \theta)$ 与
+    $\displaystyle f'_{\theta}(x, \theta) = \frac{\cos x}{1 + \theta \cos x}$ 都在闭矩形 $[0, \pi] \times [-a, a]$ 上连续。因此
+    \begin{align*}
+        I'(\theta) &= \int_{0}^{\pi} \frac{\cos x}{1 + \theta \cos x} \, dx 
+        = \frac{1}{\theta} \int_{0}^{\pi} \left( 1 - \frac{1}{1 + \theta \cos x} \right) dx 
+        = \frac{\pi}{\theta} - \frac{1}{\theta} \int_{0}^{\pi} \frac{dx}{1 + \theta \cos x}.
+    \end{align*}
+    对于最后一个积分，作万能代换 $t = \tan \dfrac{x}{2}$，则 $\cos x = \dfrac{1 - t^2}{1 + t^2}$，$dx = \dfrac{2}{1 + t^2} dt$，于是
+    \begin{align*}
+        \int_{0}^{\pi} \frac{dx}{1 + \theta \cos x}
+        &= \int_{0}^{+\infty} \frac{2}{1 + t^2} \cdot \frac{1}{1 + \theta \cdot \frac{1 - t^2}{1 + t^2}} \, dt 
+        = \int_{0}^{+\infty} \frac{2}{1 + t^2 + \theta (1 - t^2)} \, dt \\
+        &= \int_{0}^{+\infty} \frac{2}{(1 - \theta)t^2 + (1 + \theta)} \, dt 
+        = \frac{2}{1 + \theta} \int_{0}^{+\infty} \frac{dt}{1 + \frac{1 - \theta}{1 + \theta} t^2} \\
+        &= \frac{2}{1 + \theta} \cdot \frac{\sqrt{1 + \theta}}{\sqrt{1 - \theta}} \arctan\left( \sqrt{\frac{1 - \theta}{1 + \theta}} t \right) \bigg|_{0}^{\infty} \\
+        &= \frac{\pi}{\sqrt{1 - \theta^2}}.
+    \end{align*}
+    于是
+    \[
+        I'(\theta) = \frac{\pi}{\theta} - \frac{\pi}{\theta \sqrt{1 - \theta^2}}.
+    \]
+    此式再对 $\theta$ 积分，便得
+    \[ \int_{0}^{\theta} I'(\theta) d\theta = \int_{0}^{\theta} \frac{\pi}
+       {\theta} - \frac{\pi}{\theta \sqrt{1 - \theta^2}} d\theta \]
+   积分得
+    \[
+        I(\theta) - I(0) = \z. \pi \ln\z(1 + \sqrt{1 - \theta^2}\y) \y|^{\theta}_{0}=\pi \ln\frac{1 + \sqrt{1 - \theta^2}}{2}.
+    \]
+    由 $I(\theta)$ 的定义知 $I(0) = 0$，代入上式得
+    \[
+        I(\theta) = \pi \ln \frac{1 + \sqrt{1 - \theta^2}}{2}.
+    \]
+\end{proof}
+
+\begin{example}
+    求 $\displaystyle I(\alpha) = \int_{0}^{\frac{\pi}{2}} \ln\left( \alpha^2 - \sin^2 x \right) dx$。
+\end{example}
+
+\begin{proof}
+    \begin{align*}
+        I'(\alpha) &= \int_{0}^{\frac{\pi}{2}} \frac{2\alpha}{\alpha^2 - \sin^2 x} \, dx 
+        = \int_{0}^{\frac{\pi}{2}} \frac{2\alpha}{(\alpha^2 - 1)\sin^2 x + \alpha^2 \cos^2 x} \, dx \\
+        &= \int_{0}^{\frac{\pi}{2}} \frac{2\alpha}{\cos^2 x \left[ (\alpha^2 - 1) \tan^2 x + \alpha^2 \right]} \, dx 
+        = \int_{0}^{\infty} \frac{2\alpha}{(\alpha^2 - 1) \tan^2 x + \alpha^2} \, d \tan x  \\
+        &=\z. \frac{2\alpha}{\alpha^2 - 1} \cdot \frac{\sqrt{\alpha^2 - 1}}{\alpha} \arctan\left( \frac{\sqrt{\alpha^2 - 1}\cdot \tan x }{\alpha} \right) \y|_{0}^{\frac{\pi}{2}} 
+        = \frac{\pi}{\sqrt{\alpha^2 - 1}}.
+    \end{align*}
+
+    所以
+    \[ \int_{1}^{\alpha} I'(\alpha) \,d\alpha = \int_{1}^{\alpha} \frac{\pi}{\sqrt{\alpha^2 - 1}}\, d\alpha \]
+    \[
+        I(\alpha) - I(1 )= \z. \pi \ln\z( \alpha + \sqrt{\alpha^2 - 1} \y) \y|^{\alpha}_{1} = \pi \ln\z( \alpha + \sqrt{\alpha^2 - 1} \y)
+    \]
+
+    而$$ I(1)= \int_{0}^{\frac{\pi}{2}} \ln\left( 1 -\sin^2 x \right) dx 
+    = 2\int_{0}^{\frac{\pi}{2}} \ln\left( \cos x \right) dx = -\frac{\pi}{2} \ln 2$$
+    
+    所以，我们最终得出
+    $$ I(\alpha) = \pi \ln\z( \alpha + \sqrt{\alpha^2 - 1} \y) - \pi\ln2 
+                 = \pi \ln\z( \frac{\alpha + \sqrt{\alpha^2 - 1}}{2}  \y) $$
+\end{proof}
+\begin{note}
+这里用到了之前例\ref{ex:integral-sin-cos-ln}里的积分：$ \displaystyle \int_{0}^{\frac{\pi}{2}} \ln \z( \sin x \y) dx = \int_{0}^{\frac{\pi}{2}} \ln \z( \cos x \y) dx =-\frac{\pi}{2} \ln 2 $.（点击序号可以跳转）
+
+我们的知识也是环环相扣的。
+\end{note}
+
+
+\newpage
+%%%-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+\subsection{Γ函数与B函数}
+假如你一点也不知道什么Γ函数与B函数，可以先去看考研数学杰哥的这个视频。【快速学会“贝塔函数”】 \url{https://www.bilibili.com/video/BV1UL4y1e7Z4/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+\begin{theorem}[Γ函数与B函数基本形式]
+    \begin{enumerate}
+      \item $ \displaystyle \Gamma(s) = \int_{0}^{+\infty} e^{-x} x^{s-1}\, dx \quad (\alpha > 0) $ 
+      \item $ \displaystyle \mathrm{B}(p,q) = \int_{0}^{1} x^{p-1}(1-x)^{q-1} \,dx \quad (p>0,q>0) $
+    \end{enumerate}
+\end{theorem}   
+
+\begin{lemma}[$\Gamma$ 函数的性质]
+Gamma 函数具有以下性质：
+\begin{enumerate}
+    \item 递推关系：$\displaystyle \Gamma(a+1) = a\Gamma(a)$
+    \item 余元公式：$\displaystyle \Gamma(a)\Gamma(1-a) = \frac{\pi}{\sin(a\pi)}$
+\end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Beta 函数的性质与变换]
+Beta 函数有以下几种性质：
+\begin{enumerate}
+    \item 基本形式：$\displaystyle \mathrm{B}(p,q) = \int_{0}^{1} x^{p-1}(1-x)^{q-1} \,dx = \frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}$
+    
+    \item 三角函数形式：令 $x = \cos^2\theta$，则
+    \[
+    \mathrm{B}(p,q) = 2\int_{0}^{\frac{\pi}{2}} \cos^{2p-1}\theta \, \sin^{2q-1}\theta \, d\theta
+    \]
+    
+    \item 无穷积分形式：令 $x = \frac{u}{1+u}$，则
+    \[
+    \mathrm{B}(p,q) = \int_{0}^{+\infty} \frac{u^{p-1}}{(1+u)^{p+q}} \, du
+    \]
+\end{enumerate}
+\end{lemma}
+上述推导过程详见网上视频，或者自己手动推导，不过还是建议记结论，尤其是B函数那几个变形。
+
+下面是一些简单例题。
+
+\begin{example}[$\,$Gamma 函数应用]
+计算 $\displaystyle \int_{0}^{+\infty} x^{n} e^{-x} \, dx$。
+\end{example}
+
+\begin{proof}
+由 Gamma 函数定义可知：
+\[
+\int_{0}^{+\infty} x^{n} e^{-x} \, dx = \Gamma(n+1) = n!
+\]
+\end{proof}
+
+\begin{example}[余元公式应用]
+计算 $\displaystyle \Gamma\left(\frac{1}{4}\right) \Gamma\left(\frac{3}{4}\right)$。
+\end{example}
+
+\begin{proof}
+利用余元公式：
+\begin{align*}
+\Gamma\left(\frac{1}{4}\right) \Gamma\left(\frac{3}{4}\right) 
+&= \Gamma\left(\frac{1}{4}\right) \Gamma\left(1-\frac{1}{4}\right) 
+= \frac{\pi}{\sin\left(\frac{\pi}{4}\right)} = \frac{\pi}{\frac{\sqrt{2}}{2}} = \sqrt{2}\pi
+\end{align*}
+\end{proof}
+
+\begin{example}[$\,$Beta 函数三角函数形式应用]
+计算 $\displaystyle \int_{0}^{\frac{\pi}{2}} \sin^2\theta \, \cos^2\theta \, d\theta$。
+\end{example}
+
+\begin{proof}
+利用 Beta 函数的三角函数形式(2p-1=2 , 2q-1=2)：
+\begin{align*}
+\int_{0}^{\frac{\pi}{2}} \sin^2\theta \, \cos^2\theta \, d\theta 
+&= \frac{1}{2} \mathrm{B}\left(\frac{3}{2}, \frac{3}{2}\right) 
+= \frac{1}{2} \cdot \frac{\Gamma\left(\frac{3}{2}\right) \Gamma\left(\frac{3}{2}\right)}{\Gamma(3)} \\
+&= \frac{1}{2} \cdot \frac{\frac{1}{2}\Gamma\left(\frac{1}{2}\right)\cdot \frac{1}{2} \Gamma\left(\frac{1}{2}\right)}{2!} \\
+&= \frac{1}{2} \cdot \frac{\frac{1}{2}\sqrt{\pi}\cdot \frac{1}{2} \sqrt{\pi}}{2!} 
+ = \frac{\pi}{16}
+\end{align*}
+\end{proof}
+
+\begin{example}[$\,$Beta 函数无穷积分形式应用]
+计算 $\displaystyle \int_{0}^{+\infty} \frac{1}{1+x^4} \, dx$。
+\end{example}
+
+\begin{proof}
+利用 Beta 函数的无穷积分形式：
+\begin{align*}
+\int_{0}^{+\infty} \frac{1}{1+x^4} \, dx 
+&\xlongequal{\text{令 } x = u^{\frac{1}{4}}}\frac{1}{4} \int_{0}^{+\infty} \frac{u^{-\frac{3}{4}}}{1+u} \, du  
+= \frac{1}{4} \mathrm{B}\left(\frac{1}{4}, \frac{3}{4}\right) \\
+&= \frac{1}{4} \cdot \frac{\Gamma\left(\frac{1}{4}\right) \Gamma\left(\frac{3}{4}\right)}{\Gamma(1)} 
+= \frac{1}{4}\cdot \frac{\frac{\pi}{\sin (\frac{\pi}{4})}}{1} 
+= \frac{\sqrt{2}\pi}{4}
+\end{align*}
+\end{proof}
+
+\begin{example}[$\,$Beta 在二重积分的应用]
+计算 $\displaystyle \int_{0}^{1} r^3 \sqrt{1-r^2} \, dr$。
+\end{example}
+
+\begin{proof}
+令 $r^2 = t$，则 $\displaystyle dr = \frac{1}{2\sqrt{t}} dt$：
+\begin{align*}
+\int_{0}^{1} r^3 \sqrt{1-r^2} \, dr 
+&= \frac{1}{2} \int_{0}^{1} t \sqrt{1-t} \, dt 
+= \frac{1}{2} \mathrm{B}\left(2, \frac{3}{2}\right) \\
+&= \frac{1}{2} \cdot \frac{\Gamma(2) \Gamma\left(\frac{3}{2}\right)}{\Gamma\left(\frac{7}{2}\right)}
+= \frac{1}{2} \cdot \frac{1!\cdot \Gamma \z( \frac{3}{2}\y)}{\frac{5}{2}\cdot\frac{3}{2}\Gamma\z( \frac{3}{2} \y)} \\
+&= \frac{2}{15}
+\end{align*}
+\end{proof}
+
+\begin{example}[复旦2023]
+$\displaystyle \Omega$ 为 $\displaystyle x + y + z = 1$ 与 $\displaystyle x = 0, y = 0, z = 0$ 所围区域，求
+\[
+\iiint_{\Omega} x^p y^q z^r (1 - x - y - z)^s \, dV,
+\]
+$\displaystyle (p, q, r, s$ 均为正整数)。
+\end{example}
+
+\begin{proof}
+区域 $\displaystyle \Omega = \z\{ (x,y,z) \mid x \ge 0, y \ge 0, z \ge 0, x+y+z \le 1 \y\}$.将三重积分化为累次积分：
+\[
+I = \int_{0}^{1} \int_{0}^{1-x} \int_{0}^{1-x-y} x^{p} y^{q} z^{r} (1-x-y-z)^{s} \, dz\,dy\,dx.
+\]
+首先对 $\displaystyle z$ 积分，令 $\displaystyle z = (1-x-y)u$，则
+\begin{align*}
+\int_{0}^{1-x-y} z^{r} (1-x-y-z)^{s} \, dz &= (1-x-y)^{r+s+1} \int_{0}^{1} u^{r} (1-u)^{s} \, du \\
+&= (1-x-y)^{r+s+1} B(r+1, s+1) \\
+&= (1-x-y)^{r+s+1} \frac{\Gamma(r+1)\Gamma(s+1)}{\Gamma(r+s+2)}.
+\end{align*}
+然后对 $\displaystyle y$ 积分，令 $\displaystyle y = (1-x)v$，则
+\begin{align*}
+\int_{0}^{1-x} y^{q} (1-x-y)^{r+s+1} \, dy &= (1-x)^{q+r+s+2} \int_{0}^{1} v^{q} (1-v)^{r+s+1} \, dv \\
+&= (1-x)^{q+r+s+2} B(q+1, r+s+2) \\
+&= (1-x)^{q+r+s+2} \frac{\Gamma(q+1)\Gamma(r+s+2)}{\Gamma(q+r+s+3)}.
+\end{align*}
+最后对 $\displaystyle x$ 积分：
+\[
+\int_{0}^{1} x^{p} (1-x)^{q+r+s+2} \, dx = B(p+1, q+r+s+3) = \frac{\Gamma(p+1)\Gamma(q+r+s+3)}{\Gamma(p+q+r+s+4)}.
+\]
+因此
+\begin{align*}
+I &= \frac{\Gamma(r+1)\Gamma(s+1)}{\Gamma(r+s+2)} \cdot \frac{\Gamma(q+1)\Gamma(r+s+2)}{\Gamma(q+r+s+3)} \cdot \frac{\Gamma(p+1)\Gamma(q+r+s+3)}{\Gamma(p+q+r+s+4)} \\
+&= \frac{\Gamma(p+1)\Gamma(q+1)\Gamma(r+1)\Gamma(s+1)}{\Gamma(p+q+r+s+4)}.
+\end{align*}
+由于 $\displaystyle p,q,r,s$ 均为正整数，故 $\displaystyle \Gamma(p+1)=p!$，$\displaystyle \Gamma(q+1)=q!$，$\displaystyle \Gamma(r+1)=r!$，$\displaystyle \Gamma(s+1)=s!$，且 $\displaystyle \Gamma(p+q+r+s+4) = (p+q+r+s+3)!$。所以
+\[
+\boxed{\displaystyle I = \frac{p!\, q!\, r!\, s!}{(p+q+r+s+3)!}}.
+\]
+\end{proof}
+
+\vspace{4mm}
+总之，真正考B函数的题目不多，但也有，就比如复旦2023的这一题。更多情况下B函数是一种好用的工具，在各种题型下起到简化计算的作用，这里就不列举了。
+
+
+
+
+\newpage
+
+\subsection{利用级数计算定积分}
+实际考试中如果时间充裕, 需要对换序进行说明, 否则可以略去换序理由，证明可交换次序可以参考这种写法（来自清疏讲义）
+
+为了换序 \[ \sum_{n=1}^\infty \int_a^b f_n(x) \, dx = \int_a^b \sum_{n=1}^\infty f_n(x) \, dx, \] 
+
+我们需要  
+
+\[\lim_{m \to \infty} \sum_{n=1}^m \int_a^b f_n(x) \, dx = \int_a^b \sum_{n=1}^\infty f_n(x) \, dx.\]
+
+有限和随意交换, 我们需要  
+
+\[\lim_{m \to \infty} \int_a^b \sum_{n=1}^m f_n(x) \, dx = \int_a^b \sum_{n=1}^\infty f_n(x) \, dx,\]
+
+于是需要  
+
+\[\lim_{m \to \infty} \int_a^b \sum_{n=m+1}^\infty f_n(x) \, dx = 0.\]
+\begin{example}
+计算$ \displaystyle \int_{0}^{+\infty} \frac{\ln x}{1-x^2} \,dx $
+\end{example}
+\begin{remark}
+参考蓝兔兔老师视频:【竞赛】用级数计算广义积分的方法\url{https://www.bilibili.com/video/BV1hB4y1n7Jp/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}
+\end{remark}
+
+
+\vspace{2mm}
+
+\begin{example}
+计算$ \displaystyle \int_{0}^{+\infty} \frac{x}{1+e^x} \,dx $
+\end{example}
+
+\begin{proof}
+\begin{align*}
+\int_{0}^{\infty} \frac{x}{1 + e^x} dx &= \int_{0}^{\infty} \frac{xe^{-x}}{1 + e^{-x}} dx = \int_{0}^{\infty} x \sum_{n=0}^{\infty} (-1)^n e^{-(n+1)x} dx \\
+&\xlongequal{\textcolor{red}{\text{换序}}} \sum_{n=0}^{\infty} (-1)^n \int_{0}^{\infty} xe^{-(n+1)x} dx = \sum_{n=0}^{\infty} \frac{(-1)^n}{(n+1)^2} \\
+&= \sum_{n=1}^{\infty} \frac{1}{(2n-1)^2} - \sum_{n=1}^{\infty} \frac{1}{(2n)^2} = \sum_{n=1}^{\infty} \frac{1}{n^2} - 2 \sum_{n=1}^{\infty} \frac{1}{(2n)^2} \\
+&= \frac{1}{2} \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{12}.
+\end{align*}
+\end{proof}
+
+
+
+
+
+
+\begin{remark}
+本题要注意第一步到第二步，我们把$e^x$变成$e^{-x}$，原因在于$e^x$在$(0,+\infty)$上取$(1,+\infty)$，而$e^{-x}$在$(0,+\infty)$上取$(0,1)$。我们用$e^{-x}$展开级数就会在收敛域内。
+
+其次是这个交换积分和级数次序并不严谨，但是非数学一般不用管，如果说考插出了这种题证不证明其实也是模棱两可的。我这里略去证明过程。
+\end{remark}
+
+
+
+\newpage
+
+\subsection{其他积分计算技巧，杂例}
+
+\begin{example}[（复旦2020）]
+计算积分 $\displaystyle \int_{0}^{+\infty} \frac{1}{(a^2 + x^2)(b^2 + x^2)} \, dx$，其中 $a, b > 0$。
+\end{example}
+
+\begin{proof}
+分两种情况讨论：
+
+\textbf{\textcolor{red}{情况1}：$a \neq b$。}
+将被积函数裂项：
+\[
+\frac{1}{(a^2 + x^2)(b^2 + x^2)} = \frac{1}{a^2 - b^2} \left( \frac{1}{b^2 + x^2} - \frac{1}{a^2 + x^2} \right)
+\]
+
+于是
+\[
+\int_{0}^{+\infty} \frac{1}{(a^2 + x^2)(b^2 + x^2)} \, dx = \frac{1}{a^2 - b^2} \left( \int_{0}^{+\infty} \frac{dx}{b^2 + x^2} - \int_{0}^{+\infty} \frac{dx}{a^2 + x^2} \right) = \frac{1}{a^2 - b^2} \left( \frac{\pi}{2b} - \frac{\pi}{2a} \right) = \frac{\pi}{2ab(a+b)}.
+\]
+
+\textbf{\textcolor{red}{情况2}：$a = b$。}
+此时积分化为
+\[
+\int_{0}^{+\infty} \frac{1}{(a^2 + x^2)^2} \, dx.
+\]
+令 $x = a \tan t$，则 $dx = a \sec^2 t \, dt$，且当 $x=0$ 时 $t=0$，$x \to +\infty$ 时 $t \to \frac{\pi}{2}$。于是
+\begin{align*}
+\int_{0}^{+\infty} \frac{1}{(a^2 + x^2)^2} \, dx &= \int_{0}^{\frac{\pi}{2}} \frac{1}{(a^2 + a^2 \tan^2 t)^2} \cdot a \sec^2 t \, dt \\
+&= \int_{0}^{\frac{\pi}{2}} \frac{1}{a^4 \sec^4 t} \cdot a \sec^2 t \, dt \\
+&= \frac{1}{a^3} \int_{0}^{\frac{\pi}{2}} \cos^2 t \, dt = \frac{1}{a^3} \cdot \frac{\pi}{4} = \frac{\pi}{4a^3}.
+\end{align*}
+
+综上，原积分结果为
+\[
+\int_{0}^{+\infty} \frac{1}{(a^2 + x^2)(b^2 + x^2)} \, dx = \dfrac{\pi}{2ab(a+b)}
+\]
+\end{proof}
+
+\begin{note}
+本题乍一看是$ \int \frac{Ax^2 + B }{Cx^4 + Dx^2 + E} dx $这个模型，但其实这样做很复杂。我们考虑裂项。
+
+本题还有一个坑是没有考虑$a=b$的情况，如果不考虑，直接裂项是错的，会导致分母为0.
+\end{note}
+\vspace{3mm}
+
+\begin{example}
+计算$ \displaystyle \int \frac{dt}{\sqrt{\z(t-2\y)^3\z(t+2\y)^3}} $
+\end{example}
+\begin{proof}
+注意到$ \displaystyle \z( \frac{t+2}{t-2} \y)'= -\frac{4}{(t-2)^2} 
+                      \z( \frac{t-2}{t+2} \y)'=  \frac{4}{(t+2)^2}$
+\begin{align*}
+\text{原积分}&=\int \frac{dt}{\z(t-2\y)\z(t+2\y)\sqrt{\z(t-2\y)\z(t+2\y)}}
+\xlongequal{\text{裂项}}\frac{1}{4}\int \frac{1}{(t-2)\sqrt{\z(t-2\y)\z(t+2\y)}}-\frac{1}{(t-2)\sqrt{\z(t-2\y)\z(t+2\y)}}\,dt\\
+&=\frac{1}{4}\int \frac{dt}{(t-2)^2\sqrt{\dfrac{t+2}{t-2}}}
+- \frac{1}{4}\int \frac{dt}{(t+2)^2\sqrt{\dfrac{t-2}{t+2}}}\\
+&=-\frac{1}{16}\int \z(\frac{t+2}{t-2}\y)^{-\frac{1}{2}}d\z( \frac{t+2}{t-2} \y)
+  -\frac{1}{16}\int \z(\frac{t-2}{t+2}\y)^{-\frac{1}{2}}d\z( \frac{t-2}{t+2} \y)\\
+&=-\frac{1}{8} \z(\frac{t+2}{t-2}\y)^{\frac{1}{2}}
+  -\frac{1}{8} \z(\frac{t-2}{t+2}\y)^{\frac{1}{2}} + C
+\end{align*}
+\end{proof}
+
+\begin{note}
+本题的裂项可能不太好观察，但是裂项之后就是我们熟悉的形式
+\end{note}
+
+
+
+\begin{example}
+计算 \[\int_{0}^{\infty} e^{-x} |\sin x| \, dx.\]
+\end{example}
+\begin{proof}
+\begin{align*}
+\int_{0}^{\infty} e^{-x} |\sin x| \, dx &= \sum_{n=0}^{\infty} \int_{n\pi}^{(n+1)\pi} e^{-x} |\sin x| \, dx = \sum_{n=0}^{\infty} \int_{0}^{\pi} e^{-(x+n\pi)} |\sin x| \, dx \\
+&= \sum_{n=0}^{\infty} e^{-n\pi} \int_{0}^{\pi} e^{-x} \sin x \, dx = \frac{e^{\pi} + 1}{2e^{\pi} - 2}.
+\end{align*}
+\end{proof}
+
+\begin{note}
+周期函数利用周期性，本题是某年考研题目，很经典。
+\end{note}
+\vspace{2mm}
+
+\begin{example}
+计算$\displaystyle \int_{0}^{1}\frac{\ln x}{\sqrt{x-x^2}}\,dx $
+\end{example}
+\begin{proof}
+\begin{align*}
+\text{原积分}&\xlongequal{x=\sin^2t}\int_{0}^{\frac{\pi}{2}} \frac{\ln \sin^2t}{\sqrt{\sin^2t\z( 1-\sin^2t \y)}}d\sin^2t\\
+&=4\int_{0}^{\frac{\pi}{2}}\ln \sin t \,dt =4\cdot\z( -\frac{\pi}{2}\ln2 \y)
+=-2\pi\ln2
+\end{align*}
+\end{proof}
+
+\begin{remark}
+有时候我们尝试比较特殊的换元，像这种$x=\sin^2t$竞赛里面其实也比较常见，但在考研题目不怎么常见，可能大家不太熟悉。
+
+且这里我们再次用到了例\ref{ex:integral-sin-cos-ln}的结论
+\end{remark}
+
+
+
+
+\newpage
+
+\subsection{积分等式证明}
+主要讲一下含有抽象函数f(x)的。这种题一般就是令两边的f里边的变量统一即可。
+
+\begin{example}
+当下述积分有意义时，证明
+\[ \int_{0}^{2\pi} f\z(a\cos x+b\sin x\y)\,dx=2\int_{0}^{\pi}f\z(\sqrt{a^2+b^2}\cos t\y)dt \]
+\end{example}
+
+\begin{remark}
+我们只需令$ \displaystyle a\cos x+b\sin x=\sqrt{a^2+b^2}\cos t $，不妨设$ \displaystyle \cos\phi=\frac{a}{\sqrt{a^2+b^2}} \sin\phi=\frac{b}{\sqrt{a^2+b^2}} $
+
+即令$ \displaystyle \cos(x-\phi) = \cos t $，即令$ x-\phi = t$
+\end{remark}
+
+\begin{proof}
+\begin{align*}
+\int_{0}^{2\pi} f\z(a\cos x+b\sin x\y)\,dx&=\int_{0}^{2\pi}f\z(\sqrt{a^2+b^2} \cos(x-\phi) \y)\,d\z(x-\phi\y)\\
+&\xlongequal{x-\phi = t}\int_{0}^{2\pi}f\z(\sqrt{a^2+b^2} \cos t \y)\,dt\\
+&\xlongequal{\text{利用周期性}}\int_{-\pi}^{\pi}f\z(\sqrt{a^2+b^2} \cos t \y)\,dt\\
+&\xlongequal{\text{偶函数}}2\int_{0}^{\pi}f\z(\sqrt{a^2+b^2} \cos t \y)\,dt
+\end{align*}
+\end{proof}
+
+\begin{example}
+设 \( a > 0 \)，下述积分有意义时，证明  
+\[\int_{1}^{a} f\left(x^2 + \frac{a^2}{x^2}\right) \frac{dx}{x} = \int_{1}^{a} f\left(x + \frac{a^2}{x}\right) \frac{dx}{x}.\]
+\end{example}
+
+\begin{proof}
+\begin{align*}
+\int_{1}^{a} f\left(x^2 + \frac{a^2}{x^2}\right) \frac{dx}{x} 
+&\xlongequal{x^2=t} \int_{1}^{a^2} f\left(t + \frac{a^2}{t}\right) \frac{1}{2\sqrt{t}} \frac{dt}{\sqrt{t}} \\
+&= \frac{1}{2} \int_{1}^{a} f\left(t + \frac{a^2}{t}\right) \frac{dt}{t} + \frac{1}{2} \int_{a}^{a^2} f\left(t + \frac{a^2}{t}\right) \frac{dt}{t} \\
+&\xlongequal{u= \frac{a^2}{t}} \frac{1}{2} \int_{1}^{a} f\left(t + \frac{a^2}{t}\right) \frac{dt}{t} = \frac{1}{2} \int_{1}^{a} f\left(\frac{a^2}{u} + u\right) \frac{du}{u} \\
+&= \int_{1}^{a} f\left(t + \frac{a^2}{t}\right) \frac{dt}{t}.
+\end{align*}
+\end{proof}
+
+
+
+\subsection{积分不等式证明}
+东西很多，且要用到中值定理，有机会单独讲
+
+
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{problemset}
+\item 计算$\displaystyle \int_{0}^{+\infty}e^{-x^2} \,dx $\vspace{2mm}
+\item \textcolor{myblue}{例题 14.40} 计算$\displaystyle \int_{-\pi}^{\pi} x\sin^5x\arctan e^x\,dx $\vspace{2mm}
+\item \textcolor{myblue}{例题 14.14} 计算$\displaystyle \int_{0}^{+\infty} \frac{\ln x}{x^2+x+1}\,dx  $   \vspace{2mm}
+\item \textcolor{myblue}{例题 14.17} 分别计算$\displaystyle \int_{0}^{\frac{\pi}{2}}\frac{1}{1+\tan^{\alpha}x}\,dx$和$\displaystyle \int_{0}^{+\infty} \frac{1}{(1+x^2)(1+x^{\alpha})}\,dx $\vspace{2mm}
+\item \textcolor{myblue}{例题 14.27} 计算$ \displaystyle\int_{0}^{1}\frac{\ln\z(1+x+x^2\y)}{x}\,dx $\vspace{2mm}
+\item *\textcolor{myblue}{例题 14.24}计算$\displaystyle \int_{0}^{+\infty} \frac{1}{\z( 1+x^8\y)^2}\,dx $\vspace{2mm}
+\item *\textcolor{myblue}{例题 14.34}计算$\displaystyle \int_{0}^{+\infty} e^{x^2+\frac{1}{x^2}} \,dx $ \vspace{2mm}
+\item *\textcolor{myblue}{例题 14.10}设$a,b>0 $，在下述积分有意义时，证明：
+        \[ \int_{0}^{+\infty}f\z( ax+\frac{b}{x}\y) \,dx
+        =\frac{1}{a} \int_{0}^{+\infty} f\z(\sqrt{x^2+4ab}\y)\,dx \]
+        \vspace{2mm}
+\item *\textcolor{myblue}{复旦2021} 设$f(x)$连续，证明
+    $\displaystyle \int_{0}^  {\frac{\pi}{2}}f(\sin2x)\cos x\,dx
+    = \int_{0}^{\frac{\pi}{2}}f(\cos^2x)\cos x\,dx $
+    \vspace{2mm}
+\end{problemset}
+标*的为难题，标有“例题”的可以在清疏讲义对应题号找到解答，我找了一部分不怎么偏的题过来作练习

@@ -1,0 +1,103 @@
+\documentclass[lang=cn,newtx,10pt,scheme=chinese]{elegantbook}
+\usepackage{ctex} % 支持中文
+\usepackage{amsmath} % 数学公式支持
+\usepackage{amsfonts} % 数学字体支持
+\usepackage{xcolor}  % 添加颜色支持
+\usepackage{color}  %调用color宏包
+% \textcolor{red}{喵喵喵}
+
+\usepackage{extarrows} %扩展箭头 (可以写长的等号，加上条件)
+%$$ A\xlongequal[\text{中文sub-script}]{super-script}B $$
+\usepackage{graphicx} %插入图片
+\usepackage{hyperref}     % \hyperref["label"]{注解}
+
+%url代码太长的解决办法
+\usepackage{xurl}
+\def\UrlBreaks{%
+    \do\/%
+    \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l%
+    \do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+    \do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L%
+    \do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z%
+    \do0\do1\do2\do3\do4\do5\do6\do7\do8\do9\do=\do/\do.\do:%
+    \do\*\do\-\do\~\do\'\do\"\do\-}
+
+\definecolor{myblue}{rgb}{0.1, 0.2, 0.8} % 自定义 RGB 颜色
+% 使用自定义颜色
+%在align* 的环境里需要这样写中文 \text{原积分}
+%打链接 \url{https://b23.tv/F5fLXRw}
+%设置行间距 \vspace{4mm} 
+
+%\begin{cases}   大括号写法
+%\dfrac{\pi}{2ab(a+b)}, & a \neq b, \\[1em]
+%\dfrac{\pi}{4a^3}, & a = b.
+%\end{cases}
+
+
+\title{本群寒假题目合集讲义} % 讲义标题
+\subtitle{本讲义使用了 Elegant\LaTeX{} 模板喵 }
+
+\author{本群群主}
+\institute{本群}
+\date{\today}
+\bioinfo{群成员}{Chase,Tap000,Weldon,$\mathrm{^{_q}}$( 'ω' )} % 自定义信息
+
+% \extrainfo{注意：本模板自 2023 年 1 月 1 日开始，不再更新和维护！}
+
+\setcounter{tocdepth}{3}
+
+\logo{fdu.png}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\input{newcommand}
+
+% 修改标题页的橙色带
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\addbibresource[location=local]{reference.bib} % 参考文献，不要删除
+
+\begin{document}
+\maketitle
+\frontmatter
+
+\newpage
+
+%简短的前言
+\section*{前言}
+
+\subsection*{\textbf{1. 关于本讲义}}
+这一版目前是测试版，一方面我正在练习使用latex，另一方面看看大家对这个讲义的反馈如何。如果大家觉得还不错，我会继续完善这个讲义，把其余章节更新。
+
+暂定从2月开始每两天更新一次，我会发出当天题目的PDF和完整版讲义PDF，大家可以下载学习。
+
+\subsection*{\textbf{2. 考插寒假注意事项}}
+大家一定要注意先学习做题技巧，再去刷题。像红书、黄书等竞赛书他们的编排不太好，纯刷书的话很难将这些题目归类，形成体系，所以建议先学。
+
+竞赛基础课程可以看数竞之捷\url{https://b23.tv/F5fLXRw}；蓝兔兔老师寒假集训\url{https://b23.tv/L2qfdsV}；进阶课程可以看我的收藏夹里那些\url{https://b23.tv/mwxN3XC}。
+
+因为这个文档是latex编辑的，所以这些链接可以直接点击打开。
+
+\subsection*{\textbf{3. 本讲稿使用说明}}
+本讲义建议使用PDF阅读器查看，里面会涉及一些关联链接、关联题目的跳转，可以直接点击跳转。不推荐直接使用qq查看，这样链接和跳转似乎点不动……
+
+关于本讲稿内容，我这个讲稿每一章会详细介绍每个知识点，但会选择性讲解一部分知识点，没讲解的知识点我会说可以跟哪个课程学，然后一笔带过，这种一般是网上有老师讲解，我就不用写了，你们自己去听。我只会抽一部分技巧去写例题，主要是网上找不到资源的。其他的主要还是参考网上的视频去学习！
+
+希望大家在阅读过程中能够有所收获，发现错误记得在群里说下，祝学习愉快，感谢支持喵！
+\newpage
+
+%目录
+\tableofcontents
+\mainmatter
+
+\input{1}
+\newpage
+
+\input{2}
+\newpage
+
+%\printbibliography
+\end{document}
