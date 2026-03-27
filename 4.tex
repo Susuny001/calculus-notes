@@ -1,0 +1,231 @@
+\chapter{一些需要积累的技巧}
+
+\section{行列式求导}
+（见陈兆斗P29）设函数列 \(a_{ij}=a_{ij}(x)(i,j=1,2,3)\) 都在区间 \(I\) 上可导。则有下列导数公式：
+(1) 对于二阶函数行列式 \(F(x)=\begin{vmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{vmatrix}\)，则有
+\[
+F'(x)=\begin{vmatrix}a'_{11}&a'_{12}\\a_{21}&a_{22}\end{vmatrix}+\begin{vmatrix}a_{11}&a_{12}\\a'_{21}&a'_{22}\end{vmatrix}, \quad \text{或} \quad F'(x)=\begin{vmatrix}a'_{11}&a_{12}\\a'_{21}&a_{22}\end{vmatrix}+\begin{vmatrix}a_{11}&a'_{12}\\a_{21}&a'_{22}\end{vmatrix};
+\]
+(2) 对于三阶函数行列式 \(G(x)=\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}\)，则有
+\[
+G'(x)=\begin{vmatrix}a'_{11}&a'_{12}&a'_{13}\\a_{21}&a_{22}&a_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}+\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a'_{21}&a'_{22}&a'_{23}\\a_{31}&a_{32}&a_{33}\end{vmatrix}+\begin{vmatrix}a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}\\a'_{31}&a'_{32}&a'_{33}\end{vmatrix} \quad (\text{称为按行求导公式}),
+\]
+或 \[G'(x)=\begin{vmatrix}a'_{11}&a_{12}&a_{13}\\a'_{21}&a_{22}&a_{23}\\a'_{31}&a_{32}&a_{33}\end{vmatrix}+\begin{vmatrix}a_{11}&a'_{12}&a_{13}\\a_{21}&a'_{22}&a_{23}\\a_{31}&a'_{32}&a_{33}\end{vmatrix}+\begin{vmatrix}a_{11}&a_{12}&a'_{13}\\a_{21}&a_{22}&a'_{23}\\a_{31}&a_{32}&a'_{33}\end{vmatrix} \quad (\text{称为按列求导公式})\]。
+
+\begin{remark}
+函数行列式的导数等于分别对每一行求导（其他行不变）的行列式的和，也等于分别对每列求导（其他列不变）的行列式的和。这个结论对任何 
+n
+ 阶数的行列式都成立。
+\end{remark}
+\vspace{2mm}
+
+\begin{example}
+已知$e\le a\le b$证明: $\displaystyle \exists \text{唯一的} \xi \in (a,b) $，使得
+                                $\z|\begin{matrix} 
+                                   a & e^{-a}    & \ln a \\
+                                   b & e^{-b}    & \ln b \\
+                                   1 & -e^{-\xi} & \xi^{-1} \end{matrix} \y|=0$.
+\end{example}
+
+\begin{proof}
+设$\displaystyle f(x) = \z|\begin{matrix} 
+                       a & e^{-a}    & \ln a \\
+                       b & e^{-b}    & \ln b \\
+                       x & e^{-x}    & \ln x \end{matrix}  \y|,
+\text{则}    f'(x) = \z|\begin{matrix} 
+                       a & e^{-a}    & \ln a \\
+                       b & e^{-b}    & \ln b \\
+                       1 & -e^{-x} & x^{-1} \end{matrix} \y| $
+
+由于$f(a) =f(b) $
+
+故拉格朗日中值定理$\displaystyle \exists \xi \in (a,b) $，使得$f'(\xi)= 
+                                \z|\begin{matrix} 
+                                   a & e^{-a}    & \ln a \\
+                                   b & e^{-b}    & \ln b \\
+                                   1 & -e^{-\xi} & \xi^{-1} \end{matrix} \y|=0$ 
+
+下证其唯一性，又
+\begin{align*}
+f''(x)&=\z|\begin{matrix} 
+                       a & e^{-a}    & \ln a \\
+                       b & e^{-b}    & \ln b \\
+                       0 & e^{-x}    & -\frac{1}{x^2} \end{matrix}  \y|
+=- e^{-x} \z|\begin{matrix} 
+                       a & \ln a    \\
+                       b & \ln b    \\ \end{matrix}  \y| 
+ - \frac{1}{x^2}\z|\begin{matrix} 
+                       a & e^{-a}    \\
+                       b & e^{-b}    \\ \end{matrix}  \y| \\
+&=- e^{-x}ab \z|\begin{matrix} 
+                       1 & \frac{\ln a}{a}\\
+                       1 & \frac{\ln b}{b}    \\ \end{matrix}  \y| 
+ - \frac{1}{x^2}\z|\begin{matrix} 
+                       a & e^{-a}    \\
+                       b & e^{-b}    \\ \end{matrix}  \y|\\
+&=- e^{-x}ab \z(\frac{\ln b}{b} - \frac{\ln a}{a}\y) 
+  - \frac{ab}{x^2} \z(\frac{1}{be^b} - \frac{1}{ae^a}\y) \\
+\end{align*}
+又由于当$e\le a\le b $时 $\frac{\ln b}{b} - \frac{\ln a}{a}\ge 0$且$\frac{1}{be^b} - \frac{1}{ae^a}\le 0$，所以$f''(x)\ge0$，即$f'(x)$为单调递增函数，所以$\xi$唯一。
+\end{proof}
+
+\section{使用矩阵递推数列}
+这里引用一个经典的例子，斐波那契数列的通项公式求法：
+\begin{example}
+设斐波那契数列 \(\{F_n\}\) 满足 \(F_0=0, F_1=1\)，以及递推关系 \(F_{n+2}=F_{n+1}+F_n\)（\(n\ge 0\)）。求 \(F_n\) 的通项公式。
+\end{example}
+
+\begin{proof}
+将递推关系写成矩阵形式。由
+\(F_{n+2}=F_{n+1}+F_n\)，有
+\[
+\begin{pmatrix}F_{n+2}\\ F_{n+1}\end{pmatrix}
+=
+\begin{pmatrix}1&1\\1&0\end{pmatrix}
+\begin{pmatrix}F_{n+1}\\ F_n\end{pmatrix}.
+\]
+记 \(A=\begin{pmatrix}1&1\\1&0\end{pmatrix}\)，则递推得到
+\[
+\begin{pmatrix}F_n\\ F_{n-1}\end{pmatrix}
+= A^{n-1}\begin{pmatrix}1\\0\end{pmatrix}.
+\]
+
+对矩阵 \(A\) 对角化。其特征值为
+\(\lambda_1=\frac{1+\sqrt5}{2},\ \lambda_2=\frac{1-\sqrt5}{2}\)，
+对应特征向量可取
+\(\bigl(\lambda_1,1\bigr)^T,\ (\lambda_2,1)^T\)，
+从而 \(A=PDP^{-1}\)，其中
+\[
+P=\begin{pmatrix}\lambda_1&\lambda_2\\1&1\end{pmatrix},\quad
+D=\begin{pmatrix}\lambda_1&0\\0&\lambda_2\end{pmatrix}.
+\]
+因此 \(A^{n-1}=PD^{\,n-1}P^{-1}\)。
+
+注意 \(P^{-1}\begin{pmatrix}1\\0\end{pmatrix}
+=\frac1{\sqrt5}\begin{pmatrix}1\\-1\end{pmatrix}\)，
+于是
+\[
+\begin{pmatrix}F_n\\ F_{n-1}\end{pmatrix}
+= \frac1{\sqrt5}
+\begin{pmatrix}\lambda_1&\lambda_2\\1&1\end{pmatrix}
+\begin{pmatrix}\lambda_1 &0\\0&\lambda_2\end{pmatrix}^{n-1}
+\begin{pmatrix} 1\\ -1\end{pmatrix}.
+\]
+得
+\[
+F_n=\frac{1}{\sqrt5}\bigl(\lambda_1^n-\lambda_2^n\bigr)
+=\frac{1}{\sqrt5}\left[\left(\frac{1+\sqrt5}{2}\right)^n-\left(\frac{1-\sqrt5}{2}\right)^n\right].
+\]
+\end{proof}
+
+
+\section{常见恒等式}
+\begin{lemma}
+\begin{enumerate}
+\item $ \displaystyle \sum\limits_{k=1}^{n} \cos kx = 
+        \frac{\sin\z(\frac{2n+1}{2} x\y)-\sin \frac{x}{2}}{2\sin \frac{x}{2}}$
+\item $ \displaystyle \sum\limits_{k=1}^{n} \sin kx = 
+        \frac{\cos \frac{x}{2}-\cos\z(\frac{2n+1}{2} x\y)}{2\sin \frac{x}{2}}$
+        注意，这里分母也是$2\sin \frac{x}{2}$，而不是$2\cos \frac{x}{2}$。
+\end{enumerate}
+\end{lemma}
+
+\begin{example}
+$f(x)$在$[0,\pi]$上连续，在$x=0 $处右导数存在，求：
+\[ \lim_{n\to \infty} \int_{0}^{\pi}f(x)\z[1+\cos x+ \cos\z(2x\y)+\cdots+ \cos \z(n x\y)  \y]  \,dx  \]
+\end{example}
+\begin{remark}
+要解此题还需要会黎曼引理
+
+本题详细过程见蓝兔兔老师视频\href{ https://www.bilibili.com/video/BV17x4y1b7e2/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【【全国大学生数学竞赛】黎曼引理相关综合极限题】}
+\end{remark}
+
+\begin{example}
+证明极限 \(\displaystyle \lim_{n \to \infty} \frac{\cos 1 + \cos 2 + \cdots + \cos n}{n} = 0\)。
+\end{example}
+\begin{proof}
+由积化和差公式：
+\[\sin x \cos y = \frac{1}{2} (\sin(x + y) + \sin(x - y))\]
+得：
+\[\sin \frac{1}{2} \cos k = \frac{1}{2} (\sin(k + \frac{1}{2}) - \sin(k - \frac{1}{2}))\]
+对 \(k\) 求和后得到：
+\[\sum_{k=1}^n \sin \frac{1}{2} \cos k = \frac{1}{2} (\sin(n + \frac{1}{2}) - \sin \frac{1}{2})\]
+于是：
+\[\lim_{n \to \infty} \frac{\cos 1 + \cos 2 + \cdots + \cos n}{n} = \lim_{n \to \infty} \frac{\sin(n + \frac{1}{2}) - \sin \frac{1}{2}}{2n \sin \frac{1}{2}}\]
+注意到：
+\[\left| \frac{\sin(n + \frac{1}{2}) - \sin \frac{1}{2}}{2n \sin \frac{1}{2}} \right| \leq \frac{1}{n \sin \frac{1}{2}}\]
+由于 \(\frac{1}{\sin \frac{1}{2}}\) 是个大于 0 的常数，于是原极限为 0。
+\end{proof}
+
+
+\section{不常见的极限换元技巧}
+讲解一下当x趋于1时的不常见换元，当我们遇到时，通常会考虑到换元\(x=1-t\)，但是有时候这样还行不通，可以考虑换元\(x=e^{-t}\)或者\(x=1+e^{-t^2}\)等指数换元，当\(x\to 1\)时，\(t\to 0\)
+
+\begin{example}
+求极限：\(\lim\limits_{x \to 1}\left( \dfrac{m}{1 - x^m} - \dfrac{n}{1 - x^n} \right)\)，其中 \(m,n\) 为正整数。
+
+\end{example}
+
+\begin{proof}
+令 \(x = e^t\)，则当 \(x \to 1\) 时，\(t \to 0\)，原极限转化为：
+\begin{align*}
+\lim\limits_{t \to 0}\left( \dfrac{m}{1 - e^{mt}} - \dfrac{n}{1 - e^{nt}} \right)
+&= \lim\limits_{t \to 0}\dfrac{m(1 - e^{nt}) - n(1 - e^{mt})}{(1 - e^{mt})(1 - e^{nt})}\\
+&= \lim\limits_{t \to 0}\dfrac{-m\left( nt + \dfrac{n^2t^2}{2} + o(t^2) \right) + n\left( mt + \dfrac{m^2t^2}{2} + o(t^2) \right)}{mnt^2}\\
+&= \lim\limits_{t \to 0}\dfrac{\dfrac{1}{2}(nm^2 - mn^2)t^2 + o(t^2)}{mnt^2}\\
+&= \dfrac{1}{2}(m - n)
+\end{align*}
+\end{proof}
+
+\begin{remark}
+这题这样的解法非常好，而且我做这题的时候有一个很有意思的小插曲，就是我用作业帮搜了一下发现答案是一直洛必达算的，感觉有点难绷。这种题目网上讲的少，书上见的少，而且我能想到这样的方法也十分不易，最后这个题才放到这里，也请大家积累吧QAQ。
+\end{remark}
+
+
+\begin{example}
+求极限：
+\[
+\lim_{t \to 1^-} \sqrt{1-t}\left(1 + t + t^4 + t^9 + \dots + t^{n^2} + \dots\right)
+\]
+\end{example}
+\begin{proof}
+令 \(t = e^{-h^2}\)（当 \(t \to 1^-\) 时，\(h \to 0^+\)）：
+\textcolor{red}{一方面，\(\sqrt{1 - e^{-h^2}} \sim h\)；
+- 另一方面，\(t^{n^2} = e^{-h^2 n^2}\)}
+
+原极限可改写为：
+\[
+\lim_{h \to 0^+} \sqrt{1 - e^{-h^2}} \sum_{n=1}^{\infty} e^{-h^2 (n-1)^2}
+= \lim_{h \to 0^+} \sum_{n=0}^{\infty} h e^{-h^2 n^2}
+\]
+
+下界估计
+\[
+\sum_{k=0}^{\infty} h e^{-(kh)^2}
+=\sum_{k=0}^{\infty} \int_{k}^{k+1} he^{-(kh)^2}\,dx
+\ge \sum_{k=0}^{\infty} \int_{k}^{(k+1)h} e^{-(hx)^2} d(hx)
+= \sum_{k=0}^{\infty} \int_{kh}^{(k+1)h} e^{-u^2} du
+= \int_{0}^{+\infty} e^{-u^2} du
+= \frac{\sqrt{\pi}}{2}
+\]
+
+上界估计
+\[
+\sum_{k=0}^{\infty} h e^{-(kh)^2}
+= h + \sum_{k=1}^{\infty} \int_{(k-1)h}^{kh} h e^{-(kh)^2} dx
+\le h + \sum_{k=1}^{\infty} \int_{(k-1)h}^{kh} e^{-(hx)^2} d(hx)
+= h + \int_{0}^{+\infty} e^{-u^2} du
+= h + \frac{\sqrt{\pi}}{2}
+\]
+
+由夹逼准则，\(\displaystyle \lim_{h \to 0^+} \left(h + \frac{\sqrt{\pi}}{2}\right) = \frac{\sqrt{\pi}}{2}\)，故原极限$=\frac{\sqrt{\pi}}{2} $
+
+\end{proof}
+
+
+\begin{remark}
+难点就在于第一步换元，后续是常规的求和与积分转化。
+
+本题也是蓝兔兔老师的视频题\href{https://www.bilibili.com/video/BV1HP4y1o7bx/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【【竞赛】非专业组，一道极限综合难题】 }
+\end{remark}
+
