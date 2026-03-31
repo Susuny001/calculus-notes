@@ -66,7 +66,7 @@ f''(x)&=\z|\begin{matrix}
 &=- e^{-x}ab \z(\frac{\ln b}{b} - \frac{\ln a}{a}\y) 
   - \frac{ab}{x^2} \z(\frac{1}{be^b} - \frac{1}{ae^a}\y) \\
 \end{align*}
-又由于当$e\le a\le b $时 $\frac{\ln b}{b} - \frac{\ln a}{a}\ge 0$且$\frac{1}{be^b} - \frac{1}{ae^a}\le 0$，所以$f''(x)\ge0$，即$f'(x)$为单调递增函数，所以$\xi$唯一。
+又由于当$e\le a\le b $时 $\frac{\ln b}{b} - \frac{\ln a}{a}\le 0$且$\frac{1}{be^b} - \frac{1}{ae^a}\le 0$，所以$f''(x)\ge0$，即$f'(x)$为单调递增函数，所以$\xi$唯一。
 \end{proof}
 
 \section{使用矩阵递推数列}
@@ -164,7 +164,7 @@ A = \begin{pmatrix}
 
 于是  
 \[
-\mathbf{v}_n = A^{n-1}\mathbf{v}_1 = = \frac{5}{7} \cdot 5^{n-1} \mathbf{u}_2 + \frac{1}{7} \cdot (-2)^{n-1} \mathbf{u}_3.
+\mathbf{v}_n = A^{n-1}\mathbf{v}_1 = \frac{5}{7} \cdot 5^{n-1} \mathbf{u}_2 + \frac{1}{7} \cdot (-2)^{n-1} \mathbf{u}_3.
 \]  
 计算 \(x_n + y_n + z_n = \mathbf{1}^\mathrm{T} \mathbf{v}_n\)，其中 \(\mathbf{1} = (1,1,1)^\mathrm{T}\)：  
 \[
@@ -378,13 +378,13 @@ $               的通解。
 3&-3&3\\
 3&-3&3\\
 6&-6&6
-\end{pmatrix} $,$B = A-2E $
+\end{pmatrix} $,$B = A+2E $
 
 原方程化为$$ \boldsymbol{x}' = B\boldsymbol{x} - 2 \boldsymbol{x}   $$
 
 两边同时乘$e^{-2t} $，得到$$ (e^{-2t} \boldsymbol{x})' = B e^{-2t} \boldsymbol{x} $$
 
-令$ \boldsymbol{y} = e^{-2t} \boldsymbol{x} $，则$$ \boldsymbol{y}' = B \boldsymbol{y} , \quad
+令$ \boldsymbol{x} = e^{-2t} \boldsymbol{y} $，则$$ \boldsymbol{y}' = B \boldsymbol{y} , \quad
 \begin{pmatrix}y_1'\\y_2'\\y_3'\end{pmatrix}=
 \begin{pmatrix}3&-3&3\\3&-3&3\\6&-6&6\end{pmatrix} 
 \begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix} =
@@ -412,7 +412,11 @@ $$ \begin{pmatrix}1&-1&1\end{pmatrix}
 \begin{pmatrix} 3C e^{6t}\\3C e^{6t}\\6C e^{6t}\end{pmatrix} ,\quad 
 \begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix} =
 \begin{pmatrix}\frac{C}{2}e^{6t}+C_1\\\frac{C}{2} e^{6t}+C_2\\C e^{6t}+C_3
- \end{pmatrix}    $$
+ \end{pmatrix}   ,\quad \text{即}
+\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix} =
+\begin{pmatrix}\frac{C}{2}e^{4t}+C_1e^{-2t} \\\frac{C}{2} e^{4t}+C_2e^{-2t} \\C e^{4t}+C_3e^{-2t} 
+ \end{pmatrix}   
+$$
 %% 由于$B^2 = 0$，所以 $$ e^{Bt} = E + Bt $$ 不太会这个做法
 \end{proof}
 
@@ -755,11 +759,32 @@ I_{n+1}=\int_{0}^{\pi}\frac{\sin \left( n+1 \right)x}{\sin x}dx
 \end{remark}
 
 \begin{lemma}
-拓展结论，曾出过15届CMC决赛：$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(nx)}{\sin x} \,dx = \frac{\pi}{2}$
+拓展结论：$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(2n-1)x}{\sin x} \,dx = \frac{\pi}{2}$
 \end{lemma}
 
-\begin{example}
-计算积分$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(nx)}{\sin x} \,dx $
+\begin{example}\label{上上题}
+计算积分$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(2n-1)x}{\sin x} \,dx $
+\end{example}
+
+\begin{proof}
+利用引理\ref{三角等式}，有
+\[\sum\limits_{k=1}^{n} \cos kx = 
+        \frac{\sin\z(\frac{2n+1}{2} x\y)-\sin \frac{x}{2}}{2\sin \frac{x}{2}}\]
+取\(x = 2\theta\)，得到
+\[\sum\limits_{k=1}^{n} \cos 2k\theta = 
+        \frac{\sin\z((2n+1)\theta\y)-\sin \theta}{2\sin \theta}\]
+移项得
+\[\frac{\sin\z[(2n+1)\theta\y]}{\sin \theta} = 1 + 2\sum_{k=1}^{n} \cos 2k\theta\]
+两边积分得
+\[ \int_{0}^{\frac{\pi}{2}} \frac{\sin(2n-1)\theta}{\sin \theta} \,d\theta = \frac{\pi}{2} = 
+\int_{0}^{\frac{\pi}{2}} 1 \,d\theta +2\sum_{k=1}^{n}  \int_{0}^{\frac{\pi}{2}} \cos 2k\theta \,d\theta 
+=\frac{\pi}{2} +0 = \frac{\pi}{2} \]
+
+\end{proof}
+
+
+\begin{example}[十五届CMC决赛]
+计算极限$\displaystyle \lim_{n \to \infty} \int_{0}^{\frac{\pi}{2}} \frac{\sin(2nx)}{\sin x} \,dx $
 \end{example}
 
 \begin{proof}
@@ -788,7 +813,7 @@ I_n - I_{n-1} &= \int_{0}^{\frac{\pi}{2}} \frac{\sin^2 nx - \sin^2 (n-1)x}{\sin^
 所以 \( \displaystyle I_n = I_1 + (n-1) \frac{\pi}{2} = \frac{n\pi}{2} \).
 \end{proof}
 \begin{remark}
-上面 \( \displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin (2n-1)x}{\sin x} dx = \frac{\pi}{2}\) 这一步应用了上面一道例题的结果
+上面 \( \displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin (2n-1)x}{\sin x} dx = \frac{\pi}{2}\) 这一步应用了例\ref{上上题}的结果
 \end{remark}
 
 \begin{lemma}
@@ -857,7 +882,7 @@ x_n &= \prod_{k=2}^n \frac{k^3 - 1}{k^3 + 1} = \prod_{k=2}^n \frac{(k-1)(k^2+k+1
 \[
 \sum_{k=0}^{\infty} h e^{-(kh)^2}
 =\sum_{k=0}^{\infty} \int_{k}^{k+1} he^{-(kh)^2}\,dx
-\ge \sum_{k=0}^{\infty} \int_{k}^{(k+1)h} e^{-(hx)^2} d(hx)
+\ge \sum_{k=0}^{\infty} \int_{k}^{(k+1)} e^{-(hx)^2} d(hx)
 = \sum_{k=0}^{\infty} \int_{kh}^{(k+1)h} e^{-u^2} du
 = \int_{0}^{+\infty} e^{-u^2} du
 = \frac{\sqrt{\pi}}{2}
@@ -866,8 +891,8 @@ x_n &= \prod_{k=2}^n \frac{k^3 - 1}{k^3 + 1} = \prod_{k=2}^n \frac{(k-1)(k^2+k+1
 上界估计
 \[
 \sum_{k=0}^{\infty} h e^{-(kh)^2}
-= h + \sum_{k=1}^{\infty} \int_{(k-1)h}^{kh} h e^{-(kh)^2} dx
-\le h + \sum_{k=1}^{\infty} \int_{(k-1)h}^{kh} e^{-(hx)^2} d(hx)
+= h + \sum_{k=1}^{\infty} \int_{(k-1)}^{k} h e^{-(kh)^2} dx
+\le h + \sum_{k=1}^{\infty} \int_{(k-1)}^{k} e^{-(hx)^2} d(hx)
 = h + \int_{0}^{+\infty} e^{-u^2} du
 = h + \frac{\sqrt{\pi}}{2}
 \]
@@ -890,12 +915,12 @@ x_n &= \prod_{k=2}^n \frac{k^3 - 1}{k^3 + 1} = \prod_{k=2}^n \frac{(k-1)(k^2+k+1
 \end{example}
 
 \begin{proof}
-(2) 设$\theta=\dfrac{\pi}{2}$,则$\dfrac{\sqrt{2}}{2}=\cos\dfrac{\theta}{2}$,于是
+设$\theta=\dfrac{\pi}{2}$,则$\dfrac{\sqrt{2}}{2}=\cos\dfrac{\theta}{2}$,于是
 \begin{align*}
 \dfrac{\sqrt{2+\sqrt{2}}}{2}&=\dfrac{\sqrt{1+\dfrac{\sqrt{2}}{2}}}{\sqrt{2}}=\dfrac{\sqrt{1+\cos\dfrac{\theta}{2}}}{\sqrt{2}}=\dfrac{\sqrt{2\cos^2\dfrac{\theta}{2^2}}}{\sqrt{2}}=\cos\dfrac{\theta}{2^2},\\
 \dfrac{\sqrt{2+\sqrt{2+\sqrt{2}}}}{2}&=\dfrac{\sqrt{1+\dfrac{\sqrt{2+\sqrt{2}}}{2}}}{\sqrt{2}}=\dfrac{\sqrt{1+\cos\dfrac{\theta}{2^2}}}{\sqrt{2}}=\dfrac{\sqrt{2\cos^2\dfrac{\theta}{2^3}}}{\sqrt{2}}=\cos\dfrac{\theta}{2^3}.
 \end{align*}
-用数学归纳法易证$\dfrac{\overbrace{\sqrt{2+\sqrt{2+\sqrt{\cdots+\sqrt{2}}}}}^{n\text{个}}}{2}=\cos\dfrac{\theta}{2^n}$。则由(1)中的结论可知
+用数学归纳法易证$\dfrac{\overbrace{\sqrt{2+\sqrt{2+\sqrt{\cdots+\sqrt{2}}}}}^{n\text{个}}}{2}=\cos\dfrac{\theta}{2^n}$。则由倍角公式
 
 原极限$=\lim_{n\to\infty}\cos\dfrac{\theta}{2}\cdot\cos\dfrac{\theta}{2^2}\cdots\cos\dfrac{\theta}{2^n}=\dfrac{\sin\theta}{\theta}=\dfrac{2}{\pi}$。
 \end{proof}
