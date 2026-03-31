@@ -1,4 +1,4 @@
-\chapter{一些需要积累的技巧}
+\chapter{线性代数拓展技巧（较难）}
 
 \section{行列式求导}
 （见陈兆斗P29）设函数列 \(a_{ij}=a_{ij}(x)(i,j=1,2,3)\) 都在区间 \(I\) 上可导。则有下列导数公式：
@@ -118,9 +118,571 @@ F_n=\frac{1}{\sqrt5}\bigl(\lambda_1^n-\lambda_2^n\bigr)
 \]
 \end{proof}
 
+\begin{example}[\label{三阶递推}]
+给定数列 \(\{x_n\}, \{y_n\}, \{z_n\}\) 满足递推关系：
+\[
+\begin{cases}
+x_{n+1} = 3x_n - 6y_n - z_n, \\
+y_{n+1} = -x_n + 2y_n + z_n, \\
+z_{n+1} = x_n + 3y_n - z_n,
+\end{cases}\]
+
+已知\(x_1 = -2, y_1 = 1, z_1 = -1\)，求极限 $ \displaystyle \lim_{n \to \infty} \frac{x_n + y_n + z_n}{3^n + 5^n} $
+\end{example}
+
+\begin{proof}
+初始条件 \(x_1 = -2, y_1 = 1, z_1 = -1\)。令向量 \(\mathbf{v}_n = (x_n, y_n, z_n)^\mathrm{T}\)，则 \(\mathbf{v}_{n+1} = A \mathbf{v}_n\)，其中
+\[
+A = \begin{pmatrix}
+3 & -6 & -1 \\
+-1 & 2 & 1 \\
+1 & 3 & -1
+\end{pmatrix}.
+\]
+矩阵 \(A\) 的特征多项式为 \(\det(A - \lambda I) = -\lambda^3 + 4\lambda^2 + 7\lambda - 10 = 0\)，解得特征值 \(\lambda_1 = 1, \lambda_2 = 5, \lambda_3 = -2\)
+
+分别求特征向量： 
+\begin{enumerate}
+\item 对于 \(\lambda_1 = 1\)，解 \((A - I)\mathbf{u} = 0\)，得 \(\mathbf{u}_1 = (5, 1, 4)^\mathrm{T}\)
+\item 对于 \(\lambda_2 = 5\)，解 \((A - 5I)\mathbf{u} = 0\)，得 \(\mathbf{u}_2 = (-3, 1, 0)^\mathrm{T}\)
+\item 对于 \(\lambda_3 = -2\)，解 \((A + 2I)\mathbf{u} = 0\)，得 \(\mathbf{u}_3 = (1, 2, -7)^\mathrm{T}\)
+\end{enumerate} 
+ 
+将初始向量 \(\mathbf{v}_1 = (-2, 1, -1)^\mathrm{T}\) 表示为特征向量的线性组合：  
+\[
+\mathbf{v}_1 = \alpha_1 \mathbf{u}_1 + \alpha_2 \mathbf{u}_2 + \alpha_3 \mathbf{u}_3,
+\]  
+即  
+\[
+\begin{cases}
+5\alpha_1 - 3\alpha_2 + \alpha_3 = -2, \\
+\alpha_1 + \alpha_2 + 2\alpha_3 = 1, \\
+4\alpha_1 - 7\alpha_3 = -1.
+\end{cases}
+\]  
+解得 \(\alpha_1 = 0,\ \alpha_2 = \frac{5}{7},\ \alpha_3 = \frac{1}{7}\)。  
+
+于是  
+\[
+\mathbf{v}_n = A^{n-1}\mathbf{v}_1 = = \frac{5}{7} \cdot 5^{n-1} \mathbf{u}_2 + \frac{1}{7} \cdot (-2)^{n-1} \mathbf{u}_3.
+\]  
+计算 \(x_n + y_n + z_n = \mathbf{1}^\mathrm{T} \mathbf{v}_n\)，其中 \(\mathbf{1} = (1,1,1)^\mathrm{T}\)：  
+\[
+\mathbf{1}^\mathrm{T} \mathbf{u}_2 = -3 + 1 + 0 = -2,\quad \mathbf{1}^\mathrm{T} \mathbf{u}_3 = 1 + 2 - 7 = -4,
+\]  
+所以  
+\[
+x_n + y_n + z_n = \frac{5}{7} \cdot 5^{n-1} \cdot (-2) + \frac{1}{7} \cdot (-2)^{n-1} \cdot (-4) = -\frac{10}{7} \cdot 5^{n-1} - \frac{4}{7} \cdot (-2)^{n-1}.
+\]  
+化简得  
+\[
+x_n + y_n + z_n = -\frac{2}{7} \cdot 5^n + \frac{2}{7} \cdot (-2)^n.
+\]  
+因此  
+\[
+\lim_{n \to \infty} \frac{x_n + y_n + z_n}{3^n + 5^n} = \lim_{n \to \infty} \frac{-\frac{2}{7} \cdot 5^n + \frac{2}{7} \cdot (-2)^n}{5^n \left(1 + \left(\frac{3}{5}\right)^n\right)} = \lim_{n \to \infty} \frac{-\frac{2}{7} + \frac{2}{7} \left(-\frac{2}{5}\right)^n}{1 + \left(\frac{3}{5}\right)^n} = -\frac{2}{7}.
+\]  
+故所求极限为 \(-\dfrac{2}{7}\)。  
+
+\end{proof}
+
+
+\section{线性代数杂题}
+
+\begin{theorem}[凯莱-哈密顿(Cayley–Hamilton)定理]
+对于任意方阵 $A$，其特征多项式 $f(\lambda) = \det(\lambda E - A)$ 满足 $f(A) = 0$。即矩阵本身是其特征多项式的根。
+\end{theorem}
+比如矩阵A的特征方程是$ |\lambda E - A|=\lambda^2 - 5\lambda + 6 = 0 $，则有$ A^2 - 5A + 6E = 0 $，从而可以得到$ A^n $的表达式。
+
+\begin{lemma}[特征根法求数列通项（矩阵依然成立）]
+设数列 \(\{a_n\}\) 满足线性递推关系
+\[
+a_{n+2} = p a_{n+1} + q a_n,
+\]
+其中 $p, q$ 为常数。则数列的通项公式可通过求解特征方程 $\lambda^2 - p\lambda - q = 0$ 的根来得到。
+\begin{enumerate}[label=step~\arabic*]
+\item 求解特征方程 $\lambda^2 - p\lambda - q = 0$，得到特征根 $\lambda_1, \lambda_2$。
+\item 若 $\lambda_1 \neq \lambda_2$ ，则$ a_n = C_1 \lambda_1^n + C_2 \lambda_2^n $，通过初始条件确定常数 $C_1, C_2$
+\item 若 $\lambda_1 = \lambda_2 = \lambda$，则 $ a_n = (C_1 + C_2 n) \lambda^n $，同样通过初始条件确定常数 $C_1, C_2$
+\end{enumerate}
+\end{lemma}
+
+\begin{example}[复旦2024]
+$ A=
+\begin{pmatrix}1&5\\
+               3&7\end{pmatrix}
+$,求$A^n $
+\end{example}
+
+\begin{proof}
+先求特征方程
+\[ 
+|\lambda E - A| = \begin{vmatrix} \lambda - 1 & -5 \\ -3 & \lambda - 7 \end{vmatrix} = (\lambda - 1)(\lambda - 7) - 15 = \lambda^2 - 8\lambda - 8 = 0,\quad \text{特征根为} 
+\begin{cases}
+\lambda_1 = 4 + 2\sqrt{6} & \\
+\lambda_2 = 4 - 2\sqrt{6}& 
+\end{cases}
+\]
+由Cayley–Hamilton定理，矩阵 \(A\) 满足其特征多项式，即
+\[ A^2 - 8A - 8E = 0 \]
+同时左乘$A^n$，得到
+\[ A^{n+2} - 8A^{n+1} - 8A^n = 0 \]
+这是一个线性递推关系，特征方程为
+\[ \lambda^2 - 8\lambda - 8 = 0 \]
+解得特征根为 \(\lambda_1 = 4 + 2\sqrt{6}\) 和 \(\lambda_2 = 4 - 2\sqrt{6}\)。因此，数列 \(\{A^n\}\) 的通项公式为
+\[ A^n = C_1 ( 4 + 2\sqrt{6})^n + C_2 (4 - 2\sqrt{6})^n \]
+代入初始条件
+\[
+\begin{cases}
+C_1 + C_2 = E \\
+C_1 ( 4 + 2\sqrt{6}) + C_2 (4 - 2\sqrt{6}) = A
+\end{cases}  \Rightarrow 
+\begin{cases}
+C_1 = \frac{A - (4 - 2\sqrt{6})E}{4\sqrt{6}} & \\
+C_2 = \frac{(4 + 2\sqrt{6})E - A}{4\sqrt{6}} &
+\end{cases} \]
+因此
+\[ A^n = \frac{A - (4 - 2\sqrt{6})E}{4\sqrt{6}} ( 4 + 2\sqrt{6})^n + \frac{(4 + 2\sqrt{6})E - A}{4\sqrt{6}} (4 - 2\sqrt{6})^n \]
+\[ A^n =\frac{(4+2\sqrt{6})^n-(4-2\sqrt{6})^n}{4\sqrt{6}} A + \frac{2\z[(4+2\sqrt{6})^{n-1}-(4-2\sqrt{6})^{n-1} \y]}{\sqrt{6}}E \]
+\end{proof}
+
+
+\vspace{1mm}
+\begin{example}[复旦2018]
+$ A=
+\begin{pmatrix}3&2\\
+               2&6\end{pmatrix}
+$,求$A^n $
+\end{example}
+
+\begin{proof}
+设
+\[
+A=\begin{pmatrix}3&2\\2&6\end{pmatrix}.
+\]
+因
+\[
+|\lambda I-A|=\lambda^2-9\lambda+14=(\lambda-7)(\lambda-2),
+\]
+由 Cayley-Hamilton 定理，
+\[
+A^2-9A+14I=0.
+\]
+故对任意 \(n\ge1\)，存在 \(a_n,b_n\)，使
+\[
+A^n=a_nA+b_nI.
+\]
+解得
+\[
+a_n=\frac{7^n-2^n}{5},\qquad
+b_n=\frac{7\cdot 2^n-2\cdot 7^n}{5}.
+\]
+所以
+\[
+A^n=
+\frac{7^n-2^n}{5}A+\frac{7\cdot 2^n-2\cdot 7^n}{5}I
+=
+\frac15
+\begin{pmatrix}
+7^n+4\cdot 2^n & 2(7^n-2^n)\\
+2(7^n-2^n) & 4\cdot 7^n+2^n
+\end{pmatrix}.
+\]
+\end{proof}
+
+
+\begin{lemma}[特征根法求数列通项（三阶形式，矩阵依然成立）] 
+设数列 \(\{a_n\}\) 满足线性递推关系
+\[
+a_{n+3} = p a_{n+2} + q a_{n+1} + r a_n,
+\]
+其中 $p, q, r$ 为常数。则数列的通项公式可通过求解特征方程 $\lambda^3 - p\lambda^2 - q\lambda - r = 0$ 的根来得到。
+\begin{enumerate}[label=step~\arabic*]
+\item 求解特征方程 $\lambda^3 - p\lambda^2 - q\lambda - r = 0$，得到特征根 $\lambda_1, \lambda_2, \lambda_3$。
+\item 若 $\lambda_1, \lambda_2, \lambda_3$ 两两不相等，则
+\[
+a_n = C_1 \lambda_1^n + C_2 \lambda_2^n + C_3 \lambda_3^n,
+\]
+通过初始条件确定常数 $C_1, C_2, C_3$。
+\item 若存在二重根（不妨设 $\lambda_1 = \lambda_2 = \lambda \neq \lambda_3$），则
+\[
+a_n = (C_1 + C_2 n)\lambda^n + C_3 \lambda_3^n,
+\]
+通过初始条件确定常数 $C_1, C_2, C_3$。
+\item 若存在三重根 $\lambda_1 = \lambda_2 = \lambda_3 = \lambda$，则
+\[
+a_n = (C_1 + C_2 n + C_3 n^2)\lambda^n,
+\]
+同样通过初始条件确定常数 $C_1, C_2, C_3$。
+\end{enumerate}
+\end{lemma}
+
+
+\begin{remark}
+但是对于例\ref{三阶递推}来说，用上述方法实际上是比较麻烦的，我已经试过了。
+\end{remark}
+
+
+\vspace{2mm}
+
+\begin{lemma}[矩阵级数展开]
+设 \(A \in \mathbb{C}^{n \times n}\) 是方阵，且满足相应的收敛条件，则以下矩阵函数的幂级数展开成立：
+\begin{enumerate}
+    \item 矩阵指数：
+    \[
+    e^{A} = \sum_{k=0}^{\infty} \frac{A^k}{k!}.
+    \]
+
+    \item 矩阵正弦：
+    \[
+    \sin(A) = \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k+1)!} A^{2k+1}.
+    \]
+
+    \item 矩阵对数（要求 \(\|A\| < 1\) 或谱半径 \(\rho(A) < 1\)）：
+    \[
+    \ln(E + A) = \sum_{k=1}^{\infty} \frac{(-1)^{k-1}}{k} A^k,
+    \]
+    其中 \(E\) 表示单位矩阵。
+\end{enumerate}
+\end{lemma}
+
+
+\begin{example}
+求线性微分方程组
+$
+\begin{pmatrix}
+\frac{\mathrm{d}x_1}{\mathrm{d} t} \\\frac{\mathrm{d}x_2}{\mathrm{d} t} \\\frac{\mathrm{d}x_3}{\mathrm{d} t}
+\end{pmatrix}=
+\begin{pmatrix}
+1&-3&3\\
+3&-5&3\\
+6&-6&4
+\end{pmatrix} 
+\begin{pmatrix}
+x_1\\x_2\\x_3
+\end{pmatrix}
+$               的通解。
+\end{example}
+
+\begin{proof}
+不妨设$ A= \begin{pmatrix}
+1&-3&3\\
+3&-5&3\\
+6&-6&4
+\end{pmatrix}  $,注意到 $ A = \begin{pmatrix}
+3&-3&3\\
+3&-3&3\\
+6&-6&6
+\end{pmatrix} - 2 E$,
+记$ B = \begin{pmatrix}
+3&-3&3\\
+3&-3&3\\
+6&-6&6
+\end{pmatrix} $,$B = A-2E $
+
+原方程化为$$ \boldsymbol{x}' = B\boldsymbol{x} - 2 \boldsymbol{x}   $$
+
+两边同时乘$e^{-2t} $，得到$$ (e^{-2t} \boldsymbol{x})' = B e^{-2t} \boldsymbol{x} $$
+
+令$ \boldsymbol{y} = e^{-2t} \boldsymbol{x} $，则$$ \boldsymbol{y}' = B \boldsymbol{y} , \quad
+\begin{pmatrix}y_1'\\y_2'\\y_3'\end{pmatrix}=
+\begin{pmatrix}3&-3&3\\3&-3&3\\6&-6&6\end{pmatrix} 
+\begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix} =
+\begin{pmatrix}3\\3\\6\end{pmatrix} \begin{pmatrix}1&-1&1\end{pmatrix} 
+\begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix}\quad \textcolor{red}{(*)}$$ 
+
+记$ u =  
+\begin{pmatrix}1&-1&1\end{pmatrix}
+\begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix}
+ , u' = 
+\begin{pmatrix}1&-1&1\end{pmatrix}
+\begin{pmatrix}y_1'\\y_2'\\y_3'\end{pmatrix} $
+
+\textcolor{red}{(*)}式左乘$ \begin{pmatrix}1&-1&1\end{pmatrix} $，得到
+$$ \begin{pmatrix}1&-1&1\end{pmatrix} 
+\begin{pmatrix}y_1'\\y_2'\\y_3'\end{pmatrix}
+= \begin{pmatrix}1&-1&1\end{pmatrix} 
+\begin{pmatrix}3\\3\\6\end{pmatrix} \begin{pmatrix}1&-1&1\end{pmatrix} 
+\begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix} $$
+
+即$$ u' = 6 u \Rightarrow u = C e^{6t} $$
+
+再代入\textcolor{red}{(*)}式，得到$$  
+\begin{pmatrix}y_1'\\y_2'\\y_3'\end{pmatrix} =
+\begin{pmatrix} 3C e^{6t}\\3C e^{6t}\\6C e^{6t}\end{pmatrix} ,\quad 
+\begin{pmatrix}y_1\\y_2\\y_3\end{pmatrix} =
+\begin{pmatrix}\frac{C}{2}e^{6t}+C_1\\\frac{C}{2} e^{6t}+C_2\\C e^{6t}+C_3
+ \end{pmatrix}    $$
+%% 由于$B^2 = 0$，所以 $$ e^{Bt} = E + Bt $$ 不太会这个做法
+\end{proof}
+
+\begin{remark}
+这一题本来是用矩阵微分方程的公式做的，但是我研究之后发现其实很复杂，而且有的不能直接把常微分方程的公式直接换成矩阵（即把矩阵当作常数来解微分方程，大部分可以，特殊情况不行），另外还涉及到$e^{A}$这种矩阵的指数运算（简单说下就是类似级数展开，这个是这样定义的，但是对A会有要求，涉及到更高的大小，我也看不懂），要专门研究也费时间。
+
+所以我就想出了一种简单解法，就是把A化成：秩为1的矩阵B加上单位阵E，这样我们用初等的方法就可以做了。
+
+如果考场上有这类题，又做不出来。也可以直接把矩阵当成常数来解微分方程，如果有$e^A,\cos A,\ln(1+A),\cdots$这种矩阵函数，就用级数展开全部展乘多项式。\textcolor{red}{“如果”矩阵A刚好性质良好}，这么解也是对的，只是不严谨
+\end{remark}
+
+
+\vspace{2mm}
+\begin{example}[复旦2016]
+求解微分方程组
+$\begin{cases}
+\dfrac{\mathrm{d}x}{\mathrm{d}t} = x - y + e^{t}\\
+\dfrac{\mathrm{d}y}{\mathrm{d}t} = x + y + e^{2t}
+\end{cases}$
+的通解
+\end{example}
+
+\begin{remark}
+这个题我也研究了很长时间。如果按上一题化成秩为1和单位阵，最后会化出来虚数，不太好算（也可以用欧拉公式最后转成三角函数）。
+
+本题的方法是直接联立一式二式，得到二阶微分方程，就能解了。依旧比较复杂，但目前没有比这个简单的方法
+\end{remark}
+
+\begin{proof}
+由第一个方程得 $y = x + e^t - x'$，两边求导得 $y' = x' + e^t - x''$。代入第二个方程，得
+\begin{align*}
+x' + e^t - x'' &= x + (x + e^t - x') + e^{2t} \\
+&= 2x + e^t - x' + e^{2t}.
+\end{align*}
+化简得 $x'' - 2x' + 2x = -e^{2t}$。解此二阶线性常微分方程，齐次方程的通解为 $e^t(C_1\sin t + C_2\cos t)$，设特解为 $Ae^{2t}$，代入得 $A = -\frac12$，故
+\[
+x = e^t(C_1\sin t + C_2\cos t) - \frac12 e^{2t}.
+\]
+再由 $y = x + e^t - x'$ 计算得
+\[
+y = e^t(1 - C_1\cos t + C_2\sin t) + \frac12 e^{2t}.
+\]
+\end{proof}
+
+
+\begin{remark}
+直接把矩阵当成常数来解微分方程，结果也是一样的。看着简单，其实特别难算，求$e^{At} $要展开成级数，然后要算$ A^n$ 这步比较难，而且需要熟练用欧拉公式。所以对这一题来说，这个方法看看就好。不是重点。
+\end{remark}
+
+\begin{proof}
+方程组写成矩阵形式为
+\[
+\frac{d}{dt}\begin{pmatrix}x\\ y\end{pmatrix} = \begin{pmatrix}1 & -1\\ 1 & 1\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix} + \begin{pmatrix}e^{t}\\ e^{2t}\end{pmatrix}.
+\]
+齐次解为
+\[
+\begin{pmatrix}x_h\\ y_h\end{pmatrix} = e^{At} = e^t \z(1 + A + \frac{A^2}{2!}\y)  + \cdots =
+e^{t}\begin{pmatrix}\cos t & -\sin t\\ \sin t & \cos t\end{pmatrix}\begin{pmatrix}c_1\\ c_2\end{pmatrix},
+\]
+其中
+\[
+A = \begin{pmatrix}1 & -1\\ 1 & 1\end{pmatrix}  \quad(\text{需要算}A^n,\text{难算，此处跳过了})
+\]
+即
+\[
+x_h = e^{t}(c_1\cos t - c_2\sin t),\quad y_h = e^{t}(c_1\sin t + c_2\cos t).
+\]
+待定系数找一个特解
+\[
+x_p = -\frac{1}{2}e^{2t},\quad y_p = e^{t} + \frac{1}{2}e^{2t}.
+\]
+故原方程组的通解为
+\[
+\boxed{\begin{cases}
+x = e^{t}(c_1\cos t - c_2\sin t) - \dfrac{1}{2}e^{2t}\\[6pt]
+y = e^{t}(c_1\sin t + c_2\cos t + 1) + \dfrac{1}{2}e^{2t}
+\end{cases}}
+\]
+其中 \(c_1, c_2\) 为任意常数。
+\end{proof}
+
+\begin{note}
+总得来说，可以掌握矩阵函数级数展开的思想，这个是通用的。但要注意，一旦展开就意味着你要算$ A^n $，也可以根据$A^n$是否好算来决定
+
+如果是矩阵的解微分方程这一类题，尽量不要直接把矩阵当成常数算。有的微分方程公式代入矩阵可能不适用，矩阵求导积分也比较复杂，可以先尝试其他方法
+\end{note}
+
+
+\vspace{2mm}
+\begin{example}
+计算4阶行列式$ D = 
+\begin{vmatrix}
+a & b & c & d \\
+b & -a & d & -c \\
+c & -d & -a & b \\
+d & c & -b & -a
+\end{vmatrix}$
+\end{example}
+\begin{proof}
+方法：利用行列式性质 \(|AA^T| = |A|^2\)
+
+设矩阵 \(A = 
+\begin{pmatrix}
+a & b & c & d \\
+b & -a & d & -c \\
+c & -d & -a & b \\
+d & c & -b & -a
+\end{pmatrix}\)，计算 \(AA^T\)：
+
+\[
+AA^T =
+\begin{pmatrix}
+a^2 + b^2 + c^2 + d^2 & 0 & 0 & 0 \\
+0 & a^2 + b^2 + c^2 + d^2 & 0 & 0 \\
+0 & 0 & a^2 + b^2 + c^2 + d^2 & 0 \\
+0 & 0 & 0 & a^2 + b^2 + c^2 + d^2
+\end{pmatrix}
+\]
+
+这是一个对角矩阵，其行列式为：
+\[
+|AA^T| = (a^2 + b^2 + c^2 + d^2)^4
+\]
+
+根据行列式性质 \(|AA^T| = |A|^2\)，因此：
+\[
+|A|^2 = (a^2 + b^2 + c^2 + d^2)^4
+\]
+
+接下来确定开方后的正负：$|A|\text{的}a^4\text{系数为}-1 $
+
+因此最终结果为：
+\[
+D = -(a^2 + b^2 + c^2 + d^2)^2
+\]
+\end{proof}
+
+\begin{example}[复旦2025]
+已知$ A-B$为正定阵，举一例$A + A^{-1} -B - B^{-1} $不正定.
+\end{example} 
+
+\begin{remark}
+直接考虑1x1的方阵，即$ a-b > 0 , a + \frac{1}{a} - b - \frac{1}{b} < 0  $
+
+不妨考虑 \[ a = 1 , b= \frac{1}{2} \]
+则\[ a-b= \frac{1}{2} > 0 \quad a + \frac{1}{a} - b - \frac{1}{b} = 1 + 1 - \frac{1}{2} - 2 = -\frac{1}{2} < 0 \]
+为了更好看，我们还是构造2x2的矩阵
+\end{remark}
+
+\begin{proof}
+不妨构造
+\[ A= \begin{pmatrix}1&0\\0&1\end{pmatrix} , \quad 
+B=\begin{pmatrix}\frac{1}{2}&0\\0&\frac{1}{2}\end{pmatrix} \]
+
+则\[ A-B = \begin{pmatrix}\frac{1}{2}&0\\0&\frac{1}{2}\end{pmatrix} \quad \text{正定} \]
+
+而\[ A + A^{-1} - B - B^{-1} = \begin{pmatrix}1&0\\0&1\end{pmatrix} + \begin{pmatrix}1&0\\0&1\end{pmatrix} - \begin{pmatrix}\frac{1}{2}&0\\0&\frac{1}{2}\end{pmatrix} - \begin{pmatrix}2&0\\0&2\end{pmatrix} = \begin{pmatrix}-\frac{1}{2}&0\\0&-\frac{1}{2}\end{pmatrix} \text{不正定} \]
+\end{proof}
+
+\begin{remark}
+本题技巧性其实不算特别强，有的人看到题直接就跳过了，实在可惜。
+\end{remark}
+
+\section{反对称矩阵性质（不重要，选看）}
+因为考研里面不涉及，竞赛也不考，但是这个内容比较好理解，所以也不算钓鱼？可以作拓展学习
+\begin{lemma}[反对称矩阵基本性质]
+定义：$ A^\mathrm{T} = -A $
+\begin{enumerate}[label=性质~\arabic*]
+\item 反对称矩阵的主对角线元素全为0。
+\item 反对称矩阵的行列式是非负的；奇数阶的反对称矩阵的行列式为0。
+\item 对于$\forall \boldsymbol{x} $，有$ \boldsymbol{x} ^\mathrm{T} A \boldsymbol{x} = 0 $
+\item $E+A$为可逆矩阵
+\item 反对称矩阵的特征值要么为0，要么成纯虚数共轭对出现。
+\end{enumerate}
+
+        
+\end{lemma}
+
+\begin{proof}\textcolor{myblue}{\textbf{性质3}}
+
+对于$\forall \boldsymbol{x} $，有 
+\[ \boldsymbol{x}^\mathrm{T} A \boldsymbol{x} = \z( \boldsymbol{x}^\mathrm{T} A \boldsymbol{x}  \y)^{\mathrm{T}} = \boldsymbol{x}^\mathrm{T} A^\mathrm{T} \boldsymbol{x}=
+-  \boldsymbol{x}^\mathrm{T} A \boldsymbol{x}\quad \Rightarrow\quad
+\boldsymbol{x} ^\mathrm{T} A \boldsymbol{x} = 0 \] 
+\end{proof}
+
+\begin{proof}\textcolor{myblue}{\textbf{性质4}}
+
+反证法：假设 $E+A$ 不可逆，则存在 $\boldsymbol{x} \neq \boldsymbol{0} ,\text{使得}(E+A)\boldsymbol{x} = \boldsymbol{0}$
+\begin{gather*}
+0 = \boldsymbol{x}^\mathrm{T} \cdot \boldsymbol{0} = \boldsymbol{x}^\mathrm{T}(E+A)\boldsymbol{x} = \boldsymbol{x}^\mathrm{T}\boldsymbol{x} + \boldsymbol{x}^\mathrm{T}A\boldsymbol{x} = \boldsymbol{x}^\mathrm{T}\boldsymbol{x} \\
+\Rightarrow |\boldsymbol{x}|^2 = 0 \Rightarrow \boldsymbol{x} = \boldsymbol{0} \quad (\text{矛盾！})
+\end{gather*}
+
+\end{proof}
+
+
+
+
+
+
+\chapter{极限、积分技巧}
 
 \section{常见恒等式}
 \begin{lemma}
+反正切恒等式：对于任意实数 \(a,b\)，有
+\begin{enumerate}
+\item \(\arctan a + \arctan b = \arctan \frac{a+b}{1-ab} + k\pi\)
+\item \(\arctan a - \arctan b = \arctan \frac{a-b}{1+ab} + k\pi \)
+\item $ \text{arccot} a +  \text{arccot} b =  \text{arccot} \frac{ab-1}{b+a} + k\pi $
+\item $  \text{arccot} a - \text{arccot} b =  \text{arccot} \frac{ab+1}{b-a} + k\pi $
+\end{enumerate}
+有时会差个\(\pi\)，一定要注意！！
+\end{lemma}
+
+\begin{example}
+求级数 \(\displaystyle \sum_{n=1}^{\infty} \arctan\frac{2}{(2n+1)^2}\) 的和。
+\end{example}
+
+\begin{remark}
+常用公式：
+\[
+\arctan m + \arctan n = \arctan\frac{m+n}{1-mn}, \quad
+\arctan m - \arctan n = \arctan\frac{m-n}{1+mn}
+\]
+（考虑裂项时的常用思路）
+\end{remark}
+
+\begin{proof}
+分析通项：对 \(\displaystyle \arctan\frac{2}{(2k+1)^2}\)，令
+\[
+\frac{2}{(2k+1)^2} = \frac{m-n}{1+mn}
+\]
+解得
+\[
+\begin{cases}
+m-n=2 \\
+mn=4k(k+1)
+\end{cases}
+\implies
+\begin{cases}
+m=2k+1 \\
+n=2k
+\end{cases}
+\]
+故可裂项。
+
+令 \(a=2n,\ b=2(n+1)\)，则
+\[
+\arctan b - \arctan a = \arctan\frac{2}{1+4n(n+1)}
+\]
+即
+\[
+\arctan\frac{2}{(2n+1)^2} = \arctan 2(n+1) - \arctan(2n)
+\]
+
+因此级数为
+\[
+\sum_{n=1}^{\infty} \arctan\frac{2}{(2n+1)^2}
+= \sum_{n=1}^{\infty} \big[\arctan 2(n+1) - \arctan(2n)\big]
+\]
+
+裂项相消得
+\[
+\lim_{n\to\infty} \big[\arctan 2(n+1) - \arctan 2\big]
+= \frac{\pi}{2} - \arctan 2
+\]
+\end{proof}
+
+\begin{lemma}\label{三角等式}
 \begin{enumerate}
 \item $ \displaystyle \sum\limits_{k=1}^{n} \cos kx = 
         \frac{\sin\z(\frac{2n+1}{2} x\y)-\sin \frac{x}{2}}{2\sin \frac{x}{2}}$
@@ -140,6 +702,8 @@ $f(x)$在$[0,\pi]$上连续，在$x=0 $处右导数存在，求：
 本题详细过程见蓝兔兔老师视频\href{ https://www.bilibili.com/video/BV17x4y1b7e2/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【【全国大学生数学竞赛】黎曼引理相关综合极限题】}
 \end{remark}
 
+\vspace{2mm}
+
 \begin{example}
 证明极限 \(\displaystyle \lim_{n \to \infty} \frac{\cos 1 + \cos 2 + \cdots + \cos n}{n} = 0\)。
 \end{example}
@@ -157,6 +721,96 @@ $f(x)$在$[0,\pi]$上连续，在$x=0 $处右导数存在，求：
 由于 \(\frac{1}{\sin \frac{1}{2}}\) 是个大于 0 的常数，于是原极限为 0。
 \end{proof}
 
+\begin{example}
+计算积分$\displaystyle \int_{0}^{\pi} \frac{\sin(nx)}{\sin x} \,dx $
+\end{example}
+
+\begin{proof}\textcolor{red}{方法一}
+\[
+I_n=\int_{0}^{\pi}\frac{\sin nx}{\sin x}dx ,\quad
+I_{n+1}=\int_{0}^{\pi}\frac{\sin \left( n+1 \right)x}{\sin x}dx 
+\]
+\begin{align*} I_{n+1}+I_n=&\int_{0}^{\pi}\frac{\sin \left( n+1 \right)x+\sin nx}{\sin x}dx\\ 
+=&\int_{0}^{\pi}\frac{\sin\frac{\left( 2n+1 \right)x}{2}}{\sin\frac x2}dx\\ 
+=&\int_{0}^{\pi}\left( 1+2\cos x+2\cos 2x+...+2\cos nx \right)dx\\ 
+=&\pi 
+\end{align*}
+\[I_1=\pi,I_2=0,I_3=\pi,\cdots\]
+于是，
+\[n=2k,I_n=0\]
+\[n=2k+1,I_n=\pi\]
+
+\textcolor{red}{方法二}
+\begin{align} \frac{\sin\frac{(2n+1)x}{2}}{\sin \frac{x}{2}}=&\frac{\sum\limits_{i=1}^{n}\left( \sin\frac{(2i+1)x}{2}- \sin\frac{(2i-1)x}{2}\right)}{\sin \frac{x}{2}}+1=2\sum_{i=1}^{n}\cos ix+1 \end{align}
+
+\begin{align*}
+\text{原积分}=&\int_{0}^{\pi}\frac{\sin\frac{(2n+1)x}{2}}{\sin \frac{x}{2}}dx\\
+=&\int_{0}^{\pi}\left( 1+2\cos x+2\cos 2x+...+2\cos nx \right)dx\\
+=&\pi
+\end{align*}
+\end{proof}
+
+\begin{remark}
+本质上，引理\ref{三角等式}的证明也是利用了积化和差公式，方法二也是利用了积化和差公式，所以这两种方法本质上是一样的。
+\end{remark}
+
+\begin{lemma}
+拓展结论，曾出过15届CMC决赛：$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(nx)}{\sin x} \,dx = \frac{\pi}{2}$
+\end{lemma}
+
+\begin{example}
+计算积分$\displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin(nx)}{\sin x} \,dx $
+\end{example}
+
+\begin{proof}
+令 \(\displaystyle a_n = \int_0^{\frac{\pi}{2}} \frac{\sin 2n\theta}{\sin \theta} d\theta \)，则 \( a_0 = 0 \)，\( a_1 = 2 \)，且 \( n > 1 \) 时，有
+
+\begin{align*}
+a_n - a_{n-1} &= \int_0^{\frac{\pi}{2}} \frac{\sin 2n\theta - \sin 2(n-1)\theta}{\sin \theta} d\theta = 2 \int_0^{\frac{\pi}{2}} \cos(2n-1)\theta d\theta = (-1)^{n-1} \frac{2}{2n-1},\\
+\text{所以 } a_n &= \sum_{k=1}^n (a_k - a_{k-1}) = 2 \z( 1 - \frac{1}{3} + \frac{1}{5} - \cdots + (-1)^{n-1} \frac{1}{2n-1} \y)\textcolor{red}{(\text{展开}\sin x,x=1)},\\
+\text{因此 } \lim_{n \to \infty} a_n &= 2 \lim_{n \to \infty} \z( 1 - \frac{1}{3} + \frac{1}{5} - \cdots + (-1)^{n-1} \frac{1}{2n-1} \y) = 2 \cdot \frac{\pi}{4} = \frac{\pi}{2}.
+\end{align*}
+\end{proof}
+
+
+接着上一题继续拓展：
+\begin{example}
+证明：  
+\( \displaystyle \int_{0}^{\frac{\pi}{2}} \z( \frac{\sin nx}{\sin x} \y)^2 dx = \frac{n\pi}{2}.\)  
+（Fejer 积分）（注：本题较难）  
+\end{example}
+\begin{proof}
+设 \(\displaystyle  I_n = \int_{0}^{\frac{\pi}{2}} \z( \frac{\sin nx}{\sin x} \y)^2 dx \) 则有  
+\begin{align*}
+I_n - I_{n-1} &= \int_{0}^{\frac{\pi}{2}} \frac{\sin^2 nx - \sin^2 (n-1)x}{\sin^2 x} dx = \frac{1}{2} \int_{0}^{\frac{\pi}{2}} \frac{\cos 2(n-1)x - \cos 2nx}{\sin^2 x} dx \\
+&= \frac{1}{2} \int_{0}^{\frac{\pi}{2}} \frac{-2 \sin (2n-1)x \sin (-x)}{\sin^2 x} dx = \int_{0}^{\frac{\pi}{2}} \frac{\sin (2n-1)x}{\sin x} dx = \frac{\pi}{2}
+\end{align*}
+所以 \( \displaystyle I_n = I_1 + (n-1) \frac{\pi}{2} = \frac{n\pi}{2} \).
+\end{proof}
+\begin{remark}
+上面 \( \displaystyle \int_{0}^{\frac{\pi}{2}} \frac{\sin (2n-1)x}{\sin x} dx = \frac{\pi}{2}\) 这一步应用了上面一道例题的结果
+\end{remark}
+
+\begin{lemma}
+$ x^2+x+1 $和$ x^2-x+1 $ 之间的关系：
+\[ x^2+x+1 = (x+1)^2 - (x+1) -1 \]
+\end{lemma}
+
+\begin{example}
+设$x_n = \frac{2^3-1}{2^3+1}\cdot\frac{3^3-1}{3^3+1}\cdot\frac{4^3-1}{4^3+1}\cdot\cdots\cdot \frac{n^3-1}{n^3+1} $ ，求极限 \[ \lim_{n\to \infty}x_n \]
+\end{example}
+
+\begin{proof}
+\begin{align*}
+x_n &= \prod_{k=2}^n \frac{k^3 - 1}{k^3 + 1} = \prod_{k=2}^n \frac{(k-1)(k^2+k+1)}{(k+1)(k^2-k+1)} \\
+&= \prod_{k=2}^n \frac{k-1}{k+1} \cdot \prod_{k=2}^n \frac{k^2+k+1}{k^2-k+1} \\
+&= \frac{1}{3} \cdot \frac{2}{4} \cdot \frac{3}{5} \cdots \frac{n-1}{n+1} \cdot \prod_{k=2}^n \frac{(k+1)^2-(k+1)-1}{k^2-k+1} \\
+&= \frac{1\cdot2}{n\cdot (n+1)} \cdot \frac{n^2+n+1}{2^2-2+1} \\
+&= \frac{2(n^2+n+1)}{3n(n+1)}
+\end{align*}
+
+因此 \[\displaystyle \lim_{n\to \infty} x_n = \frac{2}{3}\].
+\end{proof}
 
 \section{不常见的极限换元技巧}
 讲解一下当x趋于1时的不常见换元，当我们遇到时，通常会考虑到换元\(x=1-t\)，但是有时候这样还行不通，可以考虑换元\(x=e^{-t}\)或者\(x=1+e^{-t^2}\)等指数换元，当\(x\to 1\)时，\(t\to 0\)
@@ -225,7 +879,26 @@ $f(x)$在$[0,\pi]$上连续，在$x=0 $处右导数存在，求：
 
 \begin{remark}
 难点就在于第一步换元，后续是常规的求和与积分转化。
-
 本题也是蓝兔兔老师的视频题\href{https://www.bilibili.com/video/BV1HP4y1o7bx/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{【【竞赛】非专业组，一道极限综合难题】 }
 \end{remark}
+
+本章的末尾再来一道经典三角函数换元的题目
+
+\begin{example}[陈兆斗]
+求极限$\displaystyle \lim_{n\to\infty}\dfrac{\sqrt{2}}{2}\cdot\dfrac{\sqrt{2+\sqrt{2}}}{2}\cdot\dfrac{\sqrt{2+\sqrt{2+\sqrt{2}}}}{2}\cdots
+\dfrac{\overbrace{\sqrt{2+\sqrt{2+\sqrt{2+\cdots+\sqrt{2}}}}}^{n\text{个}}}{2}$。
+\end{example}
+
+\begin{proof}
+(2) 设$\theta=\dfrac{\pi}{2}$,则$\dfrac{\sqrt{2}}{2}=\cos\dfrac{\theta}{2}$,于是
+\begin{align*}
+\dfrac{\sqrt{2+\sqrt{2}}}{2}&=\dfrac{\sqrt{1+\dfrac{\sqrt{2}}{2}}}{\sqrt{2}}=\dfrac{\sqrt{1+\cos\dfrac{\theta}{2}}}{\sqrt{2}}=\dfrac{\sqrt{2\cos^2\dfrac{\theta}{2^2}}}{\sqrt{2}}=\cos\dfrac{\theta}{2^2},\\
+\dfrac{\sqrt{2+\sqrt{2+\sqrt{2}}}}{2}&=\dfrac{\sqrt{1+\dfrac{\sqrt{2+\sqrt{2}}}{2}}}{\sqrt{2}}=\dfrac{\sqrt{1+\cos\dfrac{\theta}{2^2}}}{\sqrt{2}}=\dfrac{\sqrt{2\cos^2\dfrac{\theta}{2^3}}}{\sqrt{2}}=\cos\dfrac{\theta}{2^3}.
+\end{align*}
+用数学归纳法易证$\dfrac{\overbrace{\sqrt{2+\sqrt{2+\sqrt{\cdots+\sqrt{2}}}}}^{n\text{个}}}{2}=\cos\dfrac{\theta}{2^n}$。则由(1)中的结论可知
+
+原极限$=\lim_{n\to\infty}\cos\dfrac{\theta}{2}\cdot\cos\dfrac{\theta}{2^2}\cdots\cos\dfrac{\theta}{2^n}=\dfrac{\sin\theta}{\theta}=\dfrac{2}{\pi}$。
+\end{proof}
+
+
 

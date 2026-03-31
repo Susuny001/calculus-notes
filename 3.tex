@@ -438,3 +438,139 @@ c_n=\frac{2^n n!}{(2n+1)!/(2^n n!)}
 
 \section{二重求和：交换求和次序}
 
+
+
+\section{拓展难题}
+设
+\[
+x_0=\frac1{\sqrt n},\qquad x_{k+1}=\sin x_k\quad(k\ge 0),
+\]
+则题目所求为
+\[
+\lim_{n\to\infty}\sqrt n,x_n.
+\]
+
+下面作严格渐近分析。
+
+---
+
+## 1. 先说明 (x_k) 始终很小
+
+因为 (x_0=\dfrac1{\sqrt n}>0)，且当 (x>0) 时有 (\sin x<x)，故
+\[
+0<x_{k+1}=\sin x_k<x_k.
+\]
+于是
+\[
+0<x_k\le x_0=\frac1{\sqrt n}\qquad(0\le k\le n).
+\]
+所以对所有 (0\le k\le n)，都有 (x_k\to 0)（且一致地小），可以安全使用 (x=0) 附近的展开。
+
+---
+
+## 2. 关键变形：考虑倒平方
+
+由
+\[
+\sin x=x-\frac{x^3}{6}+O(x^5)\qquad(x\to 0),
+\]
+可写成
+\[
+\sin x=x\Bigl(1-\frac{x^2}{6}+O(x^4)\Bigr).
+\]
+于是
+\[
+\frac1{\sin^2 x}
+=\frac1{x^2}\Bigl(1-\frac{x^2}{6}+O(x^4)\Bigr)^{-2}.
+\]
+再用
+\[
+(1+u)^{-2}=1-2u+O(u^2)\qquad(u\to 0),
+\]
+取 (u=-\dfrac{x^2}{6}+O(x^4))，得
+\[
+\Bigl(1-\frac{x^2}{6}+O(x^4)\Bigr)^{-2}
+=1+\frac{x^2}{3}+O(x^4).
+\]
+因此
+\[
+\frac1{\sin^2 x}
+=\frac1{x^2}\left(1+\frac{x^2}{3}+O(x^4)\right)
+=\frac1{x^2}+\frac13+O(x^2).
+\]
+即
+\[
+\boxed{\frac1{\sin^2 x}-\frac1{x^2}=\frac13+O(x^2)\qquad(x\to 0).}
+\]
+
+---
+
+## 3. 应用于递推
+
+令
+\[ 
+y_k=\frac1{x_k^2}.
+\]
+则
+\[
+y_{k+1}=\frac1{x_{k+1}^2}=\frac1{\sin^2 x_k}.
+\]
+由上式，
+\[
+y_{k+1}-y_k=\frac13+O(x_k^2).
+\]
+又因为 (x_k\le \dfrac1{\sqrt n})，故
+\[
+O(x_k^2)=O!\left(\frac1n\right),
+\]
+并且这个估计对 (0\le k\le n) 一致成立。于是
+\[
+y_{k+1}-y_k=\frac13+O!\left(\frac1n\right).
+\]
+
+两边从 (k=0) 加到 (k=n-1)，得到
+\[
+y_n-y_0=\sum_{k=0}^{n-1}\left(\frac13+O!\left(\frac1n\right)\right)
+=\frac n3+O(1).
+\]
+而
+\[
+y_0=\frac1{x_0^2}=n,
+\]
+故
+\[
+y_n=n+\frac n3+O(1)=\frac{4n}{3}+O(1).
+\]
+
+于是
+\[
+\frac1{x_n^2}=\frac{4n}{3}+O(1).
+\]
+\]
+从而
+\[
+x_n^2=\frac1{\frac{4n}{3}+O(1)}
+=\frac{3}{4n}\cdot \frac1{1+O(1/n)}
+=\frac{3}{4n}\bigl(1+o(1)\bigr).
+\]
+所以
+\[
+x_n\sim \frac{\sqrt3}{2\sqrt n}.
+\]
+
+最后
+\[
+\sqrt n,x_n\longrightarrow \frac{\sqrt3}{2}.
+\]
+
+---
+
+## 4. 结论
+
+\[
+\boxed{\lim_{n\to\infty}\sqrt n\underbrace{\sin\sin\cdots\sin}_{n\text{个}\sin}\frac1{\sqrt n}=\frac{\sqrt3}{2}.}
+\]
+
+---
+
+如果你要，我可以继续给你写一个“完全不用 (O)”记号、只用夹逼不等式的标准解法。
