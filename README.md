@@ -29,3 +29,5 @@ all in all, enjoy it!
 源于“本群”，群成员：Chase，Tap000，Weldon，某科学命运石之门的定向选择(wzz)
 
 群主：本群群主(susuny)
+
+联系作者：QQ 1061152256，欢迎咨询，也可以闲聊
