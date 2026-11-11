@@ -1,0 +1,338 @@
+\documentclass[lang=cn,newtx,10pt,scheme=chinese]{elegantbook}
+\usepackage{ctex} % 支持中文
+\usepackage{amsmath} % 数学公式支持
+\usepackage{amsfonts} % 数学字体支持
+\usepackage{amssymb}
+\usepackage{xcolor}  % 添加颜色支持
+\usepackage{color}  %调用color宏包
+% \textcolor{red}{喵喵喵}
+
+\usepackage{extarrows} %扩展箭头 (可以写长的等号，加上条件)
+%$$ A\xlongequal[\text{中文sub-script}]{super-script}B $$
+\usepackage{graphicx} %插入图片
+\usepackage{hyperref}   % \hyperref["label"]{注解}
+                        %\href{http:连接名字}{展示名字}
+
+%url代码太长的解决办法
+\usepackage{xurl}
+\def\UrlBreaks{%
+    \do\/%
+    \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l%
+    \do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+    \do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L%
+    \do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z%
+    \do0\do1\do2\do3\do4\do5\do6\do7\do8\do9\do=\do/\do.\do:%
+    \do\*\do\-\do\~\do\'\do\"\do\-}
+
+\definecolor{myblue}{rgb}{0.1, 0.2, 0.8} % 自定义 RGB 颜色
+% 使用自定义颜色
+%在align* 的环境里需要这样写中文 \text{原积分}
+%打链接 \url{https://b23.tv/F5fLXRw}
+%设置行间距 \vspace{4mm}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,patterns}
+
+\title{球冠面积公式与曲面积分} % 讲义标题
+\subtitle{用球冠面积公式快速处理一类球面曲面积分}
+
+\author{本群群主}
+\institute{本群}
+\date{\today}
+\bioinfo{群成员}{Chase,Tap000,Weldon,$\mathrm{^{_q}}$( 'ω' )} % 自定义信息
+
+\setcounter{tocdepth}{3}
+
+\IfFileExists{fdu.png}{\logo{fdu.png}}{}
+\IfFileExists{cover.jpg}{\cover{cover.jpg}}{}
+
+% 本文档命令
+\usepackage{array}
+\IfFileExists{newcommand.tex}{\input{newcommand}}{}
+\providecommand{\z}{\left}
+\providecommand{\y}{\right}
+
+% 修改标题页的橙色带
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\addbibresource[location=local]{reference.bib} % 参考文献，不要删除
+
+\begin{document}
+\maketitle
+\frontmatter
+
+\newpage
+
+%简短的前言
+\section*{前言}
+
+\subsection*{\textbf{1. 关于本讲义}}
+这一节主要写一个高中物理竞赛学的、但曲面积分里可能会用到的结论：
+
+\[
+\boxed{\text{球面上平行截出来的一小圈面积}=2\pi R\,\dd h}
+\]
+
+也就是球冠面积公式。它看起来只是一个面积公式，但在曲面积分里特别好用。
+它的物理背景就是把一个球面，平均分成n等份，每份的间距相等，那么每份的面积也是相等的。每一份的面积就是上面那个公式。
+
+
+核心想法就是：在球面上随便取一小段面积，它与对应的高成正比，所以
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}h.
+\]
+这里的 $h$ 可以按题目需要取成 $x,y,z$，关键看你是绕哪一条轴旋转、按哪个方向分层。
+
+\subsection*{\textbf{2. 本讲义的题目说明}}
+下面的三个例题都按原来的计算思路写，只有图中容易识别错的符号做了修正。曲面积分的题图很重要，所以这里用 \verb|tikz| 画了对应的球冠、球带和半球面分层示意图。
+
+\newpage
+
+%目录
+\tableofcontents
+\mainmatter
+
+\chapter{曲面积分}
+
+\section{球冠面积公式}
+
+\begin{theorem}[球冠面积公式]
+对半径为 $R$ 的球面，若球冠的高为 $h$，则球冠面积为
+\[
+S=2\pi Rh.
+\]
+于是很小的一段球带面积满足
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}h.
+\]
+\end{theorem}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95,>=Stealth,line cap=round,line join=round]
+    % sphere and cap
+    \begin{scope}
+        \clip (-2.15,0.65) rectangle (2.15,2.15);
+        \fill[blue!10] (0,0) circle (2);
+    \end{scope}
+    \draw[thick] (0,0) circle (2);
+    \draw[dashed] (-2,0) arc (180:360:2 and .35);
+    \draw (-2,0) arc (180:0:2 and .35);
+    \draw[thick,blue] (-1.80,0.85) arc (180:360:1.80 and .32);
+    \draw[thick,blue,dashed] (-1.80,0.85) arc (180:0:1.80 and .32);
+    \draw[thick,blue] (-1.58,1.23) arc (180:360:1.58 and .30);
+    \draw[thick,blue,dashed] (-1.58,1.23) arc (180:0:1.58 and .30);
+    \fill[blue!25,opacity=.55] (-1.80,0.85) arc (180:360:1.80 and .32)
+        -- (1.58,1.23) arc (360:180:1.58 and .30) -- cycle;
+    \draw[->] (0,-2.35)--(0,2.45) node[above]{$h$方向};
+    \draw[<->] (2.42,0.85)--(2.42,1.23) node[midway,right]{$\mathrm{d}h$};
+    \draw[<->] (2.75,0.85)--(2.75,2) node[midway,right]{$h$};
+    \node[blue] at (0,1.05) {球带};
+    \node at (0,-2.65) {半径为 $R$ 的球面};
+
+    % right triangle proof
+    \begin{scope}[xshift=6.2cm,yshift=-.55cm]
+        \draw[thick] (0,0)--(2.1,1.75)--(2.1,0)--cycle;
+        \draw (1.72,0) arc (180:140:.38);
+        \node at (1.55,.18) {$\theta$};
+        \node[below] at (1.05,0) {$r=R\sin\theta$};
+        \node[right] at (2.1,.88) {$\mathrm{d}h$};
+        \node[above left] at (1.05,.95) {$\mathrm{d}l$};
+        \draw[decorate,decoration={brace,amplitude=5pt}] (2.25,0)--(2.25,1.75)
+            node[midway,right=6pt]{$\mathrm{d}h$};
+        \node at (1.1,-.75) {几何关系：$\mathrm{d}l=\dfrac{\mathrm{d}h}{\sin\theta}$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}
+用几何关系即可。
+\[
+\begin{cases}
+\mathrm{d}S=2\pi r\,\mathrm{d}l,\\[.4em]
+\mathrm{d}l=\dfrac{\mathrm{d}h}{\sin\theta},\\[.8em]
+r=R\sin\theta.
+\end{cases}
+\]
+所以
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}h.
+\]
+
+对球冠从 $0$ 到 $h$ 积分，就有
+\[
+S=\int_0^h 2\pi R\,\mathrm{d}t=2\pi Rh.
+\]
+\end{proof}
+
+\begin{remark}
+这个公式的物理意义就是：随便取一小段面积，它与高成正比。
+
+所以如果题目里球面是绕 $z$ 轴方便，就写
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}z;
+\]
+如果绕 $x$ 轴方便，就写
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}x;
+\]
+如果绕 $y$ 轴方便，就写
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}y.
+\]
+\end{remark}
+
+\vspace{2mm}
+
+\section{例题}
+
+\begin{example}[FDU]
+设 $\Sigma:x^2+y^2+z^2=2z$，计算
+\[
+\iint_{\Sigma}\z(x^2+3y^2+5z^2\y)\,\mathrm{d}S.
+\]
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0,>=Stealth,line cap=round,line join=round]
+    \draw[->] (0,-.45)--(0,2.75) node[above]{$z$};
+    \draw[->] (-2.2,0)--(2.3,0) node[right]{$x,y$方向};
+    \draw[thick] (0,1) circle (1);
+    \draw[dashed] (-1,1) arc (180:360:1 and .20);
+    \draw (-1,1) arc (180:0:1 and .20);
+    \draw[thick,blue] (-.86,1.50) arc (180:360:.86 and .18);
+    \draw[thick,blue,dashed] (-.86,1.50) arc (180:0:.86 and .18);
+    \draw[thick,blue] (-.76,1.65) arc (180:360:.76 and .16);
+    \draw[thick,blue,dashed] (-.76,1.65) arc (180:0:.76 and .16);
+    \fill[blue!20,opacity=.50] (-.86,1.50) arc (180:360:.86 and .18)
+        -- (.76,1.65) arc (360:180:.76 and .16) -- cycle;
+    \draw[<->] (1.25,1.50)--(1.25,1.65) node[midway,right]{$\mathrm{d}z$};
+    \node[left] at (0,0) {$0$};
+    \node[left] at (0,1) {$1$};
+    \node[left] at (0,2) {$2$};
+    \node at (0,-.78) {$x^2+y^2+(z-1)^2=1$};
+    \node[blue] at (0,1.32) {$\mathrm{d}S=2\pi\,\mathrm{d}z$};
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}
+\begin{align*}
+\text{原积分}
+&=\iint_{\Sigma}\z(x^2+3y^2+5z^2\y)\,\mathrm{d}S \\
+&\xlongequal{\text{由对称性}}\iint_{\Sigma}\z(4z+3z^2\y)\,\mathrm{d}S.
+\end{align*}
+注意 $\Sigma:x^2+y^2+(z-1)^2=1$，这里题中 $R=1$，如图所示
+\[
+\mathrm{d}S=2\pi R\,\mathrm{d}z=2\pi\,\mathrm{d}z.
+\]
+即原积分
+\begin{align*}
+&=\int_0^2(4z+3z^2)2\pi\,\mathrm{d}z \\
+&=2\pi\z(2z^2+z^3\y)\Big|_0^2=32\pi.
+\end{align*}
+\end{proof}
+
+\begin{example}
+设 $\rho=\sqrt{x_0^2+y_0^2+z_0^2}>0$，计算
+\[
+\iint_{x^2+y^2+z^2=a^2}\frac{\mathrm{d}S}{\sqrt{(x-x_0)^2+(y-y_0)^2+(z-z_0)^2}},\quad a>0.
+\]
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0,>=Stealth,line cap=round,line join=round]
+    \draw[->] (-2.6,0)--(4.1,0) node[right]{$x$};
+    \draw[->] (0,-2.15)--(0,2.25) node[above]{$z$};
+    \draw[thick] (0,0) circle (1.65);
+    \draw[dashed] (-1.65,0) arc (180:360:1.65 and .30);
+    \draw (-1.65,0) arc (180:0:1.65 and .30);
+    \draw[thick,blue] (.62,-1.45) arc (-82:82:.35 and 1.45);
+    \draw[thick,blue,dashed] (.62,1.45) arc (82:278:.35 and 1.45);
+    \draw[<->] (.62,-1.85)--(.90,-1.85) node[midway,below]{$\mathrm{d}x$};
+    \node[below left] at (0,0) {$O$};
+    \draw[fill=black] (3.15,0) circle (1.5pt) node[below]{$(\rho,0,0)$};
+    \node[purple] at (2.25,.55) {$P$};
+    \draw[->,purple,thick] (0,0)--(3.0,0.02) node[midway,above]{$\rho$};
+    \draw[purple,->] (-.95,1.35) to[out=50,in=130] (.95,1.35);
+    \node[purple] at (0,1.78) {绕 $x$ 轴旋转};
+    \node[blue] at (.82,-1.25) {$x$};
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}
+由于球面对称，把点 $(x_0,y_0,z_0)$ 旋转到 $(\rho,0,0)$，原积分不变。
+\begin{align*}
+\text{原积分}
+&=\iint_{x^2+y^2+z^2=a^2}\frac{\mathrm{d}S}{\sqrt{(x-\rho)^2+y^2+z^2}}\\
+&=\iint_{x^2+y^2+z^2=a^2}\frac{\mathrm{d}S}{\sqrt{a^2+\rho^2-2\rho x}}\\
+&\xlongequal{\text{用公式 }\mathrm{d}S=2\pi a\,\mathrm{d}x}
+\int_{-a}^{a}\frac{2\pi a\,\mathrm{d}x}{\sqrt{a^2+\rho^2-2\rho x}}\\
+&=\frac{2\pi a}{\rho}\int_{-a}^{a}\frac{\mathrm{d}(\rho x)}{\sqrt{a^2+\rho^2-2\rho x}}\\
+&=-\frac{2\pi a}{\rho}\sqrt{a^2+\rho^2-2\rho x}\Big|_{-a}^{a}\\
+&=-\frac{2\pi a}{\rho}\z(|\rho-a|-\rho-a\y)\\
+&=\frac{2\pi a}{\rho}\z(\rho+a-|\rho-a|\y).
+\end{align*}
+\end{proof}
+
+\begin{remark}
+这题的图形含义是：到点 $(\rho,0,0)$ 的距离只和同一条旋转线上对应的 $x$ 有关，所以可以绕 $x$ 轴分层，直接用
+\[
+\mathrm{d}S=2\pi a\,\mathrm{d}x.
+\]
+\end{remark}
+
+\begin{example}
+计算
+\[
+\iint_{\Sigma}\frac{x\,\mathrm{d}y\mathrm{d}z+y\,\mathrm{d}z\mathrm{d}x+z\,\mathrm{d}x\mathrm{d}y}{\sqrt{x^2+(y-1)^2+z^2}},
+\]
+其中 $\Sigma:x^2+y^2+z^2=4\ (z\ge0)$，取上侧。
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0,>=Stealth,line cap=round,line join=round]
+    \draw[->] (-2.8,0)--(2.9,0) node[right]{$x$};
+    \draw[->] (0,-.55)--(0,2.65) node[above]{$z$};
+    \draw[->] (0,0)--(-1.75,-1.25) node[left]{$y$};
+    \draw[thick,green!60!black] (-2,0) arc (180:360:2 and .45);
+    \draw[dashed,green!60!black] (-2,0) arc (180:0:2 and .45);
+    \draw[thick,green!60!black] (-2,0) arc (180:0:2 and 1.9);
+    \draw[green!60!black,thick] (-1.2,.95) arc (180:360:1.2 and .25);
+    \draw[green!60!black,dashed,thick] (-1.2,.95) arc (180:0:1.2 and .25);
+    \fill[green!20,opacity=.40] (-1.2,.95) arc (180:360:1.2 and .25)
+        -- (.95,1.12) arc (360:180:.95 and .20) -- cycle;
+    \node[green!50!black] at (0,1.35) {半球面};
+    \node at (1.85,.55) {$R=2$};
+    \node[blue] at (-1.8,-.9) {按 $y$ 分层};
+    \node[blue] at (1.5,1.05) {$\mathrm{d}S=\pi R\,\mathrm{d}y$};
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}
+\[
+\cos\alpha=\frac{x}{R},\quad \cos\beta=\frac{y}{R},\quad \cos\gamma=\frac{z}{R}.
+\]
+\begin{align*}
+\text{原积分}
+&=\iint_{\Sigma}\frac{1}{R}\frac{x^2+y^2+z^2}{\sqrt{x^2+(y-1)^2+z^2}}\,\mathrm{d}S\\
+&\xlongequal{\text{代 }x^2+y^2+z^2=4}
+\frac{1}{R}\iint_{\Sigma}\frac{4}{\sqrt{5-2y}}\,\mathrm{d}S\\
+&\xlongequal{\text{半球面 }\mathrm{d}S=\pi R\,\mathrm{d}y}
+\frac{1}{R}\int_{-2}^{2}\frac{4}{\sqrt{5-2y}}\pi R\,\mathrm{d}y\\
+&=4\pi\int_{-2}^{2}\frac{1}{\sqrt{5-2y}}\,\mathrm{d}y\\
+&=4\pi\z(-\sqrt{5-2y}\y)\Big|_{-2}^{2}\\
+&=4\pi(3-1)=8\pi.
+\end{align*}
+\end{proof}
+
+\begin{remark}
+这里是上半球，不是整个球面。所以按 $y$ 分层时，只取到一半的球带面积，故
+\[
+\text{半球面}\quad \mathrm{d}S=\pi R\,\mathrm{d}y,
+\qquad
+\text{球面}\quad \mathrm{d}S=2\pi R\,\mathrm{d}y.
+\]
+\end{remark}
+
+\end{document}

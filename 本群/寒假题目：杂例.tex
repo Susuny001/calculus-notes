@@ -1,0 +1,97 @@
+\documentclass[lang=cn,newtx,10pt,scheme=chinese]{elegantbook}
+\usepackage{ctex} % 支持中文
+\usepackage{amsmath} % 数学公式支持
+\usepackage{amsfonts} % 数学字体支持
+\usepackage{xcolor}  % 添加颜色支持
+\usepackage{color}  %调用color宏包
+% \textcolor{red}{喵喵喵}
+
+\usepackage{extarrows} %扩展箭头 (可以写长的等号，加上条件)
+%$$ A\xlongequal[\text{中文sub-script}]{super-script}B $$
+\usepackage{graphicx} %插入图片
+\usepackage{hyperref}   % \hyperref["label"]{注解}
+                        %\href{http:连接名字}{展示名字}
+
+
+%url代码太长的解决办法
+\usepackage{xurl}
+\def\UrlBreaks{%
+    \do\/%
+    \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l%
+    \do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+    \do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L%
+    \do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z%
+    \do0\do1\do2\do3\do4\do5\do6\do7\do8\do9\do=\do/\do.\do:%
+    \do\*\do\-\do\~\do\'\do\"\do\-}
+
+\definecolor{myblue}{rgb}{0.1, 0.2, 0.8} % 自定义 RGB 颜色
+% 使用自定义颜色
+%在align* 的环境里需要这样写中文 \text{原积分}
+%打链接 \url{https://b23.tv/F5fLXRw}
+%设置行间距 \vspace{4mm} 
+
+%\begin{cases}   大括号写法
+%\dfrac{\pi}{2ab(a+b)}, & a \neq b, \\[1em]
+%\dfrac{\pi}{4a^3}, & a = b.
+%\end{cases} 
+
+
+\title{寒假题目:杂例} % 讲义标题
+\subtitle{注意：每章的前言不同，请不要忽略前言！ }
+
+\author{本群群主}
+\institute{本群}
+\date{\today}
+\bioinfo{群成员}{Chase,Tap000,Weldon,$\mathrm{^{_q}}$( 'ω' )} % 自定义信息
+
+% \extrainfo{注意：本模板自 2023 年 1 月 1 日开始，不再更新和维护！}
+
+\setcounter{tocdepth}{3}
+
+\logo{fdu.png}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\input{newcommand}
+
+% 修改标题页的橙色带
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\addbibresource[location=local]{reference.bib} % 参考文献，不要删除
+
+\begin{document}
+\maketitle
+\frontmatter
+
+\newpage
+
+%简短的前言
+\section*{前言}
+
+\subsection*{\textbf{1. 关于本讲义以及本讲稿使用说明}}
+这些部分在“寒假题目：不定积分和定积分”已经说过，如果是跳着写的同学，可以看那一节的讲义
+
+提示：讲义里会有“\href{https://www.bilibili.com/video/BV1GJ411x7h7/?share_source=copy_web&vd_source=270527b9d8a800872b201575fba2747c}{点击跳转}”的那种超链接，使用电脑或者手机pdf阅读器查看可以直接点击跳转
+
+\subsection*{\textbf{2. 杂例说明}}
+第一次更新 第一章第二章
+
+接下来会有多元泰勒、重积分里的凑微分法、利用物理结论、一些难画出图形的重积分；级数：倒序求和，二重级数，裂项技巧。这些待更新（大概更不完）
+
+第一章线性代数整了一些拓展技巧，请务必先学好考研以内的技巧再来看，因为这些技巧比较难，且不太常见，建议先把考研以内的题目做熟了再来看这些技巧。
+
+第二章就是极限和积分的杂例，就是补充竞赛书还有B站视频之外的题目，有一些B站也有视频，但是比较重要，也搬过来再写一遍了。
+\newpage
+
+%目录
+\tableofcontents
+\mainmatter
+
+\input{3} %3是完整版，4是临时版
+\newpage
+
+%\printbibliography
+\end{document}
